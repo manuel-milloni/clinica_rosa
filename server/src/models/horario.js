@@ -9,32 +9,32 @@ const Horario = db.define('horario', {
           allowNull: false
 
       },
-      fromTime: {
+      horaDesde: {
          type : DataTypes.TIME,
          allowNull:false
       },
 
-      toTime: {
+      horaHasta: {
           type: DataTypes.TIME,
           allowNull: false,
       },
-      monday:{
+      lunes:{
           type: DataTypes.BOOLEAN,
           allowNull: false
       },
-      tuesday: {
+      martes: {
          type: DataTypes.BOOLEAN,
          allowNull: false
       },
-      wednesday: {
+      miercoles: {
           type: DataTypes.BOOLEAN,
           allowNull: false
       },
-      thursday: {
+      jueves: {
           type: DataTypes.BOOLEAN,
           allowNull: false
       },
-      friday: {
+      viernes: {
          type: DataTypes.BOOLEAN,
          allowNull: false
       }

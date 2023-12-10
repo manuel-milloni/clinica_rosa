@@ -8,12 +8,12 @@ const ObraSocial = db.define('obra_social', {
           autoIncrement: true,
           allowNull: false 
        },
-       name: {
+       nombre: {
            type: DataTypes.STRING,
            allowNull: false,
            validate: { len: [3,20]} 
        },
-       description: {
+       descripcion: {
           type: DataTypes.STRING,
           allowNull: true,
           validate: { len: [1, 255]}

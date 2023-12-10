@@ -1,5 +1,5 @@
 const express = require('express');
-const dotenv = require('dotenv/config');
+const config = require('./configs/config');
 const morgan = require('morgan');
 const cors = require('cors'); 
 const db = require('./db/database');
@@ -17,8 +17,10 @@ app.use(cors());
 app.use('/api/obraSocial',require('./routes/obraSocial.routes'));
 app.use('/api/horario', require('./routes/horario.routes'));
 app.use('/api/especialidad', require('./routes/especialidad.routes'));
+app.use('/api', require('./routes/usuario.routes'));
+app.use('/api/login', require('./routes/auth.routes'));
 
-app.listen(process.env.PORT , () => console.log("Server runing on port ", process.env.PORT));
+app.listen(config.app.port , () => console.log("Server runing on port ", config.app.port));
 
 
 
