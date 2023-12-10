@@ -19,6 +19,7 @@ app.use('/api/horario', require('./routes/horario.routes'));
 app.use('/api/especialidad', require('./routes/especialidad.routes'));
 app.use('/api', require('./routes/usuario.routes'));
 app.use('/api/login', require('./routes/auth.routes'));
+app.use('/api/turno', require('./routes/turno.routes'));
 
 app.listen(config.app.port , () => console.log("Server runing on port ", config.app.port));
 
