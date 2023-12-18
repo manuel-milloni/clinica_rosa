@@ -61,6 +61,28 @@ CREATE TABLE `clinica_rosa_db`.`usuario` (
     REFERENCES `clinica_rosa_db`.`obra_social` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
+    
+    CREATE TABLE `clinica_rosa_db`.`turno` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATE NOT NULL,
+  `hora` TIME NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  `observaciones` LONGTEXT NULL,
+  `id_profesional` INT NOT NULL,
+  `id_paciente` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `profesional_idx` (`id_profesional` ASC) VISIBLE,
+  INDEX `paciente_idx` (`id_paciente` ASC) VISIBLE,
+  CONSTRAINT `profesional`
+    FOREIGN KEY (`id_profesional`)
+    REFERENCES `clinica_rosa_db`.`usuario` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `paciente`
+    FOREIGN KEY (`id_paciente`)
+    REFERENCES `clinica_rosa_db`.`usuario` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
 
 
 

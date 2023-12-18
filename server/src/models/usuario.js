@@ -89,7 +89,9 @@ const Usuario = db.define('usuario', {
           references: {
              model: ObraSocial,
              key: 'id',
-          }
+          },
+          onDelete: 'restrict',
+          onUpdate: 'cascade'
     }
   }, {
      tableName: 'usuario',
@@ -99,9 +101,10 @@ const Usuario = db.define('usuario', {
 
 );
 
-Usuario.belongsTo(Especialidad, {foreignKey: 'id_especialidad', as: 'especialidad'});
-Usuario.belongsTo(Horario, { foreignKey: 'id_horario', as: 'horario'});
-Usuario.belongsTo(ObraSocial, { foreignKey: 'id_obra_social', as: 'obra_social'});
+//Usuario.belongsTo(Especialidad, {foreignKey: 'id_especialidad', as: 'especialidad'});
+//Usuario.belongsTo(Horario, { foreignKey: 'id_horario', as: 'horario'});
+//Usuario.hasOne(ObraSocial, { foreignKey: 'id', as: 'obra_social'});
+
 
 
 module.exports = Usuario;

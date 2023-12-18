@@ -1,2 +1,20 @@
 .env
 node_modules
+
+#Angular
+/dist/
+/*.js
+/*.js.map
+/*.css
+/*.css.map
+
+#TypeScript
+*.tsbuildinfo
+
+.vscode/
+
+/jspm_packages/
+
+#Angular CLI
+.angular-cli.json
+.angular-cli/

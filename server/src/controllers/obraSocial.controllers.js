@@ -1,5 +1,5 @@
 const db = require('../db/database');
-const ObraSocial = require('../models/obraSocial')
+const {ObraSocial} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 
 const getAll = async (req, res) => {
@@ -32,8 +32,20 @@ const getOne = async (req, res) => {
 }
 
 const create = async (req, res) => {
+      const obraSocial = req.body;
+ 
     try {
-        const obraSocial = req.body;
+        const os = await ObraSocial.findOne({
+              where: {
+                  nombre : obraSocial.nombre
+              }
+        });
+        if(obraSocial){
+             const nombre = obraSocial.nombre;
+             const error = new Error(`Ya existe obra social: ${nombre}`);
+             handleHttp(res, error, 500);
+             return;
+        }
         const result = await ObraSocial.create(obraSocial);
         res.json(result);
     } catch (error) {
@@ -60,17 +72,29 @@ const edit = async (req, res) => {
 
 const remove = async (req, res) => {
     const id = req.params.id;
+    console.log("Entre en remove obraSocial");
     try {
         const obraSocial = await ObraSocial.findByPk(id);
         if (!obraSocial) {
+            const error = new Error('THE ITEM DOES NOT EXIST');
             handleHttp(res, error, 404);
             return;
         }
+        
+           // Verificar si hay usuarios que tienen esta obra social
+        const usuarios = await obraSocial.getPacientes();
+        if (usuarios.length > 0) {
+            const error =  new Error("Cannot delete obra social with associated users");
+            handleHttp(res, error, 400);
+            return;
+        }
+
+
         const result = await obraSocial.destroy();
         res.json({ message: "Delete item" });
 
     } catch (error) {
-
+          handleHttp(res, error, 500);
     }
 }
 

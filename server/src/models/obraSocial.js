@@ -1,5 +1,6 @@
 const db = require('../db/database');
 const {DataTypes} = require ('sequelize');
+const Usuario = require('./usuario');
 
 const ObraSocial = db.define('obra_social', {
        id: {
@@ -11,18 +12,23 @@ const ObraSocial = db.define('obra_social', {
        nombre: {
            type: DataTypes.STRING,
            allowNull: false,
+          
            validate: { len: [3,20]} 
        },
        descripcion: {
           type: DataTypes.STRING,
           allowNull: true,
-          validate: { len: [1, 255]}
+          validate: { len: [0, 255]}
        } 
        }, {
            tableName: 'obra_social',
            createdAt: false,
            updatedAt: false
        });
+
+
+
+
 
 module.exports = ObraSocial;
 

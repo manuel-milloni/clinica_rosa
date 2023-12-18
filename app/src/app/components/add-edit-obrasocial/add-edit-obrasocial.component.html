@@ -1,0 +1,48 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-3">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header text-center">{{operacion}} Obra Social</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="addObraSocial()">
+                    <div class="form-group">
+                        <label class="col-form-label mt-4" for="nombre">Nombre</label>
+                        <input formControlName="nombre" type="text" class="form-control" placeholder="Ingrese Obra Social" id="nombre">
+                        <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+                             El campo nombre es requerido
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion" class="form-label mt-4">Descripcion</label>
+                        <textarea formControlName="descripcion" class="form-control" id="descripcion" placeholder="Ingrese descripcion"
+                            rows="6"></textarea>
+                    </div>
+
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-danger" routerLink="/obraSocial">Cancelar</button>
+                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+                        </div>
+
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
