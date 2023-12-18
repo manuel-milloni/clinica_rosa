@@ -1,4 +1,4 @@
-const Horario = require('../models/horario');
+const {Horario} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 
 const getAll = async (req, res)=> {
