@@ -13,6 +13,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
 import { ToastrModule } from 'ngx-toastr';
+import { ListProfesionalComponent } from './components/profesional/list-profesional/list-profesional.component';
+import { AddProfesionalComponent } from './components/profesional/add-profesional/add-profesional.component';
+import { ListEspecialidadComponent } from './components/especialidad/list-especialidad/list-especialidad.component';
+import { AddEditEspecialidadComponent } from './components/especialidad/add-edit-especialidad/add-edit-especialidad.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { ToastrModule } from 'ngx-toastr';
     AddEditObrasocialComponent,
     ListObrasocialComponent,
     HomeComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    ListProfesionalComponent,
+    AddProfesionalComponent,
+    ListEspecialidadComponent,
+    AddEditEspecialidadComponent
   ],
   imports: [
     BrowserModule,

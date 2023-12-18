@@ -63,6 +63,21 @@ const edit = async (req, res) => {
             handleHttp(res, error, 404);
             return;
         }
+
+         //Valida que el nombre de la os modificada no exista
+        const obraSocialModificada = await ObraSocial.findOne({
+             where: {
+                 nombre : body.nombre
+             }
+        });
+
+        if(obraSocialModificada && obraSocial.id!==obraSocialModificada){
+                const error =  new Error(`Obra social: ${obraSocialModificada.nombre} ya existe` );
+                handleHttp(res, error, 500);
+                return;
+        }
+
+
         const result = await obraSocial.update(body);
         res.json({ message: "Update item" });
     } catch (error) {

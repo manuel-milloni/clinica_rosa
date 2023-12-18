@@ -1,6 +1,6 @@
 const db = require('../db/database');
 const {DataTypes} = require ('sequelize');
-const Usuario = require('./usuario');
+
 
 const ObraSocial = db.define('obra_social', {
        id: {
@@ -26,6 +26,7 @@ const ObraSocial = db.define('obra_social', {
            updatedAt: false
        });
 
+ 
 
 
 

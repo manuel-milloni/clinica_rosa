@@ -15,8 +15,8 @@ const Especialidad = db.define('especialidad', {
         },
         descripcion: {
              type: DataTypes.STRING,
-             allowNull: false,
-             validate: {len: [1,255]}
+             allowNull: true,
+             validate: {len: [0,255]}
         }
         },
         {
@@ -26,5 +26,6 @@ const Especialidad = db.define('especialidad', {
         }  
             
             );
+         
 
 module.exports = Especialidad;

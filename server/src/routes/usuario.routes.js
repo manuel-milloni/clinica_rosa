@@ -18,3 +18,5 @@ router.get('/usuario/:id', getOne);
 router.get('/usuario', auth, usuarioLogueado);
 
 module.exports = router;
+
+

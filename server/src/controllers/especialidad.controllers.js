@@ -1,6 +1,6 @@
 const db = require('../db/database');
 const handleHttp = require('../utils/error.handle');
-const Especialidad = require('../models/especialidad');
+const {Especialidad} = require('../db/associations.sequelize');
 
 const getAll = async (req ,res)=>{
         try{
@@ -37,12 +37,24 @@ const edit = async (req, res)=>{
           handleHttp(res, error, 404);
           return;
       }
-      
+       //Valida que la especialidad modificada no contenga un nombre ya existente
+       const especialidad_2 = await Especialidad.findOne({
+           where : {
+              nombre: body.nombre
+           }
+       })
+       if(especialidad_2 && especialidad_2.id!==especialidad.id){
+           const error = new Error(`Especialidad: ${body.nombre} ya existe`);
+           handleHttp(res, error, 500);
+           return;
+       } 
+
+
       const result = await especialidad.update(body);
       res.json(result);
 
    }catch(error){
-
+       handleHttp(res, error, 500);
    }
 };
 
@@ -65,12 +77,22 @@ const remove = async (req, res)=>{
               handleHttp(res, error, 404);
               return;
         }
+
+        const profesionales = await especialidad.getProfesionales();
+        console.log(profesionales);
+        if(profesionales.length > 0){
+          
+            const error = new Error('Cannot delete especialidad with associated users');
+            handleHttp(res, error, 500);
+            return;
+        }
         
         const result = await especialidad.destroy();
         res.json(result);
       }catch(error){
-          
+          handleHttp(res, error, 500);
       }
+    
 };
 
 module.exports = {getAll, getOne, create, edit, remove};

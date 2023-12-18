@@ -72,7 +72,9 @@ const Usuario = db.define('usuario', {
         references: {
              model: Especialidad,
              key: 'id'
-        }
+        },
+        onDelete: 'restrict',
+        onUpdate: 'cascade' 
     },
 
     id_horario: {
@@ -101,9 +103,8 @@ const Usuario = db.define('usuario', {
 
 );
 
-//Usuario.belongsTo(Especialidad, {foreignKey: 'id_especialidad', as: 'especialidad'});
-//Usuario.belongsTo(Horario, { foreignKey: 'id_horario', as: 'horario'});
-//Usuario.hasOne(ObraSocial, { foreignKey: 'id', as: 'obra_social'});
+
+
 
 
 
