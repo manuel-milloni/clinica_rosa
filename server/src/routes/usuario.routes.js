@@ -12,7 +12,7 @@ router.post('/profesional', createProfesional);
 router.get('/personal', getAllPersonal);
 router.post('/personal', createPersonal);
 
-router.delete('/usuario', remove);
+router.delete('/usuario/:id', remove);
 router.put('/usuario', edit);
 router.get('/usuario/:id', getOne);
 router.get('/usuario', auth, usuarioLogueado);

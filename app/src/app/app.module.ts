@@ -17,6 +17,9 @@ import { ListProfesionalComponent } from './components/profesional/list-profesio
 import { AddProfesionalComponent } from './components/profesional/add-profesional/add-profesional.component';
 import { ListEspecialidadComponent } from './components/especialidad/list-especialidad/list-especialidad.component';
 import { AddEditEspecialidadComponent } from './components/especialidad/add-edit-especialidad/add-edit-especialidad.component';
+import { ListPersonalComponent } from './components/personal/list-personal/list-personal.component';
+import { AddPersonalComponent } from './components/personal/add-personal/add-personal.component';
+import { EditPersonalComponent } from './components/personal/edit-personal/edit-personal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { AddEditEspecialidadComponent } from './components/especialidad/add-edit
     ListProfesionalComponent,
     AddProfesionalComponent,
     ListEspecialidadComponent,
-    AddEditEspecialidadComponent
+    AddEditEspecialidadComponent,
+    ListPersonalComponent,
+    AddPersonalComponent,
+    EditPersonalComponent
   ],
   imports: [
     BrowserModule,

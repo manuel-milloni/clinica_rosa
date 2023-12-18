@@ -11,5 +11,5 @@ export interface Usuario {
         rol : number;
         id_especialidad? : number;
         id_horario? : number;
-        id_obra_social : number;
+        id_obra_social? : number;
 } 

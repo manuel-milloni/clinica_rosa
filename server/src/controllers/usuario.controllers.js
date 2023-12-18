@@ -1,4 +1,4 @@
-const Usuario  = require('../models/usuario');
+const {Usuario}  = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 const {cifrarPass} = require('../utils/bcrypt.pass');
 
@@ -16,6 +16,7 @@ const getAllPacientes = async (req, res) => {
    }
 
 };
+
 
 const getAllProfesionales = async (req, res) => {
     try{
@@ -170,6 +171,18 @@ const createPersonal = async (req, res) =>{
     const body = req.body;
     body.rol = 2;
     try{
+      const mailExistente = await Usuario.findOne({
+           where: {
+             email : body.email
+           }
+      })
+
+      if(mailExistente){
+          const error = new Error('Email ya registrado');
+          handleHttp(res, error, 500);
+          return;
+      } 
+
       body.password = await cifrarPass(body.password); 
       const result = await Usuario.create(body);
       res.json(result);  
