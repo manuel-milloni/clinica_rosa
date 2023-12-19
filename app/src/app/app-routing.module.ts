@@ -11,6 +11,7 @@ import { HorarioService } from './services/horario.service';
 import { ListHorarioComponent } from './components/horario/list-horario/list-horario.component';
 import { AddHorarioComponent } from './components/horario/add-horario/add-horario.component';
 import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
+import { EditPersonalComponent } from './components/personal/edit-personal/edit-personal.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
 
     {path: 'personal', component: ListPersonalComponent},
     {path: 'personal-add', component: AddPersonalComponent},
+    {path: 'personal-edit/:id', component: EditPersonalComponent},
 
     {path: 'horario', component: ListHorarioComponent},
     {path: 'horario-add', component: AddHorarioComponent},

@@ -4,11 +4,11 @@ export interface Usuario {
         apellido: string;
         dni : string;
         telefono? : string;
-        email : string;
-        password : string;
+        email? : string;
+        password? : string;
         matricula? : string;
         nroAfiliado? : string;
-        rol : number;
+        rol? : number;
         id_especialidad? : number;
         id_horario? : number;
         id_obra_social? : number;

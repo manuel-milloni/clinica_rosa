@@ -13,7 +13,7 @@ router.get('/personal', getAllPersonal);
 router.post('/personal', createPersonal);
 
 router.delete('/usuario/:id', remove);
-router.put('/usuario', edit);
+router.put('/usuario/:id', edit);
 router.get('/usuario/:id', getOne);
 router.get('/usuario', auth, usuarioLogueado);
 

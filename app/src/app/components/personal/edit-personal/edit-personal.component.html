@@ -1,1 +1,66 @@
-<p>edit-personal works!</p>
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-3">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header text-center">Agregar Personal</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="update()">
+                    
+                    <div class="form-group">
+                        <label class="col-form-label mt-4" for="nombre">Nombre</label>
+                        <input formControlName="nombre" type="text" class="form-control" placeholder="Ingrese nombre" id="nombre" maxlength="20">
+                        <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+                             El campo nombre es requerido
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label mt-4" for="nombre">Apellido</label>
+                        <input formControlName="apellido" type="text" class="form-control" placeholder="Ingrese apellido" id="apellido" maxlength="20">
+                        <span *ngIf="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched">
+                             El campo nombre es requerido
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label mt-4" for="dni">Dni</label>
+                        <input formControlName="dni" type="text" class="form-control" placeholder="Ingrese dni" id="dni" maxlength="10">
+                        <span *ngIf="form.get('dni')?.hasError('required') && form.get('dni')?.touched">
+                             El campo dni es requerido
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label mt-4" for="telefono">Telefono</label>
+                        <input formControlName="telefono" type="text" class="form-control" placeholder="Ingrese telefono" id="telefono" maxlength="15">
+                        
+                    </div>
+                    
+
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-danger" routerLink="/personal">Cancelar</button>
+                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+                        </div>
+
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
