@@ -20,6 +20,9 @@ import { AddEditEspecialidadComponent } from './components/especialidad/add-edit
 import { ListPersonalComponent } from './components/personal/list-personal/list-personal.component';
 import { AddPersonalComponent } from './components/personal/add-personal/add-personal.component';
 import { EditPersonalComponent } from './components/personal/edit-personal/edit-personal.component';
+import { ListHorarioComponent } from './components/horario/list-horario/list-horario.component';
+import { AddHorarioComponent } from './components/horario/add-horario/add-horario.component';
+import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { EditPersonalComponent } from './components/personal/edit-personal/edit-
     AddEditEspecialidadComponent,
     ListPersonalComponent,
     AddPersonalComponent,
-    EditPersonalComponent
+    EditPersonalComponent,
+    ListHorarioComponent,
+    AddHorarioComponent,
+    EditHorarioComponent
   ],
   imports: [
     BrowserModule,

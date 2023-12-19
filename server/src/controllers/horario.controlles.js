@@ -29,6 +29,26 @@ const getOne = async (req, res) => {
 const create = async (req, res)=>{
       try{
            const body= req.body;
+           
+           //Valida que no existe horario igual al ingresado
+           const horario = await Horario.findOne({
+                where : {
+                     horaDesde : body.horaDesde,
+                     horaHasta : body.horaHasta,
+                     lunes: body.lunes,
+                     martes : body.martes,
+                     miercoles : body.miercoles,
+                     jueves : body.jueves,
+                     viernes: body.viernes
+                }
+           });
+
+           if(horario){
+                const error = new Error(`Ya existe un horario con las caracteristicas ingresadas, Id: ${horario.id}`);
+                handleHttp(res, error, 500);
+                return;
+           }
+            //Crea nuevo horario
            const result = await Horario.create(body);
            res.json({result});
       } catch(error){
@@ -47,6 +67,27 @@ const edit = async(req, res) => {
               return;
          }
 
+          //Valida que no existe horario igual al ingresado
+          const horarioRepetido = await Horario.findOne({
+               where : {
+                    horaDesde : body.horaDesde,
+                    horaHasta : body.horaHasta,
+                    lunes: body.lunes,
+                    martes : body.martes,
+                    miercoles : body.miercoles,
+                    jueves : body.jueves,
+                    viernes: body.viernes
+               }
+          });
+
+          if(horarioRepetido){
+               const error = new Error(`Ya existe un horario con las caracteristicas ingresadas, Id: ${horarioRepetido.id}`);
+               handleHttp(res, error, 500);
+               return;
+          }
+
+
+         //Modifico horario
          const result = await horario.update(body);
          res.json(result);
  
@@ -58,12 +99,22 @@ const edit = async(req, res) => {
  const remove = async(req, res) => {
       const id = req.params.id;
     try{
+         //Valido que el horario exista
          const horario = await Horario.findByPk(id);
          if(!horario){
              const error = new Error("THE ITEM DOES NOT EXIST");
              handleHttp(res, error, 404);
              return;
          }
+
+         //Valido que el horario no este asignado a Profesionales
+         const profesionales = await horario.getProfesionalesHor();
+         if(profesionales.length > 0){
+             const error =  new Error('No es posible eliminar Horario asignado a Profesionales');
+             handleHttp(res, error, 500);
+             return;
+         }
+         //Elimino horario
          const result = await horario.destroy();
          res.json(result);
 

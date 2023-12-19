@@ -1,0 +1,17 @@
+.title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+.green-tick {
+    color: green; 
+  }
+  
+  .red-x {
+    color: red; 
+  }
+  

@@ -7,6 +7,10 @@ import { ListEspecialidadComponent } from './components/especialidad/list-especi
 import { AddEditEspecialidadComponent } from './components/especialidad/add-edit-especialidad/add-edit-especialidad.component';
 import { ListPersonalComponent } from './components/personal/list-personal/list-personal.component';
 import { AddPersonalComponent } from './components/personal/add-personal/add-personal.component';
+import { HorarioService } from './services/horario.service';
+import { ListHorarioComponent } from './components/horario/list-horario/list-horario.component';
+import { AddHorarioComponent } from './components/horario/add-horario/add-horario.component';
+import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -20,6 +24,10 @@ const routes: Routes = [
 
     {path: 'personal', component: ListPersonalComponent},
     {path: 'personal-add', component: AddPersonalComponent},
+
+    {path: 'horario', component: ListHorarioComponent},
+    {path: 'horario-add', component: AddHorarioComponent},
+    {path: 'horario-edit/:id', component: EditHorarioComponent},
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 

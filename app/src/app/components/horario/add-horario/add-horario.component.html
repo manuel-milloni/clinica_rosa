@@ -1,0 +1,77 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-3">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header text-center">Agregar Horario</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="create()">
+                    
+                    <div class="form-group">
+                        <label for="horaDesde" class="form-label mt-4">Seleccione hora inicio</label>
+                        <select formControlName="horaDesde" class="form-select" id="horaDesde">
+                           <option *ngFor="let hora of listHorasDesde" [value]="hora">{{hora}}</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="horaHasta" class="form-label mt-4">Seleccione hora fin</label>
+                        <select formControlName="horaHasta" class="form-select" id="horaHasta">
+                            <option *ngFor="let hora of listHorasHasta" [value]="hora">{{hora}}</option>
+                        </select>
+                      </div>
+
+                    <fieldset class="form-group">
+                        <legend class="mt-4">Seleccione dias</legend>
+                        <div class="form-check">
+                          <input formControlName="lunes" class="form-check-input" type="checkbox" value="" id="lunes">
+                          <label class="form-check-label" for="flexCheckDefault">Lunes</label>
+                        </div>
+
+                        <div class="form-check">
+                          <input formControlName="martes" class="form-check-input" type="checkbox" value="" id="martes" checked="">
+                          <label class="form-check-label" for="flexCheckChecked">Martes</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input formControlName="miercoles" class="form-check-input" type="checkbox" value="" id="miercoles" checked="">
+                            <label class="form-check-label" for="flexCheckChecked">Miercoles</label>
+                          </div>
+
+                          <div class="form-check">
+                            <input formControlName="jueves" class="form-check-input" type="checkbox" value="" id="jueves" checked="">
+                            <label class="form-check-label" for="flexCheckChecked">Jueves</label>
+                          </div>
+
+                          <div class="form-check">
+                            <input formControlName="viernes" class="form-check-input" type="checkbox" value="" id="viernes" checked="">
+                            <label class="form-check-label" for="flexCheckChecked">Viernes</label>
+                          </div>
+
+                      </fieldset>
+
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-danger" routerLink="/horario">Cancelar</button>
+                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+                        </div>
+
+                        <div class="col-lg-6">
+                         
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button> 
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
