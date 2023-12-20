@@ -2,6 +2,7 @@ const {Usuario}  = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 const {cifrarPass} = require('../utils/bcrypt.pass');
 
+
 const getAllPacientes = async (req, res) => {
    try{
       const result = await Usuario.findAll({
@@ -132,14 +133,24 @@ const getAllProfesionales = async (req, res) => {
     if(body.id_obra_social != 1 && body.nroAfiliado === null){
       return res.status(400).json({ error: 'Si la Obra Social no es Particular el nro de afiliado no puede ser nulo.' }); 
     }
+   try{
+    const usuario = await Usuario.findOne({
+         where: {
+            email : body.email
+         }
+    });
 
-   
-    
-
-    try {
+    if(usuario){
+         const error = new Error('El mail ingresado ya se encuentra en uso');
+         handleHttp(res, error, 400);
+         return;
+    }
         body.password = await cifrarPass(body.password);
         const result = await Usuario.create(body);
-        res.json(result);
+       
+       
+        res.json(result);  
+        
     } catch (error) {
         handleHttp(res, error, 500);
     }
@@ -158,6 +169,7 @@ const createProfesional = async (req, res) => {
   try {
       body.password = await cifrarPass(body.password);
       const result = await Usuario.create(body);
+  
       res.json(result);
   } catch (error) {
       handleHttp(res, error, 500);

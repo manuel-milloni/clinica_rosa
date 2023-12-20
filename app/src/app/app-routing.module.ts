@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListObrasocialComponent } from './components/list-obrasocial/list-obrasocial.component';
+import { ListObrasocialComponent } from './components/obrasocial/list-obrasocial/list-obrasocial.component';
 import { HomeComponent } from './components/home/home.component';
-import { AddEditObrasocialComponent } from './components/add-edit-obrasocial/add-edit-obrasocial.component';
+import { AddEditObrasocialComponent } from './components/obrasocial/add-edit-obrasocial/add-edit-obrasocial.component';
 import { ListEspecialidadComponent } from './components/especialidad/list-especialidad/list-especialidad.component';
 import { AddEditEspecialidadComponent } from './components/especialidad/add-edit-especialidad/add-edit-especialidad.component';
 import { ListPersonalComponent } from './components/personal/list-personal/list-personal.component';
@@ -12,6 +12,8 @@ import { ListHorarioComponent } from './components/horario/list-horario/list-hor
 import { AddHorarioComponent } from './components/horario/add-horario/add-horario.component';
 import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
 import { EditPersonalComponent } from './components/personal/edit-personal/edit-personal.component';
+import { SignInPacienteComponent } from './components/paciente/sign-in-paciente/sign-in-paciente.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -30,6 +32,9 @@ const routes: Routes = [
     {path: 'horario', component: ListHorarioComponent},
     {path: 'horario-add', component: AddHorarioComponent},
     {path: 'horario-edit/:id', component: EditHorarioComponent},
+
+    {path: 'signIn', component: SignInPacienteComponent},
+    {path : 'login', component : LoginComponent},
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 

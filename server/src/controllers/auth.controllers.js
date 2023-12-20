@@ -29,10 +29,9 @@ const login = async (req, res)=>{
          return;
     }
 
-    const token = jwt.sign({_id : usuario.id}, config.jwt.signature, {
-          expiresIn: 60*60*24*7});;
+    const token = generateToken(usuario.id);
     
-    res.header('auth-token', token).json(usuario);      
+    res.json(token);      
     
           
 
@@ -41,5 +40,14 @@ const login = async (req, res)=>{
    }
 };
 
-module.exports = login;
+
+const generateToken = (id)=>{
+     const token = jwt.sign({_id : id}, config.jwt.signature, {
+          expiresIn: 60*60*24*7
+     });
+     return token;
+      
+}
+
+module.exports = {login, generateToken};
 

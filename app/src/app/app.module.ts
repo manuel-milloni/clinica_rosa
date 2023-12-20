@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AddEditObrasocialComponent } from './components/add-edit-obrasocial/add-edit-obrasocial.component';
-import { ListObrasocialComponent } from './components/list-obrasocial/list-obrasocial.component';
+import { AddEditObrasocialComponent } from './components/obrasocial/add-edit-obrasocial/add-edit-obrasocial.component';
+import { ListObrasocialComponent } from './components/obrasocial/list-obrasocial/list-obrasocial.component';
 import { HomeComponent } from './components/home/home.component';
 //Modules
 import { HttpClientModule } from '@angular/common/http';
@@ -23,6 +23,8 @@ import { EditPersonalComponent } from './components/personal/edit-personal/edit-
 import { ListHorarioComponent } from './components/horario/list-horario/list-horario.component';
 import { AddHorarioComponent } from './components/horario/add-horario/add-horario.component';
 import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
+import { SignInPacienteComponent } from './components/paciente/sign-in-paciente/sign-in-paciente.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { EditHorarioComponent } from './components/horario/edit-horario/edit-hor
     EditPersonalComponent,
     ListHorarioComponent,
     AddHorarioComponent,
-    EditHorarioComponent
+    EditHorarioComponent,
+    SignInPacienteComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
