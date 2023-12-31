@@ -7,13 +7,27 @@ const Usuario_obra_social = db.define('usuario_obra_social',{
       id_profesional:{
           type: DataTypes.INTEGER,
           allowNull: false,
-          primaryKey: true
+          primaryKey: true,
+          references : {
+              model : Usuario,
+              key : 'id'
+          },
+          onDelete : 'restrict',
+          onUpdate : 'cascade',
+          field: 'id_profesional'
           
       },
       id_obra_social:{
          type: DataTypes.INTEGER,
          allowNull: false,
-         primaryKey: true 
+         primaryKey: true,
+         references : {
+            model : ObraSocial,
+            key : 'id'
+        },
+        onDelete : 'restrict',
+        onUpdate : 'cascade',
+        field : 'id_obra_social' 
              
          
       }
@@ -21,14 +35,15 @@ const Usuario_obra_social = db.define('usuario_obra_social',{
       },{
         tableName: 'usuario_obra_social',
         createdAt: false,
-        updatedAt: false
+        updatedAt: false,
+        initialAutoIncrement: false,
+        
       }
       
 
 );
 
-Usuario_obra_social.belongsTo(Usuario, { foreignKey: 'id_profesinal', as: 'profesional'});
-Usuario_obra_social.belongsTo(ObraSocial, {foreignKey: 'id_obra_social', as: 'obra_social'});
+
 
 module.exports = Usuario_obra_social;
 

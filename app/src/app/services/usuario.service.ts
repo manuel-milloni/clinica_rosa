@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/Usuario';
 import { map } from 'rxjs/operators';
+import { Usuario_obra_social } from '../interfaces/Usuario_obra_social';
 
 @Injectable({
    providedIn: 'root'
@@ -31,6 +32,10 @@ export class UsuarioService {
 
    }
 
+   getAllProfesional() : Observable<Usuario[]>{
+        return this.http.get<Usuario[]>(this.myAppUrl + this.myApiUrlProfesional);
+   }
+
    getOne(id: number): Observable<Usuario> {
       return this.http.get<Usuario>(this.myAppUrl + this.myApiUrl + '/' + id);
    }
@@ -50,12 +55,20 @@ export class UsuarioService {
     
    }
 
+   createProfesional(usuario : Usuario) : Observable<Usuario>{
+           return this.http.post<Usuario>(this.myAppUrl + this.myApiUrlProfesional, usuario)   
+   }
+
    update(id: number, usuario: Usuario): Observable<void> {
       return this.http.put<void>(this.myAppUrl + this.myApiUrl + '/' + id, usuario);
    }
 
    login(usuario : Usuario) : Observable<string>{
              return this.http.post<string>(this.myAppUrl + this.myApiUrlLogin, usuario);
+   }
+
+   getObrasSociales(id : number) : Observable<Usuario_obra_social[]>{
+        return this.http.get<Usuario_obra_social[]>(`${this.myAppUrl}${this.myApiUrlProfesional}/${id}`);
    }
 
 

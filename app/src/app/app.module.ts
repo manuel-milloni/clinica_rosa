@@ -25,6 +25,8 @@ import { AddHorarioComponent } from './components/horario/add-horario/add-horari
 import { EditHorarioComponent } from './components/horario/edit-horario/edit-horario.component';
 import { SignInPacienteComponent } from './components/paciente/sign-in-paciente/sign-in-paciente.component';
 import { LoginComponent } from './components/login/login.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { LoginComponent } from './components/login/login.component';
     AddHorarioComponent,
     EditHorarioComponent,
     SignInPacienteComponent,
-    LoginComponent
+    LoginComponent,
+    ModalComponent,
+    EditProfesionalComponent
   ],
   imports: [
     BrowserModule,

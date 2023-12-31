@@ -20,8 +20,8 @@ export class HorarioService {
       
   }
 
-  create(horario : Horario) : Observable<void>{
-     return this.http.post<void>(this.myAppUrl + this.myApiUrl, horario);
+  create(horario : Horario) : Observable<Horario>{
+     return this.http.post<Horario>(this.myAppUrl + this.myApiUrl, horario);
   }
 
   remove(id : number) : Observable<void>{

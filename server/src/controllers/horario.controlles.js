@@ -26,6 +26,7 @@ const getOne = async (req, res) => {
        }
 }
 
+//Pensado para que el horario se cree desde Agregar Profesional, si el horario ya existe o si lo crea devuelve el id del mismo para ser asignado en el profesional
 const create = async (req, res)=>{
       try{
            const body= req.body;
@@ -44,13 +45,12 @@ const create = async (req, res)=>{
            });
 
            if(horario){
-                const error = new Error(`Ya existe un horario con las caracteristicas ingresadas, Id: ${horario.id}`);
-                handleHttp(res, error, 500);
+                res.json(horario);
                 return;
            }
             //Crea nuevo horario
            const result = await Horario.create(body);
-           res.json({result});
+           res.json(result);
       } catch(error){
                handleHttp(res, error, 500);
       }

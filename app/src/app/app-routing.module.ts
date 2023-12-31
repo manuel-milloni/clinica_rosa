@@ -14,6 +14,9 @@ import { EditHorarioComponent } from './components/horario/edit-horario/edit-hor
 import { EditPersonalComponent } from './components/personal/edit-personal/edit-personal.component';
 import { SignInPacienteComponent } from './components/paciente/sign-in-paciente/sign-in-paciente.component';
 import { LoginComponent } from './components/login/login.component';
+import { AddProfesionalComponent } from './components/profesional/add-profesional/add-profesional.component';
+import { ListProfesionalComponent } from './components/profesional/list-profesional/list-profesional.component';
+import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -32,6 +35,10 @@ const routes: Routes = [
     {path: 'horario', component: ListHorarioComponent},
     {path: 'horario-add', component: AddHorarioComponent},
     {path: 'horario-edit/:id', component: EditHorarioComponent},
+
+    {path: 'profesional', component: ListProfesionalComponent},
+    {path: 'profesional-add', component: AddProfesionalComponent },
+    {path: 'profesional-edit/:id', component: EditProfesionalComponent},
 
     {path: 'signIn', component: SignInPacienteComponent},
     {path : 'login', component : LoginComponent},

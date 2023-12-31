@@ -1,6 +1,8 @@
 const {Usuario}  = require('../db/associations.sequelize');
+const {Usuario_obra_social} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 const {cifrarPass} = require('../utils/bcrypt.pass');
+const createObraSocialProfesional = require('./usuario_obra_social.controllers');
 
 
 const getAllPacientes = async (req, res) => {
@@ -158,7 +160,22 @@ const getAllProfesionales = async (req, res) => {
 
 const createProfesional = async (req, res) => {
   const body = req.body;
-  body.rol = 1;
+  const usuario = {
+      nombre : body.nombre,
+      apellido : body.apellido,
+      dni : body.dni,
+      telefono : body.telefono,
+      email : body.email,
+      password : body.password,
+      matricula : body.matricula,
+      rol : 1,
+      id_especialidad : body.id_especialidad,
+      id_horario : body.id_horario
+
+  }
+
+  const obrasSociales = body.obras_sociales;
+  
 
  
   if (body.matricula === null || body.id_especialidad === null || body.id_horario === null) {
@@ -167,8 +184,13 @@ const createProfesional = async (req, res) => {
 
 
   try {
-      body.password = await cifrarPass(body.password);
-      const result = await Usuario.create(body);
+      usuario.password = await cifrarPass(usuario.password);
+      const result = await Usuario.create(usuario);
+      obrasSociales.forEach((obraSocial) =>{
+                  createObraSocialProfesional(result.id, obraSocial);
+      });
+        
+     
   
       res.json(result);
   } catch (error) {
@@ -207,10 +229,31 @@ const usuarioLogueado = (req, res) =>{
     res.json("Usuario logueado ook");
 };
 
+const getObrasSociales = async (req, res)=>{
+     const id = req.params.id;
+     try{
+         const profesional = await Usuario.findByPk(id);
+         if(!profesional){
+            const error = new Error('Profesional no existe');
+            handleHttp(res, error, 404);
+            return;
+         }
+
+         const profesional_os = await profesional.getProfesionalObraSocial();
+         res.json(profesional_os);
+
+     } catch(error){
+        handleHttp(res, error, 500);
+     }
+}
+
  
 
 
 
- module.exports = {getAllPacientes, getAllPersonal, getAllProfesionales, getOne, remove, edit, createPaciente, createProfesional, createPersonal, getByEmail, usuarioLogueado};
+ module.exports = {getAllPacientes, 
+  getAllPersonal, getAllProfesionales, getOne, remove, 
+  edit, createPaciente, createProfesional, createPersonal, 
+  getByEmail, usuarioLogueado, getObrasSociales};
 
 

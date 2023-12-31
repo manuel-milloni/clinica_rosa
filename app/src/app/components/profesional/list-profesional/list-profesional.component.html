@@ -1,1 +1,115 @@
-<p>list-profesional works!</p>
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+
+<div *ngIf="!loading" class="container">
+
+    <div class="title">
+       <h4>Profesionales</h4>
+
+       <button type="button" class="btn btn-primary" routerLink="/personal-add">Agregar</button>
+
+    </div>
+  <table *ngIf="listProfesionales.length>0" class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Dni</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Email</th>
+        <th scope="col">Especialidad</th>
+        <th scope="col">Horario</th>
+        <th scope="col">Obras sociales</th>
+        <th scope="col">Accion</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+   
+    
+      <tr *ngFor="let item of listProfesionales" class="table-primary">
+        <td>{{item.nombre}}</td>
+        <td>{{item.apellido}}</td>
+        <td>{{item.dni}}</td>
+        <td>{{item.telefono}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.especialidad}}</td>
+        <td>
+          <!-- <button type="button" class="btn btn-secondary btn-sm"  id="horario" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver</button> -->
+          <button type="button" class="btn btn-secondary btn-sm"  id="horario" (click)="modalHorario(item.id!)">Ver</button>  
+  
+        </td>
+        <td>
+            <button type="button" class="btn btn-secondary btn-sm" id="obraSocial" (click)="modalObraSocial(item.id!)" >Ver</button>  
+        </td>
+        <td>
+            
+                <button type="button" class="btn btn-secondary btn-sm" routerLink="/profesional-edit/{{item.id}}">Editar</button>
+        
+                <button (click)="deleteProfesional(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+        </td>
+        
+       
+      </tr>
+   
+  
+   
+   
+
+    </tbody>
+  </table>
+
+
+
+
+<!-- Modal Horario-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Horario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Hora desde: {{ horario?.horaDesde }}</p>
+        <p>Hora hasta: {{ horario?.horaHasta }}</p>
+        <p *ngIf="horario?.lunes">Lunes</p>
+        <p *ngIf="horario?.martes">Martes</p>
+        <p *ngIf="horario?.miercoles">Miércoles</p>
+        <p *ngIf="horario?.jueves">Jueves</p>
+        <p *ngIf="horario?.viernes">Viernes</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Obras Sociales-->
+<div class="modal fade" id="staticBackdropOS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Obras Sociales</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p *ngFor="let item of listObrasSocialesProfesional">{{ item?.nombre }}</p>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+
+  <h5 *ngIf="listProfesionales.length==0">No hay Personal cargados en el sistema</h5>
+
+</div>
+
+
+
+

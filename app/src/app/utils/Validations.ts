@@ -1,6 +1,8 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, FormGroup} from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn, FormGroup, FormArray, FormControl} from "@angular/forms";
+import { ObraSocial } from "../interfaces/obraSocial";
 
 export class Validations {
+
      //Valida que al menos uno de los dias este seleccionado en los Horarios
     static validateCheckboxs() : ValidatorFn{
           return (control : AbstractControl) : ValidationErrors | null =>{
@@ -13,18 +15,7 @@ export class Validations {
          
     }
 
-  //   // Valida que las contraseñas sean iguales
-  //   static matchPasswords(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
-  //     return (control: AbstractControl): ValidationErrors | null => {
-  //         const password = control.get(passwordKey)?.value;
-  //         const confirmPassword = control.get(confirmPasswordKey)?.value;
-
-  //         return password === confirmPassword ? null : { passwordsNotMatch: true };
-  //     };
-  // }
-
-
-  static matchPasswords(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
+static matchPasswords(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const password = control.get(passwordKey)?.value;
         const confirmPassword = control.get(confirmPasswordKey)?.value;
@@ -34,6 +25,57 @@ export class Validations {
         return match ? null : { passwordsNotMatch: true, passwordMismatch: true };
     };
 }
+
+// static atLeastOneObraSocialSelected(): ValidatorFn {
+//   return (control: AbstractControl): ValidationErrors | null => {
+//       console.log('Control value:', control.value);
+//       if (control instanceof FormArray) {
+//           const selectedObraSociales = control.controls.filter(ctrl => ctrl.value === true);
+//           console.log('Selected Obra Sociales:', selectedObraSociales);
+//           return selectedObraSociales.length > 0 ? null : { atLeastOneObraSocial: true };
+//       }
+//       return null;
+//   };
+// }
+
+//Valida que al menos una Obra Social este seleccionada al agregar un profesional
+static atLeastOneObraSocialSelected(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+      if (control instanceof FormArray) {
+          const selectedObraSociales = control.controls.filter(ctrl => ctrl.enabled);
+
+          return selectedObraSociales.length > 0 ? null : { atLeastOneObraSocial: true };
+      }
+      return null;
+  };
+}
+
+static atLeastOneObraSocialSelectedEdit(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control instanceof FormArray) {
+
+      // Verifica si hay al menos un elemento en el FormArray
+      const hasAtLeastOne = control.length > 0;
+
+      return hasAtLeastOne ? null : { atLeastOneObraSocial: true };
+    }
+    return null;
+  };
+}
+
+static osSeleccionadaEnFormulario(listObrasocialProfesional: ObraSocial[], obraSocialId: number): boolean {
+  const obrasSocialesArray = listObrasocialProfesional.map(os => os.id);
+  return obrasSocialesArray.includes(obraSocialId);
+}
+  
+  
+  
+  
+  
+
+
+
+
   
 
 

@@ -4,7 +4,7 @@
         <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
             <div class="card-header text-center">Agregar Profesional</div>
             <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="create()">
+                <form [formGroup]="form" (ngSubmit)="update()">
 
                     
                     <div class="form-group" [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
@@ -33,30 +33,8 @@
                     </div>
                     
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="email">Email</label>
-                        <input formControlName="email" type="text" class="form-control" [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched" placeholder="Ingrese Email" id="email" maxlength="40">
-                        <div class="invalid-feedback">El campo email es requerido</div>
-                    </div>
-
-                   
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password">Contraseña</label>
-                        <input formControlName="password" type="password" class="form-control" [class.is-invalid]="form.get('password')?.hasError('required') && form.get('password')?.touched" placeholder="Ingrese Contraseña" id="password" maxlength="16">
-                        <div class="invalid-feedback">El campo contraseña es requerido</div>
-                    </div>
 
                   
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password_2">Repita Contraseña</label>
-                        <input formControlName="password_2" type="password" class="form-control" [class.is-invalid]="(form.get('password_2')?.hasError('required') && form.get('password_2')?.touched) || (form.hasError('passwordMismatch')  && form.get('password_2')?.touched)" placeholder="Ingrese Contraseña" id="password_2" maxlength="16">
-                        <div class="invalid-feedback">El campo contraseña es requerido</div>
-                        <span *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched">
-                            Las contraseñas no coinciden
-                       </span>
-                    </div>
 
                     <div class="form-group">
                         <label for="id_especialidad" class="form-label mt-4">Seleccione Especialidad</label>
@@ -147,7 +125,7 @@
 
                     <div class="row mt-2 text-center">
                         <div class="col-lg-6">
-                            <button type="button" class="btn btn-danger" routerLink="/personal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" routerLink="/profesional">Cancelar</button>
                             <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
                         </div>
 
@@ -166,4 +144,5 @@
 
     </div>
 </div>
+
 
