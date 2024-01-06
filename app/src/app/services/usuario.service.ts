@@ -63,12 +63,20 @@ export class UsuarioService {
       return this.http.put<void>(this.myAppUrl + this.myApiUrl + '/' + id, usuario);
    }
 
+   updateProfesional(id: number, usuario: Usuario): Observable<void> {
+      return this.http.put<void>(this.myAppUrl + this.myApiUrlProfesional + '/' + id, usuario);
+   }
+
    login(usuario : Usuario) : Observable<string>{
              return this.http.post<string>(this.myAppUrl + this.myApiUrlLogin, usuario);
    }
 
    getObrasSociales(id : number) : Observable<Usuario_obra_social[]>{
         return this.http.get<Usuario_obra_social[]>(`${this.myAppUrl}${this.myApiUrlProfesional}/${id}`);
+   }
+
+   getProfesionalesByEspecialidad(id_especialidad : number) : Observable<Usuario[]>{
+          return this.http.get<Usuario[]>(`${this.myAppUrl}${this.myApiUrlProfesional}/especialidad/${id_especialidad}`);
    }
 
 

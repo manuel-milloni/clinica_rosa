@@ -1,8 +1,8 @@
-const {Usuario}  = require('../db/associations.sequelize');
+const {Usuario, ObraSocial}  = require('../db/associations.sequelize');
 const {Usuario_obra_social} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 const {cifrarPass} = require('../utils/bcrypt.pass');
-const createObraSocialProfesional = require('./usuario_obra_social.controllers');
+const {createObraSocialProfesional, deleteObraSocialProfesional} = require('./usuario_obra_social.controllers');
 
 
 const getAllPacientes = async (req, res) => {
@@ -86,6 +86,27 @@ const getAllProfesionales = async (req, res) => {
        handleHttp(res, error, 404);
      }
  };
+
+ const getProfesionalesByObraSocial = async (req, res) => {
+  const idObraSocial = req.params.id;
+  try{
+     const obraSocial = await ObraSocial.findByPk(idObraSocial);
+     if(!obraSocial){
+        const error = new Error('Obra Social no encontrada');
+        handleHttp(res, error, 404);
+        return;
+     }
+
+     const profesionales = await obraSocial.getObraSocialProfesional();
+     
+    
+     res.json(profesionales);
+  
+ } catch(error){
+     handleHttp(res, error, 500);   
+  }
+
+};
 
  const remove = async (req, res) => {
    const id = req.params.id;
@@ -247,6 +268,116 @@ const getObrasSociales = async (req, res)=>{
      }
 }
 
+const updateProfesional = async (req, res) => {
+  
+  const body = req.body;
+  const id = req.params.id;
+  const usuario = {
+      nombre : body.nombre,
+      apellido : body.apellido,
+      dni : body.dni,
+      telefono : body.telefono,
+      email : body.email,
+      //password : body.password,
+      matricula : body.matricula,
+      rol : 1,
+      id_especialidad : body.id_especialidad,
+      id_horario : body.id_horario
+
+  }
+
+  const obrasSociales = body.obras_sociales;
+  console.log('obras sociales en el body: ', obrasSociales);
+
+ 
+  if (body.matricula === null || body.id_especialidad === null || body.id_horario === null) {
+      return res.status(400).json({ error: 'Los campos matricula, especialidad y horario no pueden ser nulos.' });
+  }
+
+
+  try {
+      const pro = await Usuario.findByPk(id);
+      if(!pro){
+         const error = new Error('Usuario no encontrado');
+         handleHttp(res, error, 404);
+         return;
+      }
+      
+      const obrasSocialesViejas = await pro.getProfesionalObraSocial();
+      const obrasSocialesDB = obrasSocialesViejas.map((item)=>item.dataValues.id_obra_social);
+    
+
+    // Obtener arrays de agregar y eliminar
+    const agregar = [];
+    const eliminar = [];
+
+    // Buscar id_obra_social a agregar en tabla usuario_obra_social
+    obrasSociales.forEach((obraSocial) => {
+      const existeEnViejas = obrasSocialesDB.some((id_os) => id_os === obraSocial);
+      
+      if (!existeEnViejas) {
+        agregar.push(obraSocial);
+      }
+    });
+
+    // Buscar id_obra_social a eliminar en tabla usuario_obra_social
+    obrasSocialesDB.forEach((obraSocialVieja) => {
+      const noExisteEnNuevas = !obrasSociales.some((nueva) => nueva === obraSocialVieja);
+
+      if (noExisteEnNuevas) {
+        eliminar.push(obraSocialVieja);
+      }
+    });
+
+    console.log('Agregar: ', agregar);
+    console.log('Eliminar: ', eliminar);
+
+    //Eliminar registros en usuario_obra_social
+     eliminar.forEach((id_os)=>{
+        try{
+          deleteObraSocialProfesional(id, id_os);
+        }catch(error){
+            console.log(error);
+        }
+         
+     });
+
+      //Creo las relaciones idProfesional-idObraSocial en tabla usuario_obra_social
+     agregar.forEach((obraSocial) =>{
+                 createObraSocialProfesional(id, obraSocial);
+     });
+  
+      
+
+      //usuario.password = await cifrarPass(usuario.password);
+
+
+      const result = await pro.update(usuario);
+     
+        
+     
+  
+      res.json(result);
+  } catch (error) {
+      handleHttp(res, error, 500);
+  }
+};
+
+const getProfesionalesByEspecialidad= async  (req, res)=>{
+      const id_especialidad = req.params.id;
+      try{
+           const profesionales = await Usuario.findAll({
+                   where : {
+                     id_especialidad : id_especialidad
+                   }
+           });
+
+           res.json(profesionales);
+      }catch(error){
+           handleHttp(res, error, 500);
+      }
+}
+
  
 
 
@@ -254,6 +385,6 @@ const getObrasSociales = async (req, res)=>{
  module.exports = {getAllPacientes, 
   getAllPersonal, getAllProfesionales, getOne, remove, 
   edit, createPaciente, createProfesional, createPersonal, 
-  getByEmail, usuarioLogueado, getObrasSociales};
+  getByEmail, usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad};
 
 

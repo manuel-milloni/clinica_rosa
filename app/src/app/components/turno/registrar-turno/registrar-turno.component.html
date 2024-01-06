@@ -1,0 +1,116 @@
+<p>registrar-turno works!</p><app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-3">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card-header text-center">Nuevo Turno</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="modalProfesional()">
+
+                    <div class="form-group">
+                        <label for="id_especialidad" class="form-label mt-4">Seleccione Especialidad</label>
+                        <select formControlName="id_especialidad" class="form-select" [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched" id="id_especialidad">
+                           <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id">{{especialidad.nombre}}</option>
+                        </select>
+                        <div class="invalid-feedback">El campo Especialidad es requerido</div>
+                      </div>
+
+                
+              
+
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-danger" routerLink="/personal">Cancelar</button>
+                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+                        </div>
+
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal Profesional-->
+<div class="modal fade" id="modalProfesional" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Seleccione Profesional</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form_profesional">
+                    <select formControlName="id_profesional" class="form-select" [class.is-invalid]="form_profesional.get('id_profesional')?.hasError('required') && form_profesional.get('id_profesional')?.touched" id="id_profesional">
+                        <option *ngFor="let profesional of listProfesional" [value]="profesional.id">{{profesional.nombre}}, {{profesional.apellido}}</option>
+                    </select>
+                    <div class="invalid-feedback">El campo Profesional es requerido</div>
+
+                    <div class="modal-footer">
+                        <div class="row mt-2 text-center">
+                            <div class="col-lg-6">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- Cambiado de type="submit" a type="button" y agregado (click) -->
+                                <button [disabled]="form_profesional.invalid" type="button" class="btn btn-primary" (click)="modalFechas()">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Fechas-->
+<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- Calendario -->
+                        <ngb-datepicker #dp [(ngModel)]="fechaTurno" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
+                    </div>
+                    <div class="col-lg-6" *ngIf="mostrarHorarios">
+                        <!-- Botones de horarios -->
+                        <div class="d-flex flex-wrap justify-content-between">
+                            <button *ngFor="let horario of horariosDisponibles" type="button" class="btn btn-outline-primary mt-2" (click)="seleccionarHorario(horario)">{{ horario }}</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row mt-2 text-center">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button [disabled]="form_profesional.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

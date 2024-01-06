@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { Horario } from 'src/app/interfaces/Horario';
 import { Usuario_obra_social } from 'src/app/interfaces/Usuario_obra_social';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profesional',
@@ -140,6 +141,56 @@ export class EditProfesionalComponent implements OnInit {
   }
 
   update() {
+    console.log(this.form);
+
+    const horario : Horario = {
+      horaDesde : this.form.value.horaDesde,
+      horaHasta : this.form.value.horaHasta,
+      lunes : this.form.value.lunes,
+      martes : this.form.value.martes,
+      miercoles : this.form.value.miercoles,
+      jueves : this.form.value.jueves,
+      viernes: this.form.value.viernes
+    };
+     //Crea horario, si ya existe devuelve id del horario y lo asigna al body
+    this.addHorario(horario).subscribe( (data : Horario)=>{
+      this.id_horario = data.id!;
+      const profesional : Usuario = {
+          
+          nombre : this.form.value.nombre,
+          apellido : this.form.value.apellido,
+          dni : this.form.value.dni,
+          telefono : this.form.value.telefono,
+          email : this.form.value.email,
+          password : this.form.value.password,
+          matricula : this.form.value.matricula,
+          id_especialidad : this.form.value.id_especialidad,
+          id_horario : this.id_horario,
+          obras_sociales : this.form.value.obrasSociales
+
+      }
+    this._usuarioService.updateProfesional(this.id_profesional, profesional).subscribe(()=>{
+             
+               this.loading = false;
+               this.router.navigate(['/profesional']);
+               this.toastr.success('Usuario modificado exitosamente', 'Usuario');
+    }, (error)=>{
+                this.loading = false;
+                this.errorServer = error.error?.error || 'Error al modificar usuario';
+                console.error(this.errorServer);
+                this.toastr.error(this.errorServer!, 'Error');
+    })
+
+}, (error) =>{
+     this.errorServer = error.errror?.error || 'Error al crear Horario';
+     console.error(this.errorServer);
+     this.router.navigate(['/profesional-add']);
+     this.toastr.error('Error al ingresar horario', 'Agregar Profesional');
+});
+
+
+
+
 
   }
 
@@ -304,6 +355,11 @@ toggleObraSocial(obraSocialId: number) {
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   }
+
+  addHorario(horario : Horario) : Observable<Horario>{
+    
+    return this._horarioService.create(horario);
+      }
 
 
 

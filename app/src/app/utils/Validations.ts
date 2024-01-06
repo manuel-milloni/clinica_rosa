@@ -26,17 +26,7 @@ static matchPasswords(passwordKey: string, confirmPasswordKey: string): Validato
     };
 }
 
-// static atLeastOneObraSocialSelected(): ValidatorFn {
-//   return (control: AbstractControl): ValidationErrors | null => {
-//       console.log('Control value:', control.value);
-//       if (control instanceof FormArray) {
-//           const selectedObraSociales = control.controls.filter(ctrl => ctrl.value === true);
-//           console.log('Selected Obra Sociales:', selectedObraSociales);
-//           return selectedObraSociales.length > 0 ? null : { atLeastOneObraSocial: true };
-//       }
-//       return null;
-//   };
-// }
+
 
 //Valida que al menos una Obra Social este seleccionada al agregar un profesional
 static atLeastOneObraSocialSelected(): ValidatorFn {

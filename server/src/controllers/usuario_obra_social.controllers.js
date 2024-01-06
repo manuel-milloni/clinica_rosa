@@ -15,6 +15,28 @@ const createObraSocialProfesional = async (id_profesional, id_obra_social)=>{
        
 }
 
+const deleteObraSocialProfesional = async (id_profesional, id_obra_social)=>{
+           try{
+              const item = await Usuario_obra_social.findOne({
+                  where : {
+                      id_profesional : id_profesional,
+                      id_obra_social : id_obra_social
+                  }
+              });
+
+              if(!item){
+                const error =  new Error('Item no encontrado');
+                handleHttp(res, error, 404);
+                return;  
+            }
+
+              const result = await item.destroy();
+              res.json(result);
+           } catch(error){
+              handleHttp(res, error, 500);
+           }
+}
+
 const getAll = async (req, res)=>{
 
      try{
@@ -26,4 +48,4 @@ const getAll = async (req, res)=>{
      }
 }
 
-module.exports = {createObraSocialProfesional, getAll};
+module.exports = {createObraSocialProfesional, getAll, deleteObraSocialProfesional};

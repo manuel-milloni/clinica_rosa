@@ -27,6 +27,9 @@ import { SignInPacienteComponent } from './components/paciente/sign-in-paciente/
 import { LoginComponent } from './components/login/login.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
+import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { EditProfesionalComponent } from './components/profesional/edit-profesio
     SignInPacienteComponent,
     LoginComponent,
     ModalComponent,
-    EditProfesionalComponent
+    EditProfesionalComponent,
+    RegistrarTurnoComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +65,9 @@ import { EditProfesionalComponent } from './components/profesional/edit-profesio
         timeOut: 3000,
         positionClass: 'toast-bottom-right',
         preventDuplicates: true,
-    })
+    }),
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,28 @@
 const Turno = require('../models/turno');
 const handleHttp = require('../utils/error.handle');
 
+
+const getAllByProfesionalAndFecha = async (req, res)=>{
+      const fechaString = req.body.fecha;
+      const fecha = new Date(fechaString);
+      const idProfesional = req.params.id;
+      try{
+         const turnos = await Turno.findAll({
+             where:{
+                 id_profesional : idProfesional,
+                 fecha : fecha
+              
+             }
+         });
+
+         res.json(turnos);
+
+      }catch(error){
+           handleHttp(res, error, 500);
+      }
+}
+
+
 const getAll = async (req, res)=>{
      try{
        const result = await Turno.findAll();
@@ -92,4 +114,4 @@ const getOne =  async (req, res) => {
 };
 
 
-module.exports = {getAll, create, remove, edit, getOne};
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha};

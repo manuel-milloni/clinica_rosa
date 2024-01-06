@@ -166,6 +166,18 @@ export class ListProfesionalComponent  implements OnInit{
      
 
                deleteProfesional(id : number){
+                   this.loading = true;
+                   this._usuarioService.remove(id).subscribe(()=>{
+                        this.loading = false;
+                        this.toastr.success('Usuario eliminado exitosamente', 'Usuario');                        
+ 
+                   }, (error)=>{
+                       this.loading = false;
+                       this.errorServer = error.error?.error || 'Error al eliminar usuario';
+                       console.error(this.errorServer);
+                       this.toastr.error(this.errorServer!, 'Error'); 
+                      
+                   })
 
                }
 

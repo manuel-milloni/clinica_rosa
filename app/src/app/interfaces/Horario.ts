@@ -4,10 +4,10 @@ export interface Horario {
      id? : number;
      horaDesde : Time;
      horaHasta : Time;
-     lunes : boolean;
-     martes : boolean;
-     miercoles : boolean;
-     jueves : boolean;
-     viernes : boolean;
+     lunes? : boolean;
+     martes? : boolean;
+     miercoles? : boolean;
+     jueves? : boolean;
+     viernes? : boolean;
 
 }

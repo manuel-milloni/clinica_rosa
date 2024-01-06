@@ -53,7 +53,6 @@ const Turno = db.define('turno', {
 
 );
 
-Turno.belongsTo(Usuario, { foreignKey: 'id_profesional', as: 'profesional' });
-Turno.belongsTo(Usuario, { foreignKey: 'id_paciente', as: 'paciente'});
+
 
 module.exports = Turno;
