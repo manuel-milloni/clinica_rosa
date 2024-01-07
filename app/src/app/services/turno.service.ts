@@ -22,5 +22,9 @@ export class TurnoService {
         return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/${idProfesional}`, body);
    }
 
+   create(turno : Turno): Observable<void>{
+       return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`, turno);
+   }
+
 
 }
