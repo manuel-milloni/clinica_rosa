@@ -160,6 +160,7 @@ export class AddProfesionalComponent implements OnInit {
              this._usuarioService.createProfesional(profesional).subscribe((data : Usuario)=>{
                         const nuevoProfesional : Usuario = data;
                         this.loading = false;
+                        this.router.navigate(['/profesional']);
                         this.toastr.success('Usuario generado exitosamente', 'Usuario');
              }, (error)=>{
                          this.loading = false;
