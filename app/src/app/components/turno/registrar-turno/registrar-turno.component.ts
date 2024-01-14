@@ -15,6 +15,9 @@ import { Turno } from 'src/app/interfaces/Turno';
 import { Time } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @Component({
    selector: 'app-registrar-turno',
@@ -51,7 +54,9 @@ export class RegistrarTurnoComponent implements OnInit {
       private _turnoService: TurnoService,
       private fb: FormBuilder,
       private router: Router,
-      private _authService : AuthService
+      private _authService : AuthService,
+      private modalService: NgbModal
+   
    ) {
       this.form = this.fb.group({
          id_especialidad: ['', Validators.required]
@@ -101,19 +106,43 @@ export class RegistrarTurnoComponent implements OnInit {
       })
    }
    //Obtengo todos los profesionales de la Especialidad seleccionada y Obra Social del paciente logueado
-   getListProfesional() {
-      this.loading = true;
-
-      this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!).subscribe((data: Usuario[]) => {
+   async getListProfesional() {
+      try {
+         this.loading = true;
+   
+         const data: Usuario[] | undefined = await this._usuarioService
+            .getProfesionalesByEspecialidadAndObraSocial(
+               Number(this.form.value.id_especialidad),
+               this.paciente?.id_obra_social!
+            )
+            .toPromise();
+   
          this.loading = false;
-         this.listProfesional = data;
-      }, (error) => {
+   
+         if (data !== undefined) {
+            this.listProfesional = data;
+         } else {
+            console.error('El servicio devolvió undefined.');
+         }
+      } catch (error) {
          this.loading = false;
-         this.errorServer = error.error?.error || 'Error al obtener Profesionales';
+   
+         // Verificar si 'error' es una cadena
+         if (typeof error === 'string') {
+            this.errorServer = error;
+         } else {
+            // Si 'error' no es una cadena, asignar un mensaje de error predeterminado
+            this.errorServer = 'Error al obtener Profesionales';
+         }
+   
          console.error(this.errorServer);
-         this.toastr.error(this.errorServer!, error);
-      })
+         this.toastr.error(this.errorServer, 'Error');
+      }
    }
+   
+   
+   
+   
 
    getEspecialidad() {
       this.loading = true;
@@ -123,9 +152,16 @@ export class RegistrarTurnoComponent implements OnInit {
    }
 
    async modalProfesional(): Promise<void> {
+     
       await this.getListProfesional();
+      
+      if(this.listProfesional.length===0){
+            this.toastr.error('No existen profesionales con su Obra Social y la Especialidad indicada', 'Error');
+            return;
+      }
+
       this.getEspecialidad();
-      console.log('Profesionales: ', this.listProfesional);
+    
       const modalElement: any = document.getElementById('modalProfesional');
       if (modalElement) {
          const modal = new Modal(modalElement);
@@ -133,14 +169,22 @@ export class RegistrarTurnoComponent implements OnInit {
       }
    }
 
+   // cerrarModalProfesional(): void {
+   //    this.modalService.dismissAll();
+   //  }
+    
+    
+
 
    //Obtengo el profesional seleccionado
    getProfesional() {
+      console.log('List profesional dentro de getProfesional: ', this.listProfesional);
       this.loading = true;
-
+      console.log('id del pro en getProfesional: ', this.form_profesional.value.id_profesional);
 
       this.profesional = this.listProfesional.find((pro) => pro.id === Number(this.form_profesional.value.id_profesional))!;
-
+     
+      console.log('Profesional en get Profesional: ',this.profesional);
       this.loading = false;
    }
 
@@ -159,22 +203,23 @@ export class RegistrarTurnoComponent implements OnInit {
 
    }
 
-
-
-
    //Genero modal de fechas
-
    async modalFechas(): Promise<void> {
       await this.getProfesional();
+      if(this.profesional === undefined){
+            this.loading=false;
+           const error = new Error('Error al obtener Profesional');
+           this.toastr.error(error.message, 'Error');
+           return;
+           
+      }
       await this.getHorarioProfesional();
 
-      console.log('Contenido del form profesional:  ', this.form_profesional);
-      console.log('Modal fechas press');
-      const modalElementAnt: any = document.getElementById('modalProfesional');
-      if (modalElementAnt) {
-         const modal = new Modal(modalElementAnt);
-         modal.dispose();
-      }
+      // const modalElementAnt: any = document.getElementById('modalProfesional');
+      // if (modalElementAnt) {
+      //    const modal = new Modal(modalElementAnt);
+      //    modal.dispose();
+      // }
       const modalElement: any = document.getElementById('modalFechas');
       if (modalElement) {
          const modal = new Modal(modalElement);
@@ -247,6 +292,7 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
    if (diasHorarioProfesional.some((dia) => dia === nombreDia)) {
       await this.getHorariosOcupados(fechaFormateada);
       this.generarArrayHorarios();
+      this.modificarArrayHorarios();
       this.mostrarHorarios = true;
    }
 
@@ -271,6 +317,7 @@ formatNgbDate(date: Date): string {
          const data = await this._turnoService.getByProfesionalAndFecha(idProfesional, fecha).toPromise();
          this.loading = false;
          this.listTurnos = data!
+         
          return data!;
       } catch (error) {
          this.loading = false;
@@ -407,14 +454,6 @@ formatNgbDate(date: Date): string {
 
    }
 
-      //revisar, no funciona cuando vuelvo hacia atras hasta este modal
-   cerrarModalProfesional(){
-      const modalElement: any = document.getElementById('modalProfesional');
-      if (modalElement) {
-         
-         modalElement.dispose();
-      }
-   }
 
 
 

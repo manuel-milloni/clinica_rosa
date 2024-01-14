@@ -381,6 +381,7 @@ const getProfesionalesByEspecialidad= async  (req, res)=>{
 
 const getProfesionalesByEspecialidadAndObraSocial= async  (req, res)=>{
   const {idEspecialidad, idObraSocial} = req.body;
+  console.log('Especialidad: ', idEspecialidad, '   obra social: ', idObraSocial);
   let profesionales = [];
   let profesionalesFinal = [];
 
@@ -410,6 +411,7 @@ const getProfesionalesByEspecialidadAndObraSocial= async  (req, res)=>{
                         return item.id_especialidad === idEspecialidad; 
        });
 
+        console.log('listProfecionales : ', profesionalesFinal);
        res.json(profesionalesFinal);
        
   }catch(error){

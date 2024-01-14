@@ -113,7 +113,6 @@
 </div>
 
 
-<!-- Modal Turno-->
 <div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -123,10 +122,15 @@
             </div>
             <div class="modal-body">
                 <h3>Confirme los datos para generar nuevo turno</h3>
-                <p>Especialidad: {{especialidad?.nombre}}</p>
-                <p>Profesional: {{profesional.apellido}}, {{profesional.nombre}}</p>
-                <p>Fecha: {{fechaTurnoString}}</p>
-                <p>Hora: {{horaString}}</p>
+                <ng-container *ngIf="profesional">
+                    <p>Especialidad: {{especialidad?.nombre}}</p>
+                    <p>Profesional: {{profesional.apellido}}, {{profesional.nombre}}</p>
+                    <p>Fecha: {{fechaTurnoString}}</p>
+                    <p>Hora: {{horaString}}</p>
+                </ng-container>
+                <ng-container *ngIf="!profesional">
+                    <p>No hay información de profesional disponible.</p>
+                </ng-container>
             </div>
             <div class="modal-footer">
                 <div class="row mt-2 text-center">
@@ -134,13 +138,14 @@
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                     <div class="col-lg-6">
-                        <button type="button" class="btn btn-primary" (click)="createTurno()">Aceptar</button>
+                        <button type="button" class="btn btn-primary" (click)="createTurno()" [disabled]="!profesional">Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 

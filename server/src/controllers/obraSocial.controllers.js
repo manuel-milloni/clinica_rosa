@@ -40,9 +40,10 @@ const create = async (req, res) => {
                   nombre : obraSocial.nombre
               }
         });
-        if(obraSocial){
-             const nombre = obraSocial.nombre;
+        if(os){
+             const nombre = os.nombre;
              const error = new Error(`Ya existe obra social: ${nombre}`);
+           
              handleHttp(res, error, 500);
              return;
         }

@@ -79,7 +79,8 @@ export class UsuarioService {
           return this.http.get<Usuario[]>(`${this.myAppUrl}${this.myApiUrlProfesional}/especialidad/${id_especialidad}`);
    }
 
-   getProfesionalesByEspecialidadAndObraSocial(idObraSocial : number, idEspecialidad: number) : Observable<Usuario[]>{
+   getProfesionalesByEspecialidadAndObraSocial(idEspecialidad: number, idObraSocial : number) : Observable<Usuario[]>{
+     
           const body : any = {
               idEspecialidad : idEspecialidad,
               idObraSocial : idObraSocial
