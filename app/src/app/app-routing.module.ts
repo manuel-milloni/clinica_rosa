@@ -18,29 +18,29 @@ import { AddProfesionalComponent } from './components/profesional/add-profesiona
 import { ListProfesionalComponent } from './components/profesional/list-profesional/list-profesional.component';
 import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
-import { loginAuth } from './guards/login.auth';
+import { loginAuth, loginAuthAdmin } from './guards/login.auth';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
-    {path: 'obraSocial', component:  ListObrasocialComponent},
-    {path: 'obraSocial-add', component: AddEditObrasocialComponent},
-    {path: 'obraSocial-edit/:id', component: AddEditObrasocialComponent},
+    {path: 'obraSocial', component:  ListObrasocialComponent, canActivate : [loginAuthAdmin]},
+    {path: 'obraSocial-add', component: AddEditObrasocialComponent, canActivate : [loginAuthAdmin]},
+    {path: 'obraSocial-edit/:id', component: AddEditObrasocialComponent, canActivate : [loginAuthAdmin]},
 
-    {path: 'especialidad', component: ListEspecialidadComponent},
-    {path: 'especialidad-add', component: AddEditEspecialidadComponent},
-    {path: 'especialidad-edit/:id', component: AddEditEspecialidadComponent},
+    {path: 'especialidad', component: ListEspecialidadComponent, canActivate : [loginAuthAdmin]},
+    {path: 'especialidad-add', component: AddEditEspecialidadComponent, canActivate : [loginAuthAdmin]},
+    {path: 'especialidad-edit/:id', component: AddEditEspecialidadComponent, canActivate : [loginAuthAdmin]},
 
-    {path: 'personal', component: ListPersonalComponent},
-    {path: 'personal-add', component: AddPersonalComponent},
-    {path: 'personal-edit/:id', component: EditPersonalComponent},
+    {path: 'personal', component: ListPersonalComponent, canActivate : [loginAuthAdmin]},
+    {path: 'personal-add', component: AddPersonalComponent, canActivate : [loginAuthAdmin]},
+    {path: 'personal-edit/:id', component: EditPersonalComponent, canActivate : [loginAuthAdmin]},
 
-    {path: 'horario', component: ListHorarioComponent},
-    {path: 'horario-add', component: AddHorarioComponent},
-    {path: 'horario-edit/:id', component: EditHorarioComponent},
+    {path: 'horario', component: ListHorarioComponent, canActivate : [loginAuthAdmin]},
+    {path: 'horario-add', component: AddHorarioComponent, canActivate : [loginAuthAdmin]},
+    {path: 'horario-edit/:id', component: EditHorarioComponent, canActivate : [loginAuthAdmin]},
 
-    {path: 'profesional', component: ListProfesionalComponent},
-    {path: 'profesional-add', component: AddProfesionalComponent },
-    {path: 'profesional-edit/:id', component: EditProfesionalComponent},
+    {path: 'profesional', component: ListProfesionalComponent, canActivate : [loginAuthAdmin]},
+    {path: 'profesional-add', component: AddProfesionalComponent , canActivate : [loginAuthAdmin]},
+    {path: 'profesional-edit/:id', component: EditProfesionalComponent, canActivate : [loginAuthAdmin]},
 
     {path: 'signIn', component: SignInPacienteComponent},
     {path : 'login', component : LoginComponent},

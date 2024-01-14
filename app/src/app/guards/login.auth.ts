@@ -35,3 +35,42 @@ export const loginAuth = () => {
     });
   }
 };
+
+
+export const loginAuthAdmin = ()=>{
+  const router = inject(Router);
+  const toastr = inject(ToastrService);
+  const _authService = inject(AuthService);
+
+  const token = localStorage.getItem('auth-token');
+
+  if(!token){
+      router.navigate(['login']);
+      toastr.error('Debe estar logueado para registrar un turno', 'Turno');
+      return false;
+
+  } else {
+
+      return new Observable<boolean>((observer) => {
+  _authService.verifyToken(token).subscribe(
+    (data: any) => {
+
+        if(data.rol === 2){
+          observer.next(true);
+          observer.complete();
+        } else {
+          observer.next(false);
+          observer.complete();
+        } 
+     
+    },
+    (error) => {
+      console.error(error);
+      observer.next(false);
+      observer.complete();
+    }
+  );
+});
+}
+      
+}
