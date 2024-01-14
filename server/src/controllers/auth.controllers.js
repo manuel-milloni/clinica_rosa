@@ -29,7 +29,7 @@ const login = async (req, res)=>{
          return;
     }
 
-    const token = generateToken(usuario.id);
+    const token = generateToken(usuario.id, usuario.rol);
     
     res.json(token);      
     
@@ -41,9 +41,10 @@ const login = async (req, res)=>{
 };
 
 
-const generateToken = (id)=>{
-     const token = jwt.sign({_id : id}, config.jwt.signature, {
-          expiresIn: 60*60*24*7
+const generateToken = (id, rol)=>{
+     const token = jwt.sign({id : id, rol : rol}, config.jwt.signature, {
+          //24hs
+          expiresIn: 60*60*24
      });
      return token;
       

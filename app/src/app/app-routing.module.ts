@@ -18,6 +18,7 @@ import { AddProfesionalComponent } from './components/profesional/add-profesiona
 import { ListProfesionalComponent } from './components/profesional/list-profesional/list-profesional.component';
 import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
+import { loginAuth } from './guards/login.auth';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -44,7 +45,7 @@ const routes: Routes = [
     {path: 'signIn', component: SignInPacienteComponent},
     {path : 'login', component : LoginComponent},
 
-    {path: 'turno', component : RegistrarTurnoComponent},
+    {path: 'turno', component : RegistrarTurnoComponent, canActivate: [loginAuth]},
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 

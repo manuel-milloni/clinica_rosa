@@ -31,7 +31,7 @@ export class ListEspecialidadComponent implements OnInit {
            }, (error) => {
                 this.errorServer = error.error?.error || 'Error al obtener lista de Especialidades';
                 this.loading = false;
-                this.toastr.error('Error al obtener lista de Especialidades', 'Error');
+                this.toastr.error(this.errorServer!, 'Error');
            }
            )
     }

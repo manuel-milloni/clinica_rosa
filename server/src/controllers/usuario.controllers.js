@@ -378,6 +378,45 @@ const getProfesionalesByEspecialidad= async  (req, res)=>{
       }
 }
 
+
+const getProfesionalesByEspecialidadAndObraSocial= async  (req, res)=>{
+  const {idEspecialidad, idObraSocial} = req.body;
+  let profesionales = [];
+  let profesionalesFinal = [];
+
+  try{
+       const profesionales_obra_social = await Usuario_obra_social.findAll({
+               where : {
+                 id_obra_social : idObraSocial
+               }
+         
+
+       });
+
+       console.log('profesionales obra social: ', profesionales_obra_social);
+
+      // Utilizar map para obtener un array de promesas
+      const promesasProfesionales = profesionales_obra_social.map(async (item) => {
+        const profesional = await Usuario.findByPk(item.dataValues.id_profesional);
+        return profesional.dataValues;
+      });
+  
+      // Esperar a que todas las promesas se completen antes de continuar
+      profesionales = await Promise.all(promesasProfesionales);
+
+       console.log('profesionales:', profesionales);
+
+       profesionalesFinal = profesionales.filter((item)=>{
+                        return item.id_especialidad === idEspecialidad; 
+       });
+
+       res.json(profesionalesFinal);
+       
+  }catch(error){
+       handleHttp(res, error, 500);
+  }
+}
+
  
 
 
@@ -385,6 +424,6 @@ const getProfesionalesByEspecialidad= async  (req, res)=>{
  module.exports = {getAllPacientes, 
   getAllPersonal, getAllProfesionales, getOne, remove, 
   edit, createPaciente, createProfesional, createPersonal, 
-  getByEmail, usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad};
+  getByEmail, usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad, getProfesionalesByObraSocial, getProfesionalesByEspecialidadAndObraSocial};
 
 

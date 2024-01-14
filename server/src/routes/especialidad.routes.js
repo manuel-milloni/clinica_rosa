@@ -1,5 +1,6 @@
 const {Router} = require('express');
 const {getAll, getOne, create, edit, remove} = require('../controllers/especialidad.controllers');
+const {auth} =require('../utils/validation.token')
 
 const router = Router();
 

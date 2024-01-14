@@ -14,6 +14,7 @@ import { TurnoService } from 'src/app/services/turno.service';
 import { Turno } from 'src/app/interfaces/Turno';
 import { Time } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
    selector: 'app-registrar-turno',
@@ -39,6 +40,7 @@ export class RegistrarTurnoComponent implements OnInit {
    especialidad: Especialidad | undefined;
    fechaTurnoString: string | null = null;
    horaString: string | null = null;
+   paciente : Usuario | undefined;
 
 
 
@@ -48,7 +50,8 @@ export class RegistrarTurnoComponent implements OnInit {
       private _horarioService: HorarioService,
       private _turnoService: TurnoService,
       private fb: FormBuilder,
-      private router: Router
+      private router: Router,
+      private _authService : AuthService
    ) {
       this.form = this.fb.group({
          id_especialidad: ['', Validators.required]
@@ -56,11 +59,34 @@ export class RegistrarTurnoComponent implements OnInit {
       this.form_profesional = this.fb.group({
          id_profesional: ['', Validators.required]
       })
+       
    }
 
    async ngOnInit(): Promise<void> {
+      await this.getPaciente();
       await this.getListEspecialidad();
+    
+   
    }
+
+   async getPaciente() {
+      try {
+        this.loading = true;
+        const token: string = localStorage.getItem('auth-token')!;
+        const data: any = await this._authService.verifyToken(token).toPromise();
+    
+        const payload = data;
+        this.paciente  = await this._usuarioService.getOne(payload.id).toPromise();
+    
+        this.loading = false;
+        console.log('Data usuario: ', this.paciente);
+      } catch (error) {
+        this.loading = false;
+        this.errorServer = (error as any)?.error || 'Error al obtener Paciente';
+        this.toastr.error(this.errorServer!, 'Error');
+      }
+    }
+    
 
    getListEspecialidad() {
       this.loading = true;
@@ -74,11 +100,11 @@ export class RegistrarTurnoComponent implements OnInit {
          this.toastr.error(this.errorServer!, 'Error');
       })
    }
-   //Obtengo todos los profesionales de la Especialidad seleccionada
+   //Obtengo todos los profesionales de la Especialidad seleccionada y Obra Social del paciente logueado
    getListProfesional() {
       this.loading = true;
 
-      this._usuarioService.getProfesionalesByEspecialidad(Number(this.form.value.id_especialidad)).subscribe((data: Usuario[]) => {
+      this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!).subscribe((data: Usuario[]) => {
          this.loading = false;
          this.listProfesional = data;
       }, (error) => {
@@ -366,7 +392,7 @@ formatNgbDate(date: Date): string {
          estado: 'pendiente',
          observaciones: '',
          id_profesional: this.profesional.id!,
-         id_paciente: 11
+         id_paciente: this.paciente?.id!
 
       };
       this._turnoService.create(turno).subscribe(() => {
@@ -379,6 +405,15 @@ formatNgbDate(date: Date): string {
             this.toastr.error(this.errorServer!, 'Error');
       })
 
+   }
+
+      //revisar, no funciona cuando vuelvo hacia atras hasta este modal
+   cerrarModalProfesional(){
+      const modalElement: any = document.getElementById('modalProfesional');
+      if (modalElement) {
+         
+         modalElement.dispose();
+      }
    }
 
 
