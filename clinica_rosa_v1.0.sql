@@ -21,7 +21,7 @@ CREATE TABLE `horario` (
 
 CREATE TABLE `obra_social` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(20) NOT NULL,
+  `nombre` varchar(20) NOT NULL UNIQUE,
   `descripcion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -62,6 +62,11 @@ CREATE TABLE `clinica_rosa_db`.`usuario` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
     
+    INSERT INTO `clinica_rosa_db`.`usuario` (`nombre`, `apellido`, `dni`, `telefono`, `email`, `password`,`matricula`, `nroAfiliado`, `rol`, `id_especialidad`, `id_horario`, `id_obra_social`) VALUES ('Manuel', 'Milloni', '37402301', '3413761002','manuel-milloni@hotmail.com.ar', '$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',null,null, 2, null, null, null);
+    COMMIT;
+    
+    -- Roles:  0 paciente, 1 profesional, 2 personal
+    
     CREATE TABLE `clinica_rosa_db`.`turno` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fecha` DATE NOT NULL,
@@ -83,6 +88,15 @@ CREATE TABLE `clinica_rosa_db`.`usuario` (
     REFERENCES `clinica_rosa_db`.`usuario` (`id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
+    
+    CREATE TABLE `usuario_obra_social` (
+  `id_profesional` int NOT NULL,
+  `id_obra_social` int NOT NULL,
+  PRIMARY KEY (`id_profesional`,`id_obra_social`),
+  KEY `obra_social_idx` (`id_obra_social`),
+  CONSTRAINT `obra_social_pro` FOREIGN KEY (`id_obra_social`) REFERENCES `obra_social` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `profesional_os` FOREIGN KEY (`id_profesional`) REFERENCES `usuario` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 
