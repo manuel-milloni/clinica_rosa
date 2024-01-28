@@ -16,6 +16,7 @@ import { Time } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { firstValueFrom } from 'rxjs';
 
 
 
@@ -78,10 +79,12 @@ export class RegistrarTurnoComponent implements OnInit {
       try {
         this.loading = true;
         const token: string = localStorage.getItem('auth-token')!;
-        const data: any = await this._authService.verifyToken(token).toPromise();
+        const data : any = await firstValueFrom(this._authService.verifyToken(token));
+    
     
         const payload = data;
-        this.paciente  = await this._usuarioService.getOne(payload.id).toPromise();
+        this.paciente = await firstValueFrom(this._usuarioService.getOne(payload.id));
+   
     
         this.loading = false;
         console.log('Data usuario: ', this.paciente);
@@ -109,13 +112,11 @@ export class RegistrarTurnoComponent implements OnInit {
    async getListProfesional() {
       try {
          this.loading = true;
+
+         const data : Usuario[] | undefined = await firstValueFrom(this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!));
+
    
-         const data: Usuario[] | undefined = await this._usuarioService
-            .getProfesionalesByEspecialidadAndObraSocial(
-               Number(this.form.value.id_especialidad),
-               this.paciente?.id_obra_social!
-            )
-            .toPromise();
+    
    
          this.loading = false;
    
@@ -314,7 +315,8 @@ formatNgbDate(date: Date): string {
       this.loading = true;
       const idProfesional = Number(this.form_profesional.value.id_profesional)
       try {
-         const data = await this._turnoService.getByProfesionalAndFecha(idProfesional, fecha).toPromise();
+         const data = await firstValueFrom(this._turnoService.getByProfesionalAndFecha(idProfesional, fecha));
+       
          this.loading = false;
          this.listTurnos = data!
          
