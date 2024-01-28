@@ -31,10 +31,13 @@
           </div>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-sm-2" type="search" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-      </form>
+        <div>
+             <a *ngIf="login" href="">{{user.nombre}}, {{user.apellido}}</a>
+
+             <a *ngIf="login" href="" (click)="logout()">Salir</a>
+             <a *ngIf="!login" routerLink="/login">Iniciar Sesion</a>          
+ 
+        </div>
     </div>
   </div>
 </nav>

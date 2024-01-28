@@ -43,12 +43,12 @@ export class LoginComponent implements OnInit {
               this._usuarioService.login(usuario).subscribe((data: string) => {
                      this.loading = false;
                      const token = data;
-                     console.log('Token: ', token);
-
                    
 
                      localStorage.setItem('auth-token', token);
-                     this.router.navigate(['']);
+                     this.router.navigate(['']).then(()=>{
+                               location.reload();
+                     });
 
 
 

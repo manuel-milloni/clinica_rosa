@@ -1,1 +1,21 @@
-<p>HOME</p>
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+
+<div *ngIf="homeAdmin">
+    <div>
+        <a href="" routerLink="">Turnos</a>
+        <a href="" routerLink="/personal">Personal</a>
+        <a href="" routerLink="/profesional">Profesionales</a>
+        <a href="" routerLink="/obraSocial">Obras Sociales</a>
+        <a href="" routerLink="/horario">Horarios</a>
+        <a href="" routerLink="/especialidad">Especialidades</a>
+
+
+    </div>
+
+
+</div>
+
+<div *ngIf="!homeAdmin">
+   <button routerLink="/turno">Turnos online</button>
+
+</div>
