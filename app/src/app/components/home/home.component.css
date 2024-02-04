@@ -1,0 +1,19 @@
+.div-homeAdmin {
+     border: 2px solid red;
+     align-items: center;
+}
+
+.div-buttons {
+      border: 2px solid #fff;
+      align-items: center;
+      text-align: center;
+    
+
+}
+
+.a-button {
+     display: block;
+     width: 150px;
+     border: 2px solid white;
+}
+

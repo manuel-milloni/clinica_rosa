@@ -10,6 +10,8 @@ export class HomeComponent implements OnInit {
               loading : boolean = false;
               payload : any;
               homeAdmin : boolean = false;
+              homeProfesional : boolean = false;
+            
        
       constructor(private _authService : AuthService){
 
@@ -36,6 +38,15 @@ export class HomeComponent implements OnInit {
                     this.homeAdmin = true;
                     return;
                }
+
+               if(payload.rol === 1){
+                      this.homeProfesional = true;
+                      return;
+               }
+
+              
+
+               
 
           }, (error)=>{
                this.loading = false;

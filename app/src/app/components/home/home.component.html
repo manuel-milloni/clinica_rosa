@@ -1,13 +1,13 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 
-<div *ngIf="homeAdmin">
-    <div>
-        <a href="" routerLink="">Turnos</a>
-        <a href="" routerLink="/personal">Personal</a>
-        <a href="" routerLink="/profesional">Profesionales</a>
-        <a href="" routerLink="/obraSocial">Obras Sociales</a>
-        <a href="" routerLink="/horario">Horarios</a>
-        <a href="" routerLink="/especialidad">Especialidades</a>
+<div class="div-homeAdmin" *ngIf="homeAdmin">
+    <div class="div-buttons">
+        <a class="a-button" href="" routerLink="">Turnos</a>
+        <a class="a-button" href="" routerLink="/personal">Personal</a>
+        <a class="a-button" href="" routerLink="/profesional">Profesionales</a>
+        <a class="a-button" href="" routerLink="/obraSocial">Obras Sociales</a>
+        <a class="a-button" href="" routerLink="/horario">Horarios</a>
+        <a class="a-button" href="" routerLink="/especialidad">Especialidades</a>
 
 
     </div>
@@ -15,7 +15,15 @@
 
 </div>
 
-<div *ngIf="!homeAdmin">
+<div class="div-homeAdmin" *ngIf="homeProfesional">
+    <div class="div-buttons">
+        <a class="a-button" href="" routerLink="/profesional/mis-turnos">Mis Turnos</a>
+        <a class="a-button" href="" routerLink="/personal">Mi Perfil</a>
+
+    </div>
+</div>
+
+<div *ngIf="!homeAdmin and !homeProfesioal">
    <button routerLink="/turno">Turnos online</button>
 
 </div>
