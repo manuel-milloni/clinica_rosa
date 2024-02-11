@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const {getAllPacientes, getAllPersonal, getAllProfesionales, getOne, 
     remove, edit, createPaciente, createProfesional, createPersonal, 
-    usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad, getProfesionalesByObraSocial, getProfesionalesByEspecialidadAndObraSocial} = require('../controllers/usuario.controllers');
+    usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad, getProfesionalesByObraSocial, getProfesionalesByEspecialidadAndObraSocial, getTurnosByProfesional} = require('../controllers/usuario.controllers');
 
 const { verifyToken} = require('../utils/validation.token');
 const router = Router();
@@ -17,6 +17,7 @@ router.post('/profesional', createProfesional);
 router.put('/profesional/:id', updateProfesional);
 router.get('/profesional/especialidad/:id', getProfesionalesByEspecialidad);
 router.post('/profesional/turno', getProfesionalesByEspecialidadAndObraSocial);
+router.get('/profesional/mis-turnos/:id', getTurnosByProfesional);
 
 router.get('/personal', getAllPersonal);
 router.post('/personal', createPersonal);

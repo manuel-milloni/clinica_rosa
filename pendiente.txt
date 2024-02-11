@@ -1,1 +1,3 @@
--Home admin(en curso)
+-En curso: busqueda por fecha de los turnos del profesional
+-Seccion profesional(sus turnos, filtrar por fecha, permitir agregar observacion) filtro de fecha em mis turnos del pro
+-Seccion paciente

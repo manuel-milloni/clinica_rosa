@@ -30,6 +30,7 @@ import { EditProfesionalComponent } from './components/profesional/edit-profesio
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     ModalComponent,
     EditProfesionalComponent,
-    RegistrarTurnoComponent
+    RegistrarTurnoComponent,
+    ProMisTurnosComponent
   ],
   imports: [
     BrowserModule,

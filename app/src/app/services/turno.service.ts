@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {Turno} from '../interfaces/Turno';
+import { Usuario } from '../interfaces/Usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class TurnoService {
 
    create(turno : Turno): Observable<void>{
        return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`, turno);
+   }
+
+   getPaciente(idTurno : number) : Observable<Usuario>{
+      return this.http.get<Usuario>(`${this.myAppUrl}${this.myApiUrl}/paciente/${idTurno}`);
    }
 
 

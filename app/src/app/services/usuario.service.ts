@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/Usuario';
 import { map } from 'rxjs/operators';
 import { Usuario_obra_social } from '../interfaces/Usuario_obra_social';
+import { Turno } from '../interfaces/Turno';
 
 @Injectable({
    providedIn: 'root'
@@ -86,6 +87,10 @@ export class UsuarioService {
               idObraSocial : idObraSocial
           }
           return this.http.post<Usuario[]>(`${this,this.myAppUrl}${this.myApiUrlProfesional}/turno`, body);
+   }
+
+   getTurnosByProfesional(idProfesional : number) : Observable<Turno[]>{
+        return this.http.get<Turno[]>(`${this,this.myAppUrl}${this.myApiUrlProfesional}/mis-turnos/${idProfesional}`);
    }
 
 

@@ -19,9 +19,11 @@ import { ListProfesionalComponent } from './components/profesional/list-profesio
 import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
 import { loginAuth, loginAuthAdmin } from './guards/login.auth';
+import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
+    //----------Admin -------------------------------------------------------
     {path: 'obraSocial', component:  ListObrasocialComponent, canActivate : [loginAuthAdmin]},
     {path: 'obraSocial-add', component: AddEditObrasocialComponent, canActivate : [loginAuthAdmin]},
     {path: 'obraSocial-edit/:id', component: AddEditObrasocialComponent, canActivate : [loginAuthAdmin]},
@@ -42,6 +44,8 @@ const routes: Routes = [
     {path: 'profesional-add', component: AddProfesionalComponent , canActivate : [loginAuthAdmin]},
     {path: 'profesional-edit/:id', component: EditProfesionalComponent, canActivate : [loginAuthAdmin]},
 
+    //------------Profesional-------------------------------------//
+    {path : 'profesional/mis-turnos', component : ProMisTurnosComponent },
     {path: 'signIn', component: SignInPacienteComponent},
     {path : 'login', component : LoginComponent},
 

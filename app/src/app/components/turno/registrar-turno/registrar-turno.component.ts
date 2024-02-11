@@ -446,7 +446,9 @@ formatNgbDate(date: Date): string {
       };
       this._turnoService.create(turno).subscribe(() => {
          this.loading = false;
-         this.router.navigate(['']);
+         this.router.navigate(['']).then(()=>{
+               location.reload();
+         });
          this.toastr.success('Turno generado exitosamente', 'Turno Generado');
       }, (error) => {
          this.loading = false;

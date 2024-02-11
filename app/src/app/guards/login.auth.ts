@@ -46,7 +46,7 @@ export const loginAuthAdmin = ()=>{
 
   if(!token){
       router.navigate(['login']);
-      toastr.error('Debe estar logueado para registrar un turno', 'Turno');
+      toastr.error('Acceso denegado', 'Inicie sesion');
       return false;
 
   } else {
@@ -65,6 +65,8 @@ export const loginAuthAdmin = ()=>{
      
     },
     (error) => {
+      router.navigate(['login']);
+      toastr.error('Acceso denegado','');
       console.error(error);
       observer.next(false);
       observer.complete();

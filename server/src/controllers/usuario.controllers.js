@@ -419,11 +419,35 @@ const getProfesionalesByEspecialidadAndObraSocial= async  (req, res)=>{
   }
 }
 
+
+
+const getTurnosByProfesional = async (req, res)=>{
+     const id = req.params.id;
+     try{
+        const profesional = await Usuario.findByPk(id);
+
+        if(!profesional){
+           const error = new Error('Profesional no encontrado');
+           handleHttp(res, error, 404);
+           return;
+        }
+
+        const turnos  = await profesional.getTurnos();
+
+        console.log('Turnos: ', turnos);  
+        res.json(turnos);
+
+     }catch(error){
+       handleHttp(res, error, 500);
+     } 
+
+} 
+
  
 
 
 
- module.exports = {getAllPacientes, 
+ module.exports = {getAllPacientes, getTurnosByProfesional, 
   getAllPersonal, getAllProfesionales, getOne, remove, 
   edit, createPaciente, createProfesional, createPersonal, 
   getByEmail, usuarioLogueado, getObrasSociales, updateProfesional, getProfesionalesByEspecialidad, getProfesionalesByObraSocial, getProfesionalesByEspecialidadAndObraSocial};

@@ -1,5 +1,7 @@
-const Turno = require('../models/turno');
+const {Turno, Usuario} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
+const {Op} = require('sequelize');
+
 
 
 const getAllByProfesionalAndFecha = async (req, res)=>{
@@ -113,5 +115,53 @@ const getOne =  async (req, res) => {
     }
 };
 
+const getPaciente = async (req, res)=>{
+   
+    const idTurno = req.params.id;
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha};
+    try{
+        const turno = await Turno.findByPk(idTurno);
+
+        if(!turno){
+             const error = new Error('Turno no encontrado');
+             handleHttp(res, error, 404);
+             return;
+
+        }
+
+      
+        const paciente = await turno.getPaciente();
+        console.log(paciente);
+        res.json(paciente);
+    }catch(error){
+       handleHttp(res, error, 500);
+    }
+
+}
+
+const getTurnosProfesionalByFecha = async (req, res)=>{
+    const {fechaDesde, fechaHasta} = req.body;
+    const idProfesional = req.params.id;
+    try{
+       const turnos = await Turno.findAll({
+           where : {
+             fecha : {
+               [Op.between] : [fechaDesde, fechaHasta]
+             },
+             id_profesional : idProfesional
+           }
+       });
+       
+       console.log('Turnos: ', turnos);
+       res.json(turnos);
+    } catch(error){
+        handleHttp(res, error, 500);
+    }
+
+}
+
+
+
+
+
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha};

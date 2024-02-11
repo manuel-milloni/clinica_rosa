@@ -1,0 +1,46 @@
+<div>
+
+    
+   <div *ngFor="let turno of listTurno">
+      <label for="">Paciente:</label>
+       <span>{{turno.paciente?.nombre}} {{turno.paciente?.apellido}}</span>
+       <label for="">Estado:</label>
+        <span>{{turno.estado}}</span>
+        <span>{{turno.fecha}}</span>
+        <span>{{turno.hora}}</span>
+         <span>{{turno.observaciones}}</span>
+         <button></button>
+
+
+   </div>
+
+
+
+
+</div>
+
+<div>
+   <button (click)="toggleCalendarioFechaDesde()">Fecha desde</button>
+   <input type="text" value="{{fechaDesdeFormateada}}">
+   
+   <button (click)="toggleCalendarioFechaHasta()">Fecha hasta</button>
+   <input type="text" value="{{fechaHastaFormateada}}"> 
+
+   <button (click)="getTurnosByFecha()">Buscar</button>
+</div>
+
+
+
+<div class="calendario" *ngIf="mostrarCalendarioFD">
+     <!-- Calendario -->
+     <ngb-datepicker #dp [(ngModel)]="fechaDesde" (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+
+
+</div>
+
+<div class="calendario" *ngIf="mostrarCalendarioFH">
+   <!-- Calendario -->
+   <ngb-datepicker #dp [(ngModel)]="fechaHasta" (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
+
+
+</div>
