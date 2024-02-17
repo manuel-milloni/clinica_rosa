@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router, UrlHandlingStrategy } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -8,154 +8,231 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { TurnoService } from 'src/app/services/turno.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { EditModalComponent } from './edit-modal/edit-modal.component';
 
 @Component({
-  selector: 'app-pro-mis-turnos',
-  templateUrl: './pro-mis-turnos.component.html',
-  styleUrls: ['./pro-mis-turnos.component.css']
+   selector: 'app-pro-mis-turnos',
+   templateUrl: './pro-mis-turnos.component.html',
+   styleUrls: ['./pro-mis-turnos.component.css']
 })
 export class ProMisTurnosComponent implements OnInit {
-             id : number | undefined;
-             listTurno : Turno[] = [];
-             errorServe : string | null = null;
-             fechaDesde: string | null = null;
-             fechaHasta: string | null = null;
-             mostrarCalendarioFD: boolean = false;
-             mostrarCalendarioFH: boolean = false;
-             fechaDesdeFormateada : string | null = null;
-             fechaHastaFormateada : string | null = null;
-             
-    
-     constructor(private _authService : AuthService,
-                 private toastr : ToastrService,
-                 private router : Router,
-                 private _userService : UsuarioService,
-                 private _turnoService : TurnoService,
-                  ){
+   id: number | undefined;
+   listTurno: Turno[] = [];
+   errorServe: string | null = null;
+   fechaDesde: string | null = null;
+   fechaHasta: string | null = null;
+   mostrarCalendarioFD: boolean = false;
+   mostrarCalendarioFH: boolean = false;
 
-     }
-  async ngOnInit(): Promise<void> {
-     await this.getId();
-     await this.getTurnosToday();
-     await this.getPaciente();
-      
-    }
+   fechaDesdeFormateada: string | null = null;
+   fechaHastaFormateada: string | null = null;
 
-    async getId(){
-       const token = localStorage.getItem('auth-token');
+   fechaDesdeDate: Date = new Date();
+   fechaHastaDate: Date = new Date();
 
-       if(!token){
-          this.router.navigate(['login']);
-          this.toastr.error('Inicie sesion para continuar', 'Acceso denegado');
-          return;
-       }
+   idTurnoModal : number = 0;
 
-       try{
+   modal = false;
 
-        const data : any = await firstValueFrom(this._authService.verifyToken(token));
-        this.id = data.id;
 
-       }catch(error : any){
-         this.toastr.error(error.toString(), 'Error');
-       }
-       
-
-    }
+   
 
 
 
-     //Ver de hacer que solo traiga los turnos del dia actual, y otra funcion que filtre por fecha
-    async getTurnosToday(){
-          try{
-             const data : Turno[] = await firstValueFrom(this._userService.getTurnosByProfesional(this.id!));
-             this.listTurno = data;
 
-          }catch(error : any){
-             this.errorServe = error.error?.error || 'Server error';
-             this.toastr.error(error, 'Error');
-          }
 
-    }
 
-    async getPaciente(){
 
-      try{
-         for(let turno of this.listTurno){
-            const paciente = await firstValueFrom(this._turnoService.getPaciente(turno.id!));
-            console.log('Paciente: ', paciente);
-            turno.paciente = paciente;
+   constructor(private _authService: AuthService,
+      private toastr: ToastrService,
+      private router: Router,
+      private _userService: UsuarioService,
+      private _turnoService: TurnoService,
+   ) {
+
+   }
+   async ngOnInit(): Promise<void> {
+      await this.getId();
+      await this.getAllTurnos();
+   
+
+   }
+
+   async getId() {
+      const token = localStorage.getItem('auth-token');
+
+      if (!token) {
+         this.router.navigate(['login']);
+         this.toastr.error('Inicie sesion para continuar', 'Acceso denegado');
+         return;
       }
-      }catch(error : any){
+
+      try {
+
+         const data: any = await firstValueFrom(this._authService.verifyToken(token));
+         this.id = data.id;
+
+      } catch (error: any) {
+         this.toastr.error(error.toString(), 'Error');
+      }
+
+
+   }
+
+
+
+   //Ver de hacer que solo traiga los turnos del dia actual, y otra funcion que filtre por fecha
+   async getAllTurnos() {
+      try {
+         const data: Turno[] = await firstValueFrom(this._userService.getTurnosByProfesional(this.id!));
+         this.listTurno = data;
+
+         await this.getPaciente();
+
+      } catch (error: any) {
          this.errorServe = error.error?.error || 'Server error';
          this.toastr.error(error, 'Error');
       }
+
+   }
+
+
+   async getPaciente() {
+
+      try {
+         for (let turno of this.listTurno) {
+            const paciente = await firstValueFrom(this._turnoService.getPaciente(turno.id!));
          
+            turno.paciente = paciente;
+         }
+      } catch (error: any) {
+         this.errorServe = error.error?.error || 'Server error';
+         this.toastr.error(error, 'Error');
+      }
 
-    }
 
-    seleccionarFechaDesde(event: { year: number; month: number; day: number }){
-   
+   }
+
+   seleccionarFechaDesde(event: { year: number; month: number; day: number }) {
+
       // Crear un objeto NgbDate con las propiedades requeridas
       const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
-      console.log('Fecha Desde: ', this.fechaDesde);
-       // Obtener los componentes de la fecha
-    const year = fechaSeleccionada.year;
-    const month = fechaSeleccionada.month;
-    const day = fechaSeleccionada.day;
 
-   // Formatear la fecha como 'yyyy-mm-dd'
-      // Formatear la fecha como 'yyyy-mm-dd'
-      const fechaFormateada: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      this.fechaDesdeDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-      console.log('Fecha Formateada: ', fechaFormateada);
+      this.fechaDesde = this.formatNgbDate(this.fechaDesdeDate);
 
-      this.fechaDesdeFormateada = this.formatearFechaLocal(fechaFormateada);
-     
-    }
+      this.fechaDesdeFormateada = this.formatearFechaLocal(this.fechaDesdeDate);
 
-    seleccionarFechaHasta(event: { year: number; month: number; day: number }){
-   
+      this.mostrarCalendarioFD = false;
+
+
+   }
+
+   seleccionarFechaHasta(event: { year: number; month: number; day: number }) {
+
       // Crear un objeto NgbDate con las propiedades requeridas
       const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
-      console.log('Fecha Hasta: ', this.fechaHasta);
-       // Obtener los componentes de la fecha
-    const year = fechaSeleccionada.year;
-    const month = fechaSeleccionada.month;
-    const day = fechaSeleccionada.day;
 
-   // Formatear la fecha como 'yyyy-mm-dd'
-      // Formatear la fecha como 'yyyy-mm-dd'
-      const fechaFormateada: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-      console.log('Fecha Formateada: ', fechaFormateada);
+      this.fechaHastaDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-      this.fechaHastaFormateada = this.formatearFechaLocal(fechaFormateada);
-    }
+      this.fechaHasta = this.formatNgbDate(this.fechaHastaDate);
 
-    toggleCalendarioFechaDesde() {
+      this.fechaHastaFormateada = this.formatearFechaLocal(this.fechaHastaDate);
+
+      this.mostrarCalendarioFH = false;
+   }
+
+   toggleCalendarioFechaDesde() {
       this.mostrarCalendarioFD = !this.mostrarCalendarioFD;
-    }
+   }
 
-    toggleCalendarioFechaHasta() {
+   toggleCalendarioFechaHasta() {
       this.mostrarCalendarioFH = !this.mostrarCalendarioFH;
+   }
+
+   //Formato yyyy-mm-dd
+   formatearFecha(fecha: NgbDate): string {
+      const year = fecha.year;
+      const month = fecha.month;
+      const day = fecha.day;
+
+      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+   }
+
+   formatearFechaLocal(fecha: Date): string {
+      // Obtener los componentes de la fecha
+      const dia = fecha.getDate();
+      const mes = fecha.getMonth() + 1; // Los meses en JavaScript van de 0 a 11, por eso se suma 1
+      const año = fecha.getFullYear();
+
+      // Formatear los componentes de la fecha como cadenas y asegurarse de que tengan dos dígitos
+      const diaFormateado = this.agregarCerosIzquierda(dia, 2);
+      const mesFormateado = this.agregarCerosIzquierda(mes, 2);
+      const añoFormateado = año.toString();
+
+      // Construir la cadena de fecha en el formato deseado
+      const fechaFormateada = `${diaFormateado}-${mesFormateado}-${añoFormateado}`;
+
+      return fechaFormateada;
+
+
+   }
+
+   // Función auxiliar para agregar ceros a la izquierda si es necesario
+   agregarCerosIzquierda(numero: number, longitud: number): string {
+      return String(numero).padStart(longitud, '0');
+   }
+
+   async getTurnosByFecha() {
+    
+
+      const fechas = {
+         fechaDesde: this.formatNgbDate(this.fechaDesdeDate),
+         fechaHasta: this.formatNgbDate(this.fechaHastaDate)
+      };
+
+      try {
+         const turnos = await firstValueFrom(this._turnoService.getTurnosByFechaAndProfesional(fechas, this.id!));
+         this.listTurno = turnos;
+
+         await this.getPaciente();
+
+      } catch (error: any) {
+         this.errorServe = error.error?.error || 'Error al obtener turnos';
+         this.toastr.error(this.errorServe!, 'Error');
+      }
+   }
+
+   getTurnosToday(){
+       this.fechaDesdeDate = new Date();
+       this.fechaHastaDate = new Date();
+       this.getTurnosByFecha();
+   }
+
+   formatNgbDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+   }
+
+   abrirModal(idTurno : number) {
+      this.idTurnoModal = idTurno;
+      this.modal = true;
     }
 
-    formatearFechaLocal(fecha : string) : string {
-             // Dividir la cadena de fecha en sus componentes (año, mes, día)
-            const partesFecha: string[] = fecha.split('-');
-
-         // Invertir el orden de los componentes y unirlos nuevamente en una cadena
-         const fechaFormateada: string = partesFecha[2] + '-' + partesFecha[1] + '-' + partesFecha[0];
-
-               return fechaFormateada;
+    cerrarModal() {
+      this.modal = false;
     }
+    
 
-    getTurnosByFecha(){
-      
-    }
+    
 
-      
-   
+
+
 
 
 

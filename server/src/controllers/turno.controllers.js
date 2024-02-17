@@ -141,12 +141,15 @@ const getPaciente = async (req, res)=>{
 
 const getTurnosProfesionalByFecha = async (req, res)=>{
     const {fechaDesde, fechaHasta} = req.body;
+    const fechaDesdeDate = new Date(fechaDesde);
+    const fechaHastaDate = new Date(fechaHasta);
+  
     const idProfesional = req.params.id;
     try{
        const turnos = await Turno.findAll({
            where : {
              fecha : {
-               [Op.between] : [fechaDesde, fechaHasta]
+               [Op.between] : [fechaDesdeDate, fechaHastaDate]
              },
              id_profesional : idProfesional
            }

@@ -31,5 +31,17 @@ export class TurnoService {
       return this.http.get<Usuario>(`${this.myAppUrl}${this.myApiUrl}/paciente/${idTurno}`);
    }
 
+   getTurnosByFechaAndProfesional(fechas : any, idProfesional : number) : Observable<Turno[]>{
+             return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/${idProfesional}`, fechas);
+   }
+
+   update(body : any, idTurno : number) : Observable<void>{
+       return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`, body);
+   }
+
+   getOne(idTurno : number) : Observable<Turno>{
+        return this.http.get<Turno>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`);
+   }
+
 
 }

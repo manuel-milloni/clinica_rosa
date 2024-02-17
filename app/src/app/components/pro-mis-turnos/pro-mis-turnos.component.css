@@ -1,0 +1,34 @@
+
+.container-cards {
+    display: flex;
+}
+
+.card {
+    flex: 50%;
+    margin: 10px;
+    border: 5px solid red;
+    display: flex;
+    flex-direction: column;
+}
+
+.card .content {
+     flex-grow: 1;
+     flex-shrink: 1;
+    
+    
+}
+
+
+.card .footer {
+      border: 5px solid black;
+      align-items: center;
+      text-align: center;
+}
+
+label {
+    margin: 10px 10px 10px 10px;
+}
+
+span {
+    margin: 10px 10px 10px 10px;
+}

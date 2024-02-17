@@ -1,0 +1,61 @@
+<div class="container-cards">
+
+
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="update()">
+         <div class="content">
+
+            <div class="box">
+               <label for="">Turno:</label>
+               <span>{{turno?.id}}</span>
+  
+            </div>
+
+            <div class="box">
+               <label for="">Paciente:</label>
+               <span>{{turno?.paciente?.nombre}}, {{turno?.paciente?.apellido}}</span>
+  
+            </div>
+  
+            <div class="box">
+               <label for="">Estado:</label>
+               <select formControlName="estado">
+                  <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+               </select>
+  
+            </div>
+  
+            <div class="box">
+               <span>Fecha: {{turno?.fecha}}</span> <br>
+               <span>Hora: {{turno?.hora}}</span>
+  
+            </div>
+  
+  
+            <div class="box-observaciones">
+  
+              <textarea  formControlName="observaciones" cols="30" rows="10" [attr.disabled]="!observacionValida"></textarea>
+            </div>
+  
+  
+         </div>
+         <div class="footer">
+            <button (click)="cerrar()">Cancelar</button>
+            <button>Aceptar</button>
+  
+         </div>
+
+
+         
+      </form>
+  
+
+
+
+
+    </div>
+
+
+
+
+ </div>

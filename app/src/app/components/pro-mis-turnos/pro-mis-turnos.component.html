@@ -1,15 +1,27 @@
-<div>
+<div *ngIf="!modal" class="container">
 
-    
-   <div *ngFor="let turno of listTurno">
-      <label for="">Paciente:</label>
-       <span>{{turno.paciente?.nombre}} {{turno.paciente?.apellido}}</span>
-       <label for="">Estado:</label>
-        <span>{{turno.estado}}</span>
-        <span>{{turno.fecha}}</span>
-        <span>{{turno.hora}}</span>
-         <span>{{turno.observaciones}}</span>
-         <button></button>
+   <div class="container-buscador">
+      <button (click)="toggleCalendarioFechaDesde()">Fecha desde</button>
+      <input type="text" value="{{fechaDesdeFormateada}}">
+
+      <button (click)="toggleCalendarioFechaHasta()">Fecha hasta</button>
+      <input type="text" value="{{fechaHastaFormateada}}">
+
+      <button (click)="getTurnosByFecha()">Buscar</button>
+      <button (click)="getAllTurnos()">Ver todos</button>
+      <button (click)="getTurnosToday()">Hoy</button>
+   </div>
+
+   <div class="calendario" *ngIf="mostrarCalendarioFD">
+      <!-- Calendario -->
+      <ngb-datepicker #dp [(ngModel)]="fechaDesde" (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+
+
+   </div>
+
+   <div class="calendario" *ngIf="mostrarCalendarioFH">
+      <!-- Calendario -->
+      <ngb-datepicker #dp [(ngModel)]="fechaHasta" (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
 
 
    </div>
@@ -17,30 +29,66 @@
 
 
 
+   <div class="container-cards">
+
+
+      <div class="card" *ngFor="let turno of listTurno">
+
+         <div class="content">
+
+            <div class="box">
+               <label for="">Turno nro:</label>
+               <span>{{turno.id}}</span>
+
+            </div>
+            <div class="box">
+               <label for="">Paciente:</label>
+               <span>{{turno.paciente?.nombre}} {{turno.paciente?.apellido}}</span>
+
+            </div>
+
+            <div class="box">
+               <label for="">Estado:</label>
+               <span>{{turno.estado}}</span>
+
+            </div>
+
+            <div class="box">
+               <span>{{turno.fecha}}</span>
+               <span>{{turno.hora}}</span>
+
+            </div>
+
+
+            <div class="box-observaciones">
+
+               <span>{{turno.observaciones}}</span>
+            </div>
+
+
+         </div>
+         <div class="footer">
+            <button (click)="abrirModal(turno.id!)">Editar</button>
+
+         </div>
+
+
+
+
+      </div>
+
+
+
+
+   </div>
+
+
+
+
+
+
+
 </div>
 
-<div>
-   <button (click)="toggleCalendarioFechaDesde()">Fecha desde</button>
-   <input type="text" value="{{fechaDesdeFormateada}}">
-   
-   <button (click)="toggleCalendarioFechaHasta()">Fecha hasta</button>
-   <input type="text" value="{{fechaHastaFormateada}}"> 
 
-   <button (click)="getTurnosByFecha()">Buscar</button>
-</div>
-
-
-
-<div class="calendario" *ngIf="mostrarCalendarioFD">
-     <!-- Calendario -->
-     <ngb-datepicker #dp [(ngModel)]="fechaDesde" (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
-
-
-</div>
-
-<div class="calendario" *ngIf="mostrarCalendarioFH">
-   <!-- Calendario -->
-   <ngb-datepicker #dp [(ngModel)]="fechaHasta" (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
-
-
-</div>
+<app-edit-modal [idTurno]="idTurnoModal" *ngIf="modal" (cerrarModal)="cerrarModal()"></app-edit-modal>
