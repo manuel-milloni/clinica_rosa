@@ -35,7 +35,8 @@ const getAll = async (req, res)=>{
 };
 
 const create = async (req, res) =>{
-     const body = req.body; 
+     const body = req.body;
+     body.estado = 'Pendiente'; 
     try{
        const result = await Turno.create(body);
        res.json(result);
@@ -163,8 +164,25 @@ const getTurnosProfesionalByFecha = async (req, res)=>{
 
 }
 
+const getTurnosByPaciente = async (req, res) =>{
+    const idPaciente = req.params.id;
+
+    try{
+       const turnos = await Turno.findAll({
+        where : {
+          id_paciente : idPaciente,
+          estado : 'Pendiente'
+        }
+       });
+
+       res.json(turnos);
+    }catch(error){
+       handleHttp(res, error, 500);
+    }
+}
 
 
 
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha};
+
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente};

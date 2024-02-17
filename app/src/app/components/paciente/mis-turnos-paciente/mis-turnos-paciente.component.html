@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="container-cards">
+
+        <div *ngFor="let turno of listTurnos" class="card">
+            <div class="card-content">
+
+                <div class="box">
+                    <label for="">Turno nro:</label>
+                    <span>{{turno.id}}</span>
+
+                </div>
+                <div class="box">
+                    <label for="">Profesional:</label>
+                    <span>{{turno.profesional?.nombre}} {{turno.profesional?.apellido}}</span>
+
+                </div>
+
+                <div class="box">
+                    <label for="">Estado:</label>
+                    <span>{{turno.estado}}</span>
+
+                </div>
+
+                <div class="box">
+                    <span>{{turno.fecha}}</span> <br>
+                    <span>{{turno.hora}}</span>
+
+                </div>
+
+
+                <div class="box-observaciones">
+
+                    <span>{{turno.observaciones}}</span>
+                </div>
+
+
+            </div>
+
+            <div class="card-footer">
+                <button (click)="cancelarTurno(turno.id!)">Cancelar</button>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>

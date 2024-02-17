@@ -43,5 +43,13 @@ export class TurnoService {
         return this.http.get<Turno>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`);
    }
 
+   getTurnosPaciente(idPaciente : number) : Observable<Turno[]>{
+         return this.http.get<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/paciente/mis-turnos/${idPaciente}`);
+   }
+
+   delete(idTurno : number) : Observable<void>{
+      return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`);
+   }
+
 
 }

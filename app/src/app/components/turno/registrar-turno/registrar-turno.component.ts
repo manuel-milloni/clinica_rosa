@@ -431,30 +431,35 @@ formatNgbDate(date: Date): string {
       return `${hours}:${minutes}`;
     }
 
-   createTurno() {
+  async  createTurno() {
       this.loading = true;
       const fecha = this.formatNgbDate(this.fechaTurnoDate);
       const hora = this.formatTime(this.horaTurno!);
       const turno : Turno ={
          fecha: fecha,
          hora: hora,
-         estado: 'pendiente',
+         estado: 'Pendiente',
          observaciones: '',
          id_profesional: this.profesional.id!,
          id_paciente: this.paciente?.id!
 
       };
-      this._turnoService.create(turno).subscribe(() => {
+
+      try{
+         await firstValueFrom(this._turnoService.create(turno));
          this.loading = false;
-         this.router.navigate(['']).then(()=>{
-               location.reload();
-         });
+         this.router.navigate(['']).then(()=>
+             location.reload())
+         ;
          this.toastr.success('Turno generado exitosamente', 'Turno Generado');
-      }, (error) => {
+
+      }catch(error : any){
          this.loading = false;
          this.errorServer = error.error?.error || 'Error al generar Turno',
             this.toastr.error(this.errorServer!, 'Error');
-      })
+      }
+
+ 
 
    }
 

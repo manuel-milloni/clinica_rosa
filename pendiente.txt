@@ -1,3 +1,5 @@
--En curso: busqueda por fecha de los turnos del profesional
--Seccion profesional(sus turnos, filtrar por fecha, permitir agregar observacion) filtro de fecha em mis turnos del pro
--Seccion paciente
+-Reprogramar turno (CUU 009)
+
+
+-Agregar mensajes de confirmacion al eliminar o cancelar.
+-Cuando genero un turno no me carga correctamente el router navigate. (componente turno/registrar-turno)

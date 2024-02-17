@@ -31,6 +31,8 @@ import { RegistrarTurnoComponent } from './components/turno/registrar-turno/regi
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
+import { EditModalComponent } from './components/pro-mis-turnos/edit-modal/edit-modal.component';
+import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turno
     ModalComponent,
     EditProfesionalComponent,
     RegistrarTurnoComponent,
-    ProMisTurnosComponent
+    ProMisTurnosComponent,
+    EditModalComponent,
+    MisTurnosPacienteComponent
   ],
   imports: [
     BrowserModule,

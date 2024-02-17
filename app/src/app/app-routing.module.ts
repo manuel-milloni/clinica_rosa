@@ -20,6 +20,7 @@ import { EditProfesionalComponent } from './components/profesional/edit-profesio
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
 import { loginAuth, loginAuthAdmin } from './guards/login.auth';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
+import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -50,6 +51,7 @@ const routes: Routes = [
     {path : 'login', component : LoginComponent},
 
     {path: 'turno', component : RegistrarTurnoComponent, canActivate: [loginAuth]},
+    {path: 'mis-turnos', component : MisTurnosPacienteComponent, canActivate: [loginAuth] },
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 
