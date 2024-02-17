@@ -50,6 +50,8 @@ const routes: Routes = [
     {path: 'signIn', component: SignInPacienteComponent},
     {path : 'login', component : LoginComponent},
 
+    //--------------PACIENTE-------------------------//
+
     {path: 'turno', component : RegistrarTurnoComponent, canActivate: [loginAuth]},
     {path: 'mis-turnos', component : MisTurnosPacienteComponent, canActivate: [loginAuth] },
 

@@ -108,6 +108,7 @@ export class RegistrarTurnoComponent implements OnInit {
          this.toastr.error(this.errorServer!, 'Error');
       })
    }
+   
    //Obtengo todos los profesionales de la Especialidad seleccionada y Obra Social del paciente logueado
    async getListProfesional() {
       try {

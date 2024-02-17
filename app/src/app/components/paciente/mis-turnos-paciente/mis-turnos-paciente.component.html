@@ -38,6 +38,7 @@
 
             <div class="card-footer">
                 <button (click)="cancelarTurno(turno.id!)">Cancelar</button>
+                <button (click)="reprogramarTurno(turno.id!)">Reprogramar</button>
 
             </div>
 
@@ -47,4 +48,80 @@
 
     </div>
 
+</div>
+
+
+
+<!-- Modal Fechas-->
+<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!-- Calendario -->
+                        <ngb-datepicker #dp [(ngModel)]="fechaTurno" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
+                    </div>
+                    <div class="col-lg-6" *ngIf="mostrarHorarios">
+                        <!-- Botones de horarios -->
+                        <div class="d-flex flex-wrap justify-content-between">
+                            <button *ngFor="let horario of horariosDisponibles" type="button" class="btn btn-outline-primary mt-2" (click)="modalTurno(horario)">{{ horario }}</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row mt-2 text-center">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- <button [disabled]="form_profesional.invalid"  type="submit" class="btn btn-primary">Aceptar</button> -->
+                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal confirmacion turno -->
+<div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar turno</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>Confirme los datos para generar nuevo turno</h3>
+                <ng-container *ngIf="profesional">
+                    <p>Especialidad: {{especialidad?.nombre}}</p>
+                    <p>Profesional: {{profesional.apellido}}, {{profesional.nombre}}</p>
+                    <p>Fecha: {{fechaTurnoString}}</p>
+                    <p>Hora: {{horaString}}</p>
+                </ng-container>
+                <ng-container *ngIf="!profesional">
+                    <p>No hay información de profesional disponible.</p>
+                </ng-container>
+            </div>
+            <div class="modal-footer">
+                <div class="row mt-2 text-center">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-primary" (click)="createTurno()" [disabled]="!profesional">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
