@@ -1,4 +1,4 @@
--Reprogramar turno (CUU 009)
+-En curso: Recibir un recordatorio 24hs antes del turno.
 
 
 -Agregar mensajes de confirmacion al eliminar o cancelar.

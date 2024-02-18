@@ -12,7 +12,8 @@ const getAllByProfesionalAndFecha = async (req, res)=>{
          const turnos = await Turno.findAll({
              where:{
                  id_profesional : idProfesional,
-                 fecha : fecha
+                 fecha : fecha,
+                 estado : 'Pendiente'
               
              }
          });

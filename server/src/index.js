@@ -5,6 +5,9 @@ const cors = require('cors');
 const db = require('./db/database');
 const handleHttp = require('./utils/error.handle');
 
+const cron = require('node-cron');
+const {runSender} = require('./utils/mailSender');
+
 const app = express();
 
 
@@ -28,7 +31,23 @@ app.use((req, res) => {
     handleHttp(res, error, 404 );
 });
 
-app.listen(config.app.port , () => console.log("Server runing on port ", config.app.port));
+app.listen(config.app.port , () => {
+    
+    console.log("Server runing on port ", config.app.port);
+
+    // //Enviador de correos
+    // cron.schedule('06 14 * * *', () => { 
+    //     runSender()
+    //         .then(() => {
+    //             console.log('Función runSender ejecutada correctamente.');
+    //         })
+    //         .catch(error => {
+    //             console.error('Error al ejecutar runSender:', error);
+    //         });
+    // });
+     
+    
+});
 
 
 

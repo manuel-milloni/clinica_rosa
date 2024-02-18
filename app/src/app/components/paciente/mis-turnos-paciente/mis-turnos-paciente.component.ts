@@ -416,7 +416,7 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
  }
 
  async createTurno(){
-     //Cancelo el otro;
+  
 
     //  this.loading = true;
      const fecha = this.formatNgbDate(this.fechaTurnoDate);
@@ -433,7 +433,12 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
 
      try{
         await firstValueFrom(this._turnoService.create(turno));
-        await firstValueFrom(this._turnoService.delete(this.turno!.id!));
+
+        const body : any = {
+          estado : 'Cancelado'
+        };
+
+        await firstValueFrom(this._turnoService.update(body, this.turno!.id!));
         
         await this.getTurnos();
 
