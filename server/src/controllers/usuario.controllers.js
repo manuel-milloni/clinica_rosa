@@ -135,6 +135,12 @@ const getAllProfesionales = async (req, res) => {
             handleHttp(res, error, 404);
             return; 
         }
+
+        //Si el body trae pass lo encripto:
+        if(body.password){
+          body.password = await cifrarPass(body.password);
+
+        };
         const result = usuario.update(body);
         res.json(result);
         

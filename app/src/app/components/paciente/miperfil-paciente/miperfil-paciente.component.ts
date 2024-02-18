@@ -166,6 +166,13 @@ export class MiperfilPacienteComponent implements OnInit {
        ...body,
        ...usuario
      };
+    } else {
+        //Modifica pass
+        body = {
+          ...body,
+          password : this.form.value.password
+        };
+    } 
   
 
     try{
@@ -178,7 +185,7 @@ export class MiperfilPacienteComponent implements OnInit {
     }
     console.log('Continuo con el hilo de la funcion');
 
-  }
+  
 }
 
   //Funcion para deshabilitar el input del html de Nro de afiliado cuando se selecciona Obra social Particular

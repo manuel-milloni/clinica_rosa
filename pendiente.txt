@@ -1,4 +1,4 @@
--En curso: Recibir un recordatorio 24hs antes del turno.
+-En curso: Modificar paciente (falta modificacion de pass)
 
 
 -Agregar mensajes de confirmacion al eliminar o cancelar.
