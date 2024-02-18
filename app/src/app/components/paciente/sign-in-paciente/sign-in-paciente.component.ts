@@ -39,7 +39,7 @@ export class SignInPacienteComponent implements OnInit {
                          
                         //Funcion que se ejecuta cuando se detecta cambios en el formulario en el campo Obra social
                   this.form.get('obraSocial')?.valueChanges.subscribe((selectedObraSocialId) => {
-                     
+                     console.log('Ejecutando');
                     if (selectedObraSocialId === '1') {
                      
                       // Deshabilitar el control nroAfiliado y quitar la validación de requerido

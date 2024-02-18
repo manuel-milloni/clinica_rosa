@@ -33,6 +33,7 @@ import { FormsModule } from '@angular/forms';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 import { EditModalComponent } from './components/pro-mis-turnos/edit-modal/edit-modal.component';
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
+import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-pac
     RegistrarTurnoComponent,
     ProMisTurnosComponent,
     EditModalComponent,
-    MisTurnosPacienteComponent
+    MisTurnosPacienteComponent,
+    MiperfilPacienteComponent
   ],
   imports: [
     BrowserModule,

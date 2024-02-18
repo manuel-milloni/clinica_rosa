@@ -21,6 +21,7 @@ import { RegistrarTurnoComponent } from './components/turno/registrar-turno/regi
 import { loginAuth, loginAuthAdmin } from './guards/login.auth';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
+import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -54,6 +55,7 @@ const routes: Routes = [
 
     {path: 'turno', component : RegistrarTurnoComponent, canActivate: [loginAuth]},
     {path: 'mis-turnos', component : MisTurnosPacienteComponent, canActivate: [loginAuth] },
+    {path: 'mi-perfil', component : MiperfilPacienteComponent, canActivate: [loginAuth]},
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 

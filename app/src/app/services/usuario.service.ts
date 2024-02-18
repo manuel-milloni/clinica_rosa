@@ -92,6 +92,7 @@ export class UsuarioService {
    getTurnosByProfesional(idProfesional : number) : Observable<Turno[]>{
         return this.http.get<Turno[]>(`${this,this.myAppUrl}${this.myApiUrlProfesional}/mis-turnos/${idProfesional}`);
    }
+   
 
 
 

@@ -341,6 +341,7 @@ const updateProfesional = async (req, res) => {
         }
          
      });
+     
 
       //Creo las relaciones idProfesional-idObraSocial en tabla usuario_obra_social
      agregar.forEach((obraSocial) =>{
