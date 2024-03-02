@@ -182,8 +182,47 @@ const getTurnosByPaciente = async (req, res) =>{
     }
 }
 
+const getTurnosByFecha = async(req, res)=> {
+    const {fechaDesde, fechaHasta, estado} = req.body;
+    console.log('Fechaaas: ', fechaDesde, '     ', fechaHasta  );
+    const fechaDesdeDate = new Date(fechaDesde);
+    const fechaHastaDate = new Date(fechaHasta);
+    console.log('Fechas:    ', fechaDesdeDate, '         ', fechaHastaDate);
+    let turnos = [];
+    try{
+       
+       if(estado){
+        turnos = await Turno.findAll({
+          where : {
+            fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]},
+            estado : estado
+          }
+         });
+
+
+       } else {
+        turnos = await Turno.findAll({
+          where : {
+            fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]}
+           
+          }
+         });
+
+       }
+
+      
+
+       res.json(turnos);
+
+    }catch(error){
+       handleHttp(res, error, 500);
+    }
+    
+
+}
 
 
 
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente};
+
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, getTurnosByFecha};

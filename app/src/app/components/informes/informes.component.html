@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="buscador-fechas">
+        <button (click)="toogleFD()">Fecha desde</button>
+        <input type="text" value="{{fechaDesdeInput}}">
+        <button (click)="toogleFH()">Fecha hasta</button>
+        <input type="text" value="{{fechaHastaInput}}">
+
+        <button (click)="buscar()">Buscar</button>
+
+    </div>
+
+    <div class="calendario" *ngIf="mostrarCalendarioFD">
+        <!-- Calendario -->
+        <ngb-datepicker (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+    </div>
+
+    <div class="calendario" *ngIf="mostrarCalendarioFH">
+        <!-- Calendario -->
+        <ngb-datepicker (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
+    </div>
+
+
+    <div class="grafico">
+        <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
+    
+    </div>
+
+
+
+
+
+</div>

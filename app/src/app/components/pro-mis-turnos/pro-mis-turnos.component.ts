@@ -35,14 +35,6 @@ export class ProMisTurnosComponent implements OnInit {
    modal = false;
 
 
-   
-
-
-
-
-
-
-
    constructor(private _authService: AuthService,
       private toastr: ToastrService,
       private router: Router,

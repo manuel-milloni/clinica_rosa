@@ -34,6 +34,7 @@ import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turno
 import { EditModalComponent } from './components/pro-mis-turnos/edit-modal/edit-modal.component';
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
+import { InformesComponent } from './components/informes/informes.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { MiperfilPacienteComponent } from './components/paciente/miperfil-pacien
     ProMisTurnosComponent,
     EditModalComponent,
     MisTurnosPacienteComponent,
-    MiperfilPacienteComponent
+    MiperfilPacienteComponent,
+    InformesComponent
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ import { loginAuth, loginAuthAdmin } from './guards/login.auth';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
+import { InformesComponent } from './components/informes/informes.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -45,6 +46,8 @@ const routes: Routes = [
     {path: 'profesional', component: ListProfesionalComponent, canActivate : [loginAuthAdmin]},
     {path: 'profesional-add', component: AddProfesionalComponent , canActivate : [loginAuthAdmin]},
     {path: 'profesional-edit/:id', component: EditProfesionalComponent, canActivate : [loginAuthAdmin]},
+
+    {path: 'informes', component: InformesComponent, canActivate: [loginAuthAdmin]},
 
     //------------Profesional-------------------------------------//
     {path : 'profesional/mis-turnos', component : ProMisTurnosComponent },
