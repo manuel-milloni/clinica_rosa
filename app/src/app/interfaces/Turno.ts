@@ -1,5 +1,6 @@
 import { Time } from "@angular/common";
 import { Usuario } from "./Usuario";
+import { Especialidad } from "./Especialidad";
 
 export interface Turno {
        id? : number;
@@ -11,5 +12,6 @@ export interface Turno {
        id_paciente : number;
        paciente? : Usuario;
        profesional? : Usuario
+       especialidad? : Especialidad
        
 }

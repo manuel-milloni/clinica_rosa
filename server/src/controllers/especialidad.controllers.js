@@ -1,6 +1,8 @@
 const db = require('../db/database');
 const handleHttp = require('../utils/error.handle');
-const {Especialidad} = require('../db/associations.sequelize');
+const {Especialidad, Usuario} = require('../db/associations.sequelize');
+const { json } = require('sequelize');
+
 
 const getAll = async (req ,res)=>{
         try{
@@ -95,4 +97,29 @@ const remove = async (req, res)=>{
     
 };
 
-module.exports = {getAll, getOne, create, edit, remove};
+const getEspecialidadByProfesional = async (req, res)=>{
+     const idProfesional = req.params.id;
+     try{
+         const profesional = await Usuario.findByPk(idProfesional);
+
+         if(!profesional){
+          const error = new Error('Error al obtener profesional');
+          handleHttp(res, error, 404);
+          return; 
+        }
+
+        const especialidad = await Especialidad.findByPk(profesional.id_especialidad);
+
+        if(!especialidad){
+             const error = new Error('Error al obtener especilidad');
+             handleHttp(res, error, 404);
+             return;
+        }
+
+        res.json(especialidad);
+     }catch(error){
+            handleHttp(res, error, 500);
+     }
+}
+
+module.exports = {getAll, getOne, create, edit, remove, getEspecialidadByProfesional};

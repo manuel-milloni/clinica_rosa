@@ -38,4 +38,8 @@ export class EspecialidadService {
        return this.http.get<Especialidad>(this.myAppUrl + this.myApiUrl + '/' + id);
 
   }
+
+  getEspecialidadByProfesional(idProfesional : number) : Observable<Especialidad>{
+      return this.http.get<Especialidad>(`${this.myAppUrl}${this.myApiUrl}/byProfesional/${idProfesional}`);
+  }
 }

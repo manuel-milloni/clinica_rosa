@@ -5,7 +5,7 @@
         <button (click)="toogleFH()">Fecha hasta</button>
         <input type="text" value="{{fechaHastaInput}}">
 
-        <button (click)="buscar()">Buscar</button>
+        <button (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
 
     </div>
 
@@ -22,6 +22,11 @@
 
     <div class="grafico">
         <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
+    
+    </div>
+
+    <div class="grafico">
+        <canvas id="barChart"></canvas>
     
     </div>
 

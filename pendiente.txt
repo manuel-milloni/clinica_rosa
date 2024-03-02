@@ -1,5 +1,5 @@
 
 
-
+-Ver que en los graficos los genere por defecto de una determinada fecha y que cuando se presione el buscar ahi tome las fechas indicadas.
 -Agregar mensajes de confirmacion al eliminar o cancelar.
 -Cuando genero un turno no me carga correctamente el router navigate. (componente turno/registrar-turno)
