@@ -99,4 +99,33 @@ CREATE TABLE `clinica_rosa_db`.`usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+-- Ingreso de Registros----------------------------------------------------------------------------
+INSERT INTO `obra_social` (`id`,`nombre`,`descripcion`) VALUES 
+(1, 'Particular', null), 
+(2, 'OSDE', 'Organización de Servicios Directos Empresarios'),
+(3, 'IAPOS', 'Instituto Autárquico Provincial de Obra Social'),
+(4, 'OSECAC', 'Obra Social de Empleados de Comercio y Actividades Civiles'),
+(5, 'Federada Salud', null),
+(6, 'Sancor Salud', null),
+(7, 'Swiss Medical', null);
+COMMIT;
+
+INSERT INTO `especialidad` (`id`, `nombre`, `descripcion`) VALUES
+(1,	'Traumatologia',	'Especialidad médica encargada del diagnóstico, tratamiento y prevención de lesiones musculoesqueléticas.'),
+(2,	'Oftalmologia',	'Rama de la medicina que se ocupa del diagnóstico, tratamiento y prevención de enfermedades y trastornos relacionados con el ojo y la visión.'),
+(3,	'Dermatologia',	'Especialidad médica centrada en el diagnóstico, tratamiento y prevención de enfermedades y trastornos relacionados con la piel, cabello, uñas y mucosas.'),
+(4,	'Otorrinolaringologia',	'Especialidad médica que se ocupa del diagnóstico, tratamiento y prevención de enfermedades y trastornos relacionados con el oído, la nariz, la garganta y estructuras relacionadas del cuello y la cabeza.'),
+(5,	'Pediatria',	'Medicina que se enfoca en el cuidado de la salud de los niños, desde el nacimiento hasta la adolescencia.'),
+(6,	'Kinesiologia',	'Disciplina médica que estudia el movimiento del cuerpo para determinar posibles trastornos mediante la manipulación de los músculos, su movimiento y respuesta, y así determinar la zona afectada y el origen del problema.');
+COMMIT;
+
+INSERT INTO `horario` VALUES
+(1,	'09:00:00',		'16:00:00',	1,	0,	1,	0,	1),
+(2,	'10:00:00',		'18:00:00',	1,	0,	1,	0,	1),
+(3,	'10:00:00',		'16:00:00',	0,	1,	0,	1,	0),
+(4,	'13:00:00',		'17:00:00',	1,	0,	0,	0,	1),
+(5,	'10:00:00',		'14:00:00',	0,	0,	1,	1,	1);
+COMMIT;
+
+
 
