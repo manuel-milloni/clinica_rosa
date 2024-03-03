@@ -33,12 +33,13 @@ export class InformesComponent implements OnInit {
 
     public lineChart: Chart | undefined;
     public barChart: Chart | undefined;
+    public barChart3: Chart | undefined;
 
 
 
     constructor(private _turnoService: TurnoService,
         private toastr: ToastrService,
-        private _especialidadService : EspecialidadService) {
+        private _especialidadService: EspecialidadService) {
 
     }
 
@@ -297,13 +298,13 @@ export class InformesComponent implements OnInit {
             }]
         };
 
-           // Destruir el grafico existente
-    if (this.barChart) {
-        this.barChart.destroy();
-    }
+        // Destruir el grafico existente
+        if (this.barChart) {
+            this.barChart.destroy();
+        }
 
         this.barChart = new Chart("barChart", {
-            type : 'bar' as ChartType,
+            type: 'bar' as ChartType,
             data: barData
         });
 
@@ -316,68 +317,116 @@ export class InformesComponent implements OnInit {
 
     //-------------------------GRAFICO PORCENTAJE DE TURNOS POR ESPECIALIDAD--------------------------------------
 
-   async  initGrafico3(){
-            
-             //Obtengo turnos
-           const turnos = await this.getTurnosG3();
+    async initGrafico3() {
+
+        //Obtengo turnos
+        const turnos = await this.getTurnosG3();
 
 
-             //Genero label de Especialidades
-             const especialidadades = await this.getEspecialidades();
-            const listEspecialidades : string[] = [];
-             console.log(especialidadades);
-             if(especialidadades){
-                 especialidadades.forEach((especialidad)=>{
-                      listEspecialidades.push(especialidad.nombre);
-                 });
-                };
+        //Genero label de Especialidades
+        const especialidadades = await this.getEspecialidades();
+        const listEspecialidades: string[] = [];
+        console.log(especialidadades);
+        if (especialidadades) {
+            especialidadades.forEach((especialidad) => {
+                listEspecialidades.push(especialidad.nombre);
+            });
+        };
 
-                //Falta asignar generar el array data : relacionado con el label especialidad, es decir el procentaje de turnos de cada especialdiad
+        //Falta asignar generar el array data : relacionado con el label especialidad, es decir el procentaje de turnos de cada especialdiad
 
-             
+        const totalTurnos : number = turnos.length;
+        console.log('Total turnos : ', totalTurnos);
+        const data : number[] = listEspecialidades.map((especialidad)=>{
+                let cantidad : number = 0;
+               turnos.forEach((turno)=>{
+                  
+                   if(turno.especialidad?.nombre===especialidad){
+                      cantidad++;
+                   }
+               });
+               
+               return cantidad*100/totalTurnos;
+        });
+
+        console.log('Data: ', data);
+
+        const barData3 = {
+            labels: listEspecialidades,
+            datasets: [{
+                label: '% de Turnos Concretados por Especialidad',
+                data,
+                backgroundColor: [
+                    'rgba(83, 162, 49, 0.7)',
+                    'rgba(252, 242, 26, 0.7)',
+                    'rgba(252, 149, 26, 0.7)',
+                    'rgba(234, 38, 26, 0.7)'
+                ],
+                fill: false,
+                borderColor: [
+                    'rgba(255, 255, 255)',
+                    'rgba(255, 159, 64)',
+                    'rgba(255, 205, 86)',
+                    'rgba(255, 192, 192)'
+                ],
+                tension: 0.1
+            }]
+        };
+
+            // Destruir el grafico existente
+            if (this.barChart3) {
+                this.barChart3.destroy();
+            }
+    
+            this.barChart3 = new Chart("barChart3", {
+                type: 'bar' as ChartType,
+                data: barData3
+            });
+
+
 
 
     }
 
 
 
-    async getEspecialidades() : Promise<Especialidad[] | undefined>{
-           try{
-                const especialidades : Especialidad[] = await firstValueFrom(this._especialidadService.getAll());
-                return especialidades;
-           }catch(error){
-              console.error(error);
-              this.toastr.error('Error al generar informes', 'Error');
-              return undefined;
-           }
+    async getEspecialidades(): Promise<Especialidad[] | undefined> {
+        try {
+            const especialidades: Especialidad[] = await firstValueFrom(this._especialidadService.getAll());
+            return especialidades;
+        } catch (error) {
+            console.error(error);
+            this.toastr.error('Error al generar informes', 'Error');
+            return undefined;
+        }
     }
 
-    async getTurnosG3(){
-           //Filtro solo los turnos concretados
-           
-           const turnos = this.listTurnos.filter((turno)=> turno.estado === 'Concretado');
+    async getTurnosG3() {
+        //Filtro solo los turnos concretados
 
-        
-           //Asigno a cada turno la especialidad correspondiente.
+        const turnos = this.listTurnos.filter((turno) => turno.estado === 'Concretado');
 
-           try{
-              await Promise.all(turnos.map(async (turno)=>{
-                 const especialidad : Especialidad = await firstValueFrom(this._especialidadService.getEspecialidadByProfesional(turno.id_profesional));
-              
-                 if(especialidad){
+
+        //Asigno a cada turno la especialidad correspondiente.
+
+        try {
+            await Promise.all(turnos.map(async (turno) => {
+                const especialidad: Especialidad = await firstValueFrom(this._especialidadService.getEspecialidadByProfesional(turno.id_profesional));
+
+                if (especialidad) {
                     turno.especialidad = especialidad;
-                 };
-              }));
-           }catch(error){
-               console.error(error);
-               this.toastr.error('Error al generar informes', 'Error');
+                };
+            }));
+        } catch (error) {
+            console.error(error);
+            this.toastr.error('Error al generar informes', 'Error');
 
-           }
+        }
 
-           return turnos;
+        return turnos;
 
-          
-       
+
+
     }
 
 
