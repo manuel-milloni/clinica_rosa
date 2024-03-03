@@ -152,7 +152,10 @@ const getAllProfesionales = async (req, res) => {
 
  const createPaciente = async (req, res) => {
     const body = req.body;
+   
     body.rol = 0;
+
+    console.log('Body: ', body);
 
    
     if (body.id_obra_social === null && body.nroAfiliado === null) {
@@ -176,6 +179,7 @@ const getAllProfesionales = async (req, res) => {
     }
         body.password = await cifrarPass(body.password);
         const result = await Usuario.create(body);
+        // const result = 200;
        
        
         res.json(result);  

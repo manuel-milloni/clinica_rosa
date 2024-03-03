@@ -51,14 +51,16 @@ const routes: Routes = [
 
     //------------Profesional-------------------------------------//
     {path : 'profesional/mis-turnos', component : ProMisTurnosComponent },
-    {path: 'signIn', component: SignInPacienteComponent},
-    {path : 'login', component : LoginComponent},
+   
+
 
     //--------------PACIENTE-------------------------//
-
+    {path: 'signIn', component: SignInPacienteComponent},
     {path: 'turno', component : RegistrarTurnoComponent, canActivate: [loginAuth]},
     {path: 'mis-turnos', component : MisTurnosPacienteComponent, canActivate: [loginAuth] },
     {path: 'mi-perfil', component : MiperfilPacienteComponent, canActivate: [loginAuth]},
+
+    {path : 'login', component : LoginComponent},
 
     {path: '**', redirectTo: '', pathMatch: 'full'}
 

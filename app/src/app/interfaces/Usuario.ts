@@ -18,5 +18,8 @@ export interface Usuario {
         horario? : Horario; 
         id_obra_social? : number;
         obras_sociales? : number[];
-        obrasSociales? : ObraSocial[]
+        obrasSociales? : ObraSocial[];
+        genero? : string;
+        fecha_nac? : string;
+
 } 

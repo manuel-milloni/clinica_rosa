@@ -39,11 +39,8 @@ const verifyTokenFront = (req, res) =>{
     
     const payload = jwt.verify(token, config.jwt.signature);
 
-    console.log("PAYLOAD ID: ", payload.id);
-    console.log(payload);
+    
     res.json(payload);
-
-   
 
 
   } catch(error){

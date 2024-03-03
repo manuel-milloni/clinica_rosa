@@ -94,6 +94,14 @@ const Usuario = db.define('usuario', {
           },
           onDelete: 'restrict',
           onUpdate: 'cascade'
+    },
+    genero : {
+        type : DataTypes.CHAR,
+        allowNull: true
+    },
+    fecha_nac : {
+        type : DataTypes.DATE,
+        allowNull : true
     }
   }, {
      tableName: 'usuario',
