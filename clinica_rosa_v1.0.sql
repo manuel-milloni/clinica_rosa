@@ -182,6 +182,62 @@ INSERT INTO `clinica_rosa_db`.`usuario_obra_social` (`id_profesional`, `id_obra_
 (9,	3);
 COMMIT;
 
+-- TURNOS
+INSERT INTO `clinica_rosa_db`.`turno` (`fecha`, `hora`, `estado`, `observaciones`, `id_profesional`, `id_paciente`) VALUES
+('2024-01-08',	'09:00:00',	'Concretado',	'Paciente se presenta con molestias lumbares.Se recomienda reposo y estudios a realizar.',	2,	10),
+('2024-01-15',	'14:30:00',	'Concretado',	'',	2,	10),
+('2024-01-22',	'15:00:00',	'Ausente',	'',	2,	10),
+('2024-02-06',	'10:00:00',	'Cancelado',	'',	9,	10),
+('2024-02-13',	'13:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	9,	10),
+('2024-02-20',	'14:00:00',	'Concretado',	'Revision y prueba de lentes.',	9,	10),
+('2024-01-12',	'16:00:00',	'Concretado',	'Paciente se presenta con problemas auditivos de la oreja izq.Se genera orden de estudios.',	5,	11),
+('2024-01-19',	'14:30:00',	'Concretado',	'',	5,	11),
+('2024-01-23',	'10:00:00',	'Concretado',	'',	4,	11),
+('2024-01-30',	'13:00:00',	'Cancelado',	'',	4,	11),
+('2024-01-08',	'12:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	8,	12),
+('2024-01-17',	'13:00:00',	'Cancelado',	'Problemas de Vista. Se recetan lentes',	8,	12),
+('2024-01-22',	'14:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	8,	12),
+('2024-01-29',	'15:30:00',	'Concretado',	'',	8,	12),
+('2024-02-13',	'13:30:00',	'Concretado',	'Paciente vienen por Acne. Se receta Medicamentos correspondientes.',	9,	12),
+('2024-02-22',	'10:30:00',	'Concretado',	'Paciente vienen por Acne. Se receta Medicamentos correspondientes.',	9,	12),
+('2024-02-27',	'11:00:00',	'Concretado',	'Paciente vienen por Acne. Se receta Medicamentos correspondientes.',	9,	12),
+('2024-03-04',	'10:00:00',	'Concretado',	'Problemas de Vista. Se deriva con los estudios correspondientes',	3,	17),
+('2024-03-13',	'10:30:00',	'Concretado',	'Se analizan estudios. Todo ok',	3,	17),
+('2024-03-29',	'11:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	3,	17),
+('2024-03-04',	'12:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	3,	14),
+('2024-03-13',	'13:00:00',	'Cancelado',	'',	3,	14),
+('2024-03-29',	'15:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	3,	14),
+('2024-03-04',	'09:00:00',	'Concretado',	'',	7,	15),
+('2024-03-15',	'09:30:00',	'Concretado',	'',	7,	15),
+('2024-03-20',	'10:00:00',	'Cancelado',	'',	7,	15),
+('2024-03-04',	'11:00:00',	'Concretado',	'',	7,	16),
+('2024-03-15',	'13:30:00',	'Concretado',	'',	7,	16),
+('2024-03-20',	'11:30:00',	'Concretado',	'',	7,	16),
+('2024-03-27',	'14:00:00',	'Concretado',	'',	7,	16),
+('2024-03-04',	'09:00:00',	'Concretado',	'Fractura de huesos largos: Una fractura en un hueso largo como el fémur o el húmero, que puede requerir inmovilización y posiblemente cirugía para una recuperación completa.',	2,	10),
+('2024-03-15',	'09:30:00',	'Concretado',	'Luxación de articulaciones: Desplazamiento de una articulación fuera de su posición normal, que puede causar dolor intenso y requerir manipulación o reducción para volver a su posición correcta.',	2,	11),
+('2024-03-20',	'10:00:00',	'Concretado',	'Esguince de ligamentos: Lesión en los ligamentos que sostienen una articulación, causada por estiramiento o desgarro parcial, que puede provocar hinchazón, dolor y limitación del movimiento.',	2,	12),
+('2024-03-04',	'11:00:00',	'Concretado',	'Lesión de tejidos blandos: Daño en los músculos, tendones o tejido conectivo alrededor de una articulación, generalmente causado por un trauma contundente, que puede causar dolor y limitación del movimiento.',	2,	13),
+('2024-03-15',	'12:00:00',	'Concretado',	'Fractura por estrés: Fractura causada por el uso excesivo o repetido de un hueso, comúnmente observada en deportistas o personas que participan en actividades físicas intensas.',	2,	15),
+('2024-03-20',	'13:00:00',	'Cancelado',	'',	2,	16),
+('2024-03-27',	'14:00:00',	'Cancelado',	'',	2,	17),
+('2024-03-05',	'10:00:00',	'Concretado',	'Afección cutánea crónica caracterizada por picazón, enrojecimiento y sequedad de la piel, que puede ser desencadenada por alergias o factores ambientales.',	4,	10),
+('2024-03-14',	'10:30:00',	'Concretado',	'Infecciones por hongos en la piel (dermatofitosis): Infecciones fúngicas comunes de la piel, como el pie de atleta, la tiña inguinal o la tiña corporal, que pueden causar picazón, enrojecimiento y descamación',	4,	11),
+('2024-03-14',	'11:00:00',	'Concretado',	'Dermatitis seborreica: Una afección cutánea crónica que causa enrojecimiento, descamación y picazón en áreas grasosas de la piel como el cuero cabelludo, la cara y la parte superior del cuerpo.',	4,	13),
+('2024-03-28',	'13:00:00',	'Concretado',	'Psoriasis: Una enfermedad autoinmune que provoca la formación de parches de piel gruesa, enrojecida y con escamas plateadas, que pueden causar picazón e incomodidad.',	4,	15),
+('2024-03-28',	'13:30:00',	'Concretado',	'Urticaria: Una reacción alérgica que causa la aparición repentina de ronchas rojas y elevadas en la piel, acompañadas de picazón intensa, que puede ser desencadenada por alimentos, medicamentos, picaduras de insectos u otros alérgenos.',	4,	16),
+('2024-03-05',	'14:00:00',	'Cancelado',	'',	4,	17),
+('2024-03-15',	'13:00:00',	'Concretado',	'Otitis media: Inflamación del oído medio, generalmente causada por infecciones bacterianas o virales, que puede provocar dolor de oído, sensación de plenitud, pérdida auditiva temporal y fiebre.',	5,	17),
+('2024-03-15',	'14:00:00',	'Concretado',	'Sinusitis: Inflamación de los senos paranasales debido a infecciones bacterianas, virales o fúngicas, que puede causar congestión nasal, presión facial, dolor de cabeza, tos y secreción nasal espesa.',	5,	12),
+('2024-03-15',	'17:00:00',	'Concretado',	'Amigdalitis: Inflamación de las amígdalas, generalmente causada por infecciones bacterianas o virales, que puede provocar dolor de garganta intenso, dificultad para tragar, fiebre y ganglios linfáticos inflamados en el cuello.',	5,	14),
+('2024-03-06',	'14:30:00',	'Concretado',	'Conjuntivitis: Inflamación de la membrana transparente que recubre la parte blanca del ojo y el interior de los párpados, generalmente causada por infecciones virales, bacterianas o alérgicas, que puede provocar enrojecimiento, picazón, secreción y sensación de cuerpo extraño en el ojo.',	8,	17),
+('2024-03-06',	'15:00:00',	'Concretado',	'Miopía: Un error de refracción del ojo que dificulta la visión de objetos distantes, generalmente debido a una longitud excesiva del globo ocular o una curvatura excesiva de la córnea, lo que hace que las imágenes se enfoquen delante de la retina en lugar de sobre ella.',	8,	14),
+('2024-03-06',	'15:30:00',	'Concretado',	'Astigmatismo: Un error de refracción del ojo causado por una curvatura irregular de la córnea o del cristalino, lo que provoca una visión borrosa tanto de objetos cercanos como lejanos',	8,	10),
+('2024-03-06',	'16:00:00',	'Concretado',	'Cataratas: Opacidad del cristalino del ojo, generalmente asociada con el envejecimiento, que puede causar visión borrosa, sensibilidad a la luz, visión doble y dificultad para ver en condiciones de poca luz.',	8,	11);
+COMMIT;
+
+
+
 
 
 
