@@ -13,6 +13,8 @@ export class TurnoService {
   private myApiUrl : string;
 
 
+
+
   constructor(private http : HttpClient) {
     this.myAppUrl = environment.endpoint;
     this.myApiUrl = 'api/turno';
@@ -20,7 +22,7 @@ export class TurnoService {
 
    getByProfesionalAndFecha(idProfesional : number, fecha : string) : Observable<Turno[]>{
         const body = {fecha : fecha };
-        return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/${idProfesional}`, body);
+        return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/${idProfesional}`, body);
    }
 
    create(turno : Turno): Observable<void>{
@@ -31,9 +33,9 @@ export class TurnoService {
       return this.http.get<Usuario>(`${this.myAppUrl}${this.myApiUrl}/paciente/${idTurno}`);
    }
 
-   getTurnosByFechaAndProfesional(fechas : any, idProfesional : number) : Observable<Turno[]>{
-             return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/${idProfesional}`, fechas);
-   }
+  //  getTurnosByFechaAndProfesional(fechas : any, idProfesional : number) : Observable<Turno[]>{
+  //            return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/${idProfesional}`, fechas);
+  //  }
 
    update(body : any, idTurno : number) : Observable<void>{
        return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`, body);
@@ -54,6 +56,10 @@ export class TurnoService {
    getTurnosByFecha(body : any) : Observable<Turno[]>{
        return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/informes`, body)
    }
+
+   getTurnosByFechaAndProfesional(body : any, idProfesional : number) : Observable<Turno[]>{
+    return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/informes/${idProfesional}`, body)
+}
 
 
 }

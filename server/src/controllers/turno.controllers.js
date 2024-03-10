@@ -4,7 +4,9 @@ const {Op} = require('sequelize');
 
 
 
+//Devuelve turnos de una determinada Fecha
 const getAllByProfesionalAndFecha = async (req, res)=>{
+     console.log('GetAllByProfesionalAndFecha----------------------------------');
       const fechaString = req.body.fecha;
       const fecha = new Date(fechaString);
       const idProfesional = req.params.id;
@@ -142,6 +144,7 @@ const getPaciente = async (req, res)=>{
 }
 
 const getTurnosProfesionalByFecha = async (req, res)=>{
+  console.log('GetTurnosProfesionalByFecha----------------------------------------');
     const {fechaDesde, fechaHasta} = req.body;
     const fechaDesdeDate = new Date(fechaDesde);
     const fechaHastaDate = new Date(fechaHasta);
@@ -157,7 +160,7 @@ const getTurnosProfesionalByFecha = async (req, res)=>{
            }
        });
        
-       console.log('Turnos: ', turnos);
+      
        res.json(turnos);
     } catch(error){
         handleHttp(res, error, 500);
@@ -166,6 +169,7 @@ const getTurnosProfesionalByFecha = async (req, res)=>{
 }
 
 const getTurnosByPaciente = async (req, res) =>{
+    console.log('GetTurnosByPaciente-----------------------------------------------------');
     const idPaciente = req.params.id;
 
     try{
@@ -182,7 +186,9 @@ const getTurnosByPaciente = async (req, res) =>{
     }
 }
 
+//Informes
 const getTurnosByFecha = async(req, res)=> {
+    console.log('GetTurnosByFecha----------------------------------------------------');
     const {fechaDesde, fechaHasta, estado} = req.body;
     console.log('Fechaaas: ', fechaDesde, '     ', fechaHasta  );
     const fechaDesdeDate = new Date(fechaDesde);
@@ -198,9 +204,8 @@ const getTurnosByFecha = async(req, res)=> {
             estado : estado
           }
          });
-
-
-       } else {
+       }
+       else {
         turnos = await Turno.findAll({
           where : {
             fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]}
@@ -209,9 +214,7 @@ const getTurnosByFecha = async(req, res)=> {
          });
 
        }
-
-      
-
+    
        res.json(turnos);
 
     }catch(error){
@@ -221,8 +224,49 @@ const getTurnosByFecha = async(req, res)=> {
 
 }
 
+//Informes
+const getTurnosByFechaAndProfesional = async(req, res)=> {
+  const idProfesional = req.params.id;
+  const {fechaDesde, fechaHasta, estado} = req.body;
+
+  const fechaDesdeDate = new Date(fechaDesde);
+  const fechaHastaDate = new Date(fechaHasta);
+
+  let turnos = [];
+  try{
+     
+     if(estado){
+      turnos = await Turno.findAll({
+        where : {
+          fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]},
+          estado : estado,
+          id_profesional : idProfesional
+        }
+       });
+
+
+     } else {
+      turnos = await Turno.findAll({
+        where : {
+          fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]},
+          id_profesional : idProfesional
+         
+        }
+       });
+
+     }
+  
+     res.json(turnos);
+
+  }catch(error){
+     handleHttp(res, error, 500);
+  }
+  
+
+}
 
 
 
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, getTurnosByFecha};
+
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional};

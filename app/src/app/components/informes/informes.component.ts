@@ -168,7 +168,7 @@ export class InformesComponent implements OnInit {
         return monthsArray.reverse();
     }
 
-    //Modificar para que traiga solo los de Estado 'Asistido'
+      //Todos los turnos de los ultimos 12 meses.
     async getTurnosLast12M() {
 
         //Genero fecha Desde
@@ -307,11 +307,6 @@ export class InformesComponent implements OnInit {
             type: 'bar' as ChartType,
             data: barData
         });
-
-
-
-
-
     }
 
 

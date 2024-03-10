@@ -11,7 +11,7 @@ export interface Turno {
        id_profesional : number;
        id_paciente : number;
        paciente? : Usuario;
-       profesional? : Usuario
-       especialidad? : Especialidad
+       profesional? : Usuario;
+       especialidad? : Especialidad;
        
 }

@@ -23,6 +23,7 @@ import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turno
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
 import { InformesComponent } from './components/informes/informes.component';
+import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/pro-informes.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -51,6 +52,7 @@ const routes: Routes = [
 
     //------------Profesional-------------------------------------//
     {path : 'profesional/mis-turnos', component : ProMisTurnosComponent },
+    {path: 'profesional/informes', component : ProInformesComponent},
    
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -6,7 +6,7 @@ import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { HorarioService } from 'src/app/services/horario.service';
 import { Horario } from 'src/app/interfaces/Horario';
@@ -16,7 +16,7 @@ import { Time } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 
 
 
@@ -26,6 +26,8 @@ import { firstValueFrom } from 'rxjs';
    styleUrls: ['./registrar-turno.component.css']
 })
 export class RegistrarTurnoComponent implements OnInit {
+
+   
    loading: boolean = false;
    listEspecialidad: Especialidad[] = [];
    listProfesional: Usuario[] = [];
@@ -45,6 +47,8 @@ export class RegistrarTurnoComponent implements OnInit {
    fechaTurnoString: string | null = null;
    horaString: string | null = null;
    paciente : Usuario | undefined;
+
+   fechaMinima: NgbDateStruct = { year: 0, month: 0, day: 0 };
 
 
 
@@ -71,9 +75,11 @@ export class RegistrarTurnoComponent implements OnInit {
    async ngOnInit(): Promise<void> {
       await this.getPaciente();
       await this.getListEspecialidad();
+      this.deshabilitarFechas();
     
    
    }
+
 
    async getPaciente() {
       try {
@@ -96,17 +102,21 @@ export class RegistrarTurnoComponent implements OnInit {
     }
     
 
-   getListEspecialidad() {
-      this.loading = true;
-      this._especialidadService.getAll().subscribe((data: Especialidad[]) => {
-         this.loading = false;
-         this.listEspecialidad = data;
-      }, (error) => {
+  async getListEspecialidad() {
+       this.loading = true;
+      
+       try{
+          const data = await firstValueFrom(this._especialidadService.getAll());
+          this.loading = false;
+          this.listEspecialidad = data;
+
+       }catch(error : any){
          this.loading = false;
          this.errorServer = error.error?.error;
          console.error(this.errorServer);
          this.toastr.error(this.errorServer!, 'Error');
-      })
+       }
+
    }
    
    //Obtengo todos los profesionales de la Especialidad seleccionada y Obra Social del paciente logueado
@@ -115,9 +125,6 @@ export class RegistrarTurnoComponent implements OnInit {
          this.loading = true;
 
          const data : Usuario[] | undefined = await firstValueFrom(this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!));
-
-   
-    
    
          this.loading = false;
    
@@ -141,9 +148,6 @@ export class RegistrarTurnoComponent implements OnInit {
          this.toastr.error(this.errorServer, 'Error');
       }
    }
-   
-   
-   
    
 
    getEspecialidad() {
@@ -180,28 +184,29 @@ export class RegistrarTurnoComponent implements OnInit {
 
    //Obtengo el profesional seleccionado
    getProfesional() {
-      console.log('List profesional dentro de getProfesional: ', this.listProfesional);
+    
       this.loading = true;
-      console.log('id del pro en getProfesional: ', this.form_profesional.value.id_profesional);
+   
 
       this.profesional = this.listProfesional.find((pro) => pro.id === Number(this.form_profesional.value.id_profesional))!;
      
-      console.log('Profesional en get Profesional: ',this.profesional);
+   
       this.loading = false;
    }
 
    //Obtengo el horario del profesional seleccionado
-   getHorarioProfesional() {
+   async getHorarioProfesional() {
       this.loading = true;
-      this._horarioService.getOne(this.profesional.id_horario!).subscribe((data: Horario) => {
-         this.horarioProfesional = data;
-         this.loading = false;
-      }, (error) => {
+      try{
+           const data : Horario = await firstValueFrom(this._horarioService.getOne(this.profesional.id_horario!));
+           this.horarioProfesional = data;
+           this.loading = false;
+      }catch(error : any){
          this.loading = false;
          this.errorServer = error.error?.error || 'Error al obtener Horario del Profesional';
          this.toastr.error(this.errorServer!, 'Error');
+      }
 
-      })
 
    }
 
@@ -230,8 +235,25 @@ export class RegistrarTurnoComponent implements OnInit {
       }
    }
 
-   //Funcion que se ejecuta cuando se clickea un dia en el calendario
-//...
+    //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
+   deshabilitarFechas(){
+      const currentDate = new Date();
+
+      // Restar un día a la fecha actual para que también se deshabilite el día actual
+      //currentDate.setDate(currentDate.getDate() - 1);
+  
+      // Asignar la fecha mínima al día anterior al actual
+      this.fechaMinima = {
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1, // Nota: NgbDate usa meses basados en 1, no en 0
+        day: currentDate.getDate()+1
+      };
+
+      
+
+      console.log('Fecha minima: ', this.fechaMinima);
+   }
+
 
 // Funcion que se ejecuta cuando se clickea un día en el calendario
 async seleccionarDia(event: { year: number; month: number; day: number }): Promise<void> {
@@ -243,8 +265,6 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
    
 
    this.fechaTurnoDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
-   
-  
    
 
    console.log('Fecha seleccionada:', fechaSeleccionada);
@@ -294,7 +314,10 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
    if (diasHorarioProfesional.some((dia) => dia === nombreDia)) {
       await this.getHorariosOcupados(fechaFormateada);
       this.generarArrayHorarios();
-      this.modificarArrayHorarios();
+      if(this.listTurnos.length != 0){
+         this.modificarArrayHorarios();
+      }
+     
       this.mostrarHorarios = true;
    }
 

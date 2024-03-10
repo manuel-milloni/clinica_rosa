@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- Calendario -->
-                        <ngb-datepicker #dp [(ngModel)]="fechaTurno" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
+                        <ngb-datepicker #dp  [minDate]="fechaMinima" [startDate]="fechaMinima" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
                     </div>
                     <div class="col-lg-6" *ngIf="mostrarHorarios">
                         <!-- Botones de horarios -->
