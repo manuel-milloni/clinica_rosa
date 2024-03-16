@@ -15,7 +15,7 @@ export const loginAuth = () => {
 
   if (!token) {
       router.navigate(['login']);
-      toastr.error('Debe estar logueado para registrar un turno', 'Turno');
+      toastr.error('Debe estar logueado para continuar', 'Error');
       return of(false); // Devuelve un observable con valor false
   } else {
       return _authService.verifyToken(token).pipe(
@@ -25,6 +25,37 @@ export const loginAuth = () => {
           catchError(error => {
               console.error(error);
               return of(false); // Devuelve un observable con valor false
+          })
+      );
+  }
+};
+
+export const loginAuthProfesional = () => {
+  const router = inject(Router);
+  const toastr = inject(ToastrService);
+  const _authService = inject(AuthService);
+
+  const token = localStorage.getItem('auth-token');
+
+  if (!token) {
+      router.navigate(['login']);
+      toastr.error('Acceso denegado', 'Inicie sesion');
+      return of(false);
+  } else {
+      return _authService.verifyToken(token).pipe(
+          switchMap((data: any) => {
+              if (data.rol === 1) {
+                  return of(true);
+              } else {
+                  toastr.error('Acceso denegado', '');
+                  return of(false);
+              }
+          }),
+          catchError(error => {
+              router.navigate(['login']);
+              toastr.error('Acceso denegado', '');
+              console.error(error);
+              return of(false);
           })
       );
   }

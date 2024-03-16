@@ -18,7 +18,7 @@ import { AddProfesionalComponent } from './components/profesional/add-profesiona
 import { ListProfesionalComponent } from './components/profesional/list-profesional/list-profesional.component';
 import { EditProfesionalComponent } from './components/profesional/edit-profesional/edit-profesional.component';
 import { RegistrarTurnoComponent } from './components/turno/registrar-turno/registrar-turno.component';
-import { loginAuth, loginAuthAdmin } from './guards/login.auth';
+import { loginAuth, loginAuthAdmin, loginAuthProfesional } from './guards/login.auth';
 import { ProMisTurnosComponent } from './components/pro-mis-turnos/pro-mis-turnos.component';
 import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-paciente/mis-turnos-paciente.component';
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
@@ -51,8 +51,8 @@ const routes: Routes = [
     {path: 'informes', component: InformesComponent, canActivate: [loginAuthAdmin]},
 
     //------------Profesional-------------------------------------//
-    {path : 'profesional/mis-turnos', component : ProMisTurnosComponent },
-    {path: 'profesional/informes', component : ProInformesComponent},
+    {path : 'profesional/mis-turnos', component : ProMisTurnosComponent, canActivate : [loginAuthProfesional] },
+    {path: 'profesional/informes', component : ProInformesComponent, canActivate : [loginAuthProfesional]},
    
 
 

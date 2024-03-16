@@ -65,7 +65,8 @@ export class ProMisTurnosComponent implements OnInit {
          this.id = data.id;
 
       } catch (error: any) {
-         this.toastr.error(error.toString(), 'Error');
+         console.error(error.toString());
+         this.toastr.error('Inicie sesion para continuar', 'Acceso denegado');
       }
 
 
@@ -83,7 +84,7 @@ export class ProMisTurnosComponent implements OnInit {
 
       } catch (error: any) {
          this.errorServe = error.error?.error || 'Server error';
-         this.toastr.error(error, 'Error');
+         this.toastr.error('Error al obtener Turnos', 'Error');
       }
 
    }
@@ -99,7 +100,7 @@ export class ProMisTurnosComponent implements OnInit {
          }
       } catch (error: any) {
          this.errorServe = error.error?.error || 'Server error';
-         this.toastr.error(error, 'Error');
+         this.toastr.error('Error Server', 'Error');
       }
 
 
@@ -194,7 +195,7 @@ export class ProMisTurnosComponent implements OnInit {
 
       } catch (error: any) {
          this.errorServe = error.error?.error || 'Error al obtener turnos';
-         this.toastr.error(this.errorServe!, 'Error');
+         this.toastr.error('Error al otener datos.', 'Error');
       }
    }
 

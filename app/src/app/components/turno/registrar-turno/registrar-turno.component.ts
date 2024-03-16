@@ -15,8 +15,10 @@ import { Turno } from 'src/app/interfaces/Turno';
 import { Time } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { first, firstValueFrom } from 'rxjs';
+
+
 
 
 
@@ -50,6 +52,8 @@ export class RegistrarTurnoComponent implements OnInit {
 
    fechaMinima: NgbDateStruct = { year: 0, month: 0, day: 0 };
 
+   isModalOpen: boolean = false;
+
 
 
    constructor(private _especialidadService: EspecialidadService,
@@ -60,7 +64,8 @@ export class RegistrarTurnoComponent implements OnInit {
       private fb: FormBuilder,
       private router: Router,
       private _authService : AuthService,
-      private modalService: NgbModal
+   
+    
    
    ) {
       this.form = this.fb.group({
@@ -173,6 +178,8 @@ export class RegistrarTurnoComponent implements OnInit {
          const modal = new Modal(modalElement);
          modal.show();
       }
+
+      this.isModalOpen = true;
    }
 
    // cerrarModalProfesional(): void {
@@ -233,6 +240,8 @@ export class RegistrarTurnoComponent implements OnInit {
          modal.show();
          this.mostrarHorarios = false;
       }
+
+      this.isModalOpen = true;
    }
 
     //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
@@ -447,6 +456,8 @@ formatNgbDate(date: Date): string {
          const modal = new Modal(modalElement);
          modal.show();
       }
+
+      this.isModalOpen = true;
    }
 
    formatTime(time: Time): string {
@@ -472,20 +483,78 @@ formatNgbDate(date: Date): string {
       try{
          await firstValueFrom(this._turnoService.create(turno));
          this.loading = false;
-         this.router.navigate(['']).then(()=>
-             location.reload())
-         ;
-         this.toastr.success('Turno generado exitosamente', 'Turno Generado');
+         this.closeModal();
+         this.router.navigate(['mis-turnos']);
+         this.toastr.success('Turno generado exitosamente!');
+    
+         // this.router.navigate(['']);
+         // this.toastr.success('Turno generado exitosamente', 'Turno Generado');
 
       }catch(error : any){
          this.loading = false;
+         console.error(error);
          this.errorServer = error.error?.error || 'Error al generar Turno',
             this.toastr.error(this.errorServer!, 'Error');
       }
 
- 
-
    }
+
+   // closeModal() {
+   //    // Obtener todos los modales abiertos
+   //    const modals = document.querySelectorAll('.modal.show');
+      
+   //    // Iterar sobre los modales y cerrarlos
+   //    modals.forEach((modal: any) => {
+   //      // Cerrar el modal actual
+   //      modal.modal('hide');
+   //    });
+   //  }
+   closeModal() {
+      // Cerrar el primer modal
+      const modalProfesional = document.getElementById('modalProfesional');
+      if (modalProfesional) {
+          console.log('Cerrando modal Profesional');
+          modalProfesional.classList.remove('show');
+      }
+  
+      // Cerrar el segundo modal
+      const modalFechas = document.getElementById('modalFechas');
+      if (modalFechas) {
+          console.log('Cerrando modal Fechas');
+          modalFechas.classList.remove('show');
+      }
+  
+      // Cerrar el tercer modal
+      const modalTurno = document.getElementById('modalTurno');
+      if (modalTurno) {
+          console.log('Cerrando modal Turno');
+          modalTurno.classList.remove('show');
+      }
+  
+      // Eliminar todos los backdrops
+      const backdrops = document.querySelectorAll('.modal-backdrop');
+      backdrops.forEach(backdrop => {
+          console.log('Eliminando backdrop');
+          backdrop.remove();
+      });
+
+      
+  }
+  
+  
+  
+  
+  
+   
+
+    
+  
+  
+    }
+   
+
+
+
 
 
 
@@ -502,4 +571,4 @@ formatNgbDate(date: Date): string {
 
 
 
-}
+
