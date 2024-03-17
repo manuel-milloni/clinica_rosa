@@ -177,7 +177,8 @@ const getTurnosByPaciente = async (req, res) =>{
         where : {
           id_paciente : idPaciente,
           estado : 'Pendiente'
-        }
+        },
+        order : [['fecha', 'ASC']]
        });
 
        res.json(turnos);

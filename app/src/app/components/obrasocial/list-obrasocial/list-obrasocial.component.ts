@@ -34,18 +34,23 @@ export class ListObrasocialComponent implements OnInit {
        }
 
        deleteObraSocial(id : number){
-             this.loading = true;
-             this._obrasocialService.remove(id).subscribe( ()=> {
-                     this.getListObraSocial();
-                     this.toastr.success('Obra Social eliminada exitosamente', 'Exito');
-             }, (error) => {
-                  
-                  this.errorServer = error.error?.error || 'Error al eliminar la obra social';
-                  console.error(this.errorServer);
-                     this.getListObraSocial();
-                     this.toastr.error('Error al eliminar Obra Sociial', 'Error');
-             }
-             )
+          if(confirm('Desea eliminar este registro?')){
+               this.loading = true;
+               this._obrasocialService.remove(id).subscribe( ()=> {
+                       this.getListObraSocial();
+                       this.toastr.success('Obra Social eliminada exitosamente', 'Exito');
+               }, (error) => {
+                    
+                    this.errorServer = error.error?.error || 'Error al eliminar la obra social';
+                    console.error(this.errorServer);
+                       this.getListObraSocial();
+                       this.toastr.error('Error al eliminar Obra Sociial', 'Error');
+               }
+               )
+
+          }
+
+         
        
        
           }

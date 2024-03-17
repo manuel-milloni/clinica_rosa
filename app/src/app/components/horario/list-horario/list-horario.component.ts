@@ -40,17 +40,20 @@ export class ListHorarioComponent implements OnInit {
      }
 
      deleteHorario(id : number){
-               this.loading = true;
-               this._horarioService.remove(id).subscribe(()=>{
-                         this.loading = false;
-                         this.getListHorario();
-                         this.toastr.success('Horario eliminado exitosamente', 'Horario');
-               }, (error) =>{
-                     this.loading = false;
-                     this.errorServer = error.error?.error || 'Error al eliminar Horario';
-                     console.error(this.errorServer);
-                     this.toastr.error(this.errorServer!, 'Error');
-               })
+      if(confirm('Desea eliminar este registro?')){
+            this.loading = true;
+            this._horarioService.remove(id).subscribe(()=>{
+                      this.loading = false;
+                      this.getListHorario();
+                      this.toastr.success('Horario eliminado exitosamente', 'Horario');
+            }, (error) =>{
+                  this.loading = false;
+                  this.errorServer = error.error?.error || 'Error al eliminar Horario';
+                  console.error(this.errorServer);
+                  this.toastr.error(this.errorServer!, 'Error');
+            })
+      }
+   
      }
 
 }

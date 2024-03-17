@@ -52,7 +52,7 @@ export class RegistrarTurnoComponent implements OnInit {
 
    fechaMinima: NgbDateStruct = { year: 0, month: 0, day: 0 };
 
-   isModalOpen: boolean = false;
+  
 
 
 
@@ -179,12 +179,10 @@ export class RegistrarTurnoComponent implements OnInit {
          modal.show();
       }
 
-      this.isModalOpen = true;
+    
    }
 
-   // cerrarModalProfesional(): void {
-   //    this.modalService.dismissAll();
-   //  }
+
     
     
 
@@ -241,7 +239,7 @@ export class RegistrarTurnoComponent implements OnInit {
          this.mostrarHorarios = false;
       }
 
-      this.isModalOpen = true;
+     
    }
 
     //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
@@ -330,7 +328,7 @@ async seleccionarDia(event: { year: number; month: number; day: number }): Promi
       this.mostrarHorarios = true;
    }
 
-   console.log('ultima linea de seleccionar dia: ', this.fechaTurno);
+   
 }
 
 formatNgbDate(date: Date): string {
@@ -449,6 +447,8 @@ formatNgbDate(date: Date): string {
       const [horas, minutos] = horario.split(':');
       this.horaTurno = { hours: parseInt(horas, 10), minutes: parseInt(minutos, 10) };
 
+      this.fechaTurnoString = this.formatFechaLocal(this.fechaTurnoString!);
+
       // Puedes realizar acciones adicionales con la hora seleccionada, si es necesario
 
       const modalElement: any = document.getElementById('modalTurno');
@@ -457,7 +457,14 @@ formatNgbDate(date: Date): string {
          modal.show();
       }
 
-      this.isModalOpen = true;
+ 
+   }
+
+   formatFechaLocal(fecha: string): string {
+      const elementos = fecha.split('-');
+      const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
+
+      return fechaLocal;
    }
 
    formatTime(time: Time): string {

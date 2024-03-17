@@ -14,14 +14,14 @@
 
    <div class="calendario" *ngIf="mostrarCalendarioFD">
       <!-- Calendario -->
-      <ngb-datepicker #dp [(ngModel)]="fechaDesde" (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+      <ngb-datepicker #dp  (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
 
 
    </div>
 
    <div class="calendario" *ngIf="mostrarCalendarioFH">
       <!-- Calendario -->
-      <ngb-datepicker #dp [(ngModel)]="fechaHasta" (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
+      <ngb-datepicker #dp (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
 
 
    </div>
@@ -52,7 +52,7 @@
             </div>
 
             <div class="box">
-               <span>{{turno.fecha}}</span>
+               <span>{{turno.fechaLocal}}</span>
                <span>{{turno.hora}}</span>
 
             </div>

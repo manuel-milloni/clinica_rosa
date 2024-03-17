@@ -78,6 +78,15 @@ export class ProMisTurnosComponent implements OnInit {
    async getAllTurnos() {
       try {
          const data: Turno[] = await firstValueFrom(this._userService.getTurnosByProfesional(this.id!));
+
+         data.forEach((turno)=>{
+            if(typeof turno.fecha === 'string'){
+               const fecha = this.formatFechaLocal(turno.fecha!);
+               turno.fechaLocal = fecha;
+
+            }
+            
+         })
          this.listTurno = data;
 
          await this.getPaciente();
@@ -173,6 +182,15 @@ export class ProMisTurnosComponent implements OnInit {
 
 
    }
+
+   formatFechaLocal(fecha: string): string {
+      const elementos = fecha.split('-');
+      const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
+
+      return fechaLocal;
+   }
+
+
 
    // Función auxiliar para agregar ceros a la izquierda si es necesario
    agregarCerosIzquierda(numero: number, longitud: number): string {

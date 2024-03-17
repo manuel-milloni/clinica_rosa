@@ -29,6 +29,7 @@ const Usuario = db.define('usuario', {
     dni: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: { len: [6, 10]}
     },
     
@@ -52,6 +53,7 @@ const Usuario = db.define('usuario', {
     matricula: {
          type: DataTypes.STRING,
          allowNull: true,
+         unique: true,
          validate: { len: [0, 10]}
     },
     

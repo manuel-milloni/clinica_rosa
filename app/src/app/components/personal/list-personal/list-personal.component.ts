@@ -37,16 +37,19 @@ export class ListPersonalComponent implements OnInit {
             }
 
              deletePersonal(id : number){
-                     this.loading = true;
-                     this._usuarioService.remove(id).subscribe(()=>{
-                             this.getListPersonal();
-                             this.toastr.success('Usuario eliminado exitosamente', 'Personal');
-                     }, (error) => {
-                           this.errorServer = error.error?.error || 'Error al eliminar Usuario';
-                           console.error(this.errorServer);
-                           this.getListPersonal();
-                           this.toastr.error('Error al eliminar Usuario', 'Error');
-                     })
+                if(confirm('Desea eliminar este registro?')){
+                        this.loading = true;
+                        this._usuarioService.remove(id).subscribe(()=>{
+                                this.getListPersonal();
+                                this.toastr.success('Usuario eliminado exitosamente', 'Personal');
+                        }, (error) => {
+                              this.errorServer = error.error?.error || 'Error al eliminar Usuario';
+                              console.error(this.errorServer);
+                              this.getListPersonal();
+                              this.toastr.error('Error al eliminar Usuario', 'Error');
+                        })
+                }
+          
              }
 
 }

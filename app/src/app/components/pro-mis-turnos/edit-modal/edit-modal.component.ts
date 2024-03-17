@@ -17,6 +17,7 @@ export class EditModalComponent implements OnInit {
     errrorServer: string | null = null;
     estados: string[] = ['Pendiente', 'Concretado', 'Ausente'];
     observacionValida: boolean = true;
+    estadoValido: boolean = false;
 
     @Output() cerrarModal = new EventEmitter<void>();
 
@@ -37,6 +38,14 @@ export class EditModalComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         await this.getTurno();
         this.validaObservacion();
+        this.validaEstado();
+
+           // Establecer el valor del select después de que el estadoValido se haya establecido correctamente
+    if (!this.estadoValido) {
+        this.form.get('estado')?.disable();
+      }
+
+        console.log('Estado: ', this.estadoValido);
 
 
     }
@@ -51,7 +60,10 @@ export class EditModalComponent implements OnInit {
         try {
             const turno: Turno = await firstValueFrom(this._turnoService.getOne(this.idTurno));
 
-
+            if(typeof turno.fecha === 'string'){
+                const fecha = this.formatFechaLocal(turno.fecha);
+                turno.fechaLocal = fecha;
+            }
 
             const paciente: Usuario = await firstValueFrom(this._turnoService.getPaciente(this.idTurno));
 
@@ -71,6 +83,23 @@ export class EditModalComponent implements OnInit {
         }
 
     }
+
+    formatFechaLocal(fecha: string): string {
+        const elementos = fecha.split('-');
+        const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
+  
+        return fechaLocal;
+     }
+
+     //Valida Select de estado(si la fecha actual no es la misma que la del turno no se puede modificar el estado del mismo)
+
+     validaEstado(){
+        const fechaActual = new Date();
+        const fechaTurno = new Date(this.turno!.fecha);
+        
+        this.estadoValido = fechaActual.getTime() === fechaTurno.getTime();
+
+     }
 
     //Validar que para modificar la observacion la fecha-hora actual no exceda las 48hs de la fecha-hora del turno
 

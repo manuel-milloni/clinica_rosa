@@ -37,6 +37,7 @@ export class ListEspecialidadComponent implements OnInit {
     }
 
     deleteEspecialidad(id: number){
+        if(confirm('Desea eliminar este registro?')){
           this.loading = true;
           this._especialidadService.remove(id).subscribe(()=>{
                       this.getListEspecialidad();
@@ -47,6 +48,8 @@ export class ListEspecialidadComponent implements OnInit {
                      this.loading = false;
                      this.toastr.error('Error al eliminar Especialdiad', 'Error');
           })
+        }
+  
     }
 
 

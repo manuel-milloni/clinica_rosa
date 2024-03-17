@@ -19,14 +19,14 @@
   
             <div class="box">
                <label for="">Estado:</label>
-               <select formControlName="estado">
+               <select formControlName="estado" [attr.disabled]="!estadoValido">
                   <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
                </select>
   
             </div>
   
             <div class="box">
-               <span>Fecha: {{turno?.fecha}}</span> <br>
+               <span>Fecha: {{turno?.fechaLocal}}</span> <br>
                <span>Hora: {{turno?.hora}}</span>
   
             </div>
@@ -44,18 +44,9 @@
             <button>Aceptar</button>
   
          </div>
-
-
          
       </form>
-  
-
-
-
 
     </div>
-
-
-
 
  </div>

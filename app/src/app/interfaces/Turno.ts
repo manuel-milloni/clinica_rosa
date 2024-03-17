@@ -13,5 +13,6 @@ export interface Turno {
        paciente? : Usuario;
        profesional? : Usuario;
        especialidad? : Especialidad;
+       fechaLocal? : string;
        
 }
