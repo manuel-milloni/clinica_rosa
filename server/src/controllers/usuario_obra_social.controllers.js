@@ -48,4 +48,19 @@ const getAll = async (req, res)=>{
      }
 }
 
-module.exports = {createObraSocialProfesional, getAll, deleteObraSocialProfesional};
+const deleteAllByProfesional = async (idProfesional)=>{
+
+     try{
+         const result = await Usuario_obra_social.destroy({
+            where : {
+                id_profesional : idProfesional
+            }
+         });
+         return result;
+     }catch(error){
+        console.error('Error al eliminar registros de usuario_obra_social: ', error);
+        throw error;
+     }
+}
+
+module.exports = {createObraSocialProfesional, getAll, deleteObraSocialProfesional, deleteAllByProfesional};

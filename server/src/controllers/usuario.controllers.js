@@ -3,6 +3,7 @@ const {Usuario_obra_social} = require('../db/associations.sequelize');
 const handleHttp = require('../utils/error.handle');
 const {cifrarPass} = require('../utils/bcrypt.pass');
 const {createObraSocialProfesional, deleteObraSocialProfesional} = require('./usuario_obra_social.controllers');
+const {deleteAllByProfesional} = require('./usuario_obra_social.controllers');
 
 
 const getAllPacientes = async (req, res) => {
@@ -116,6 +117,10 @@ const getAllProfesionales = async (req, res) => {
           const error = new Error("THE ITEM DOES NOT EXIST");
           handleHttp(res, error, 404);
           return;
+      }
+
+      if(usuario.rol === 1){
+         await deleteAllByProfesional(id);
       }
 
       const result = await usuario.destroy();
@@ -443,7 +448,9 @@ const getTurnosByProfesional = async (req, res)=>{
            return;
         }
 
-        const turnos  = await profesional.getTurnos();
+        const turnos  = await profesional.getTurnos({
+          order : [['fecha', 'ASC']]
+        });
 
         console.log('Turnos: ', turnos);  
         res.json(turnos);
