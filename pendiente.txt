@@ -1,11 +1,11 @@
 
 Seguir con:
--Casos de uso 1,2 ok ver resto.
--Caso de uso 3 Registrar paciente: ver de manejar los unique tomando los errores de sequelize.
--Caso de uso 4 Informes de gestion de turnos. Ver de crear los graficos incialmente con alguna fecha predeterminada asi no aparezen vacios.
+-Casos de uso 1,2,3,4 ok ver resto.
+
+
 -Ver que en los graficos los genere por defecto de una determinada fecha y que cuando se presione el buscar ahi tome las fechas indicadas.
 
--Ver de agregar que informe el error al agregar un profesional si se trata de dni, email o matricula duplicada.
+
 -Ver agregar validacion, que un turno no se puede indicar como concretado si la fecha del turno es mayor a la fecha actual.
 
 Extras:

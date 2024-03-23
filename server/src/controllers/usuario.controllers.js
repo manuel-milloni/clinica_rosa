@@ -160,9 +160,6 @@ const createPaciente = async (req, res) => {
 
   body.rol = 0;
 
-  console.log('Body: ', body);
-
-
   if (body.id_obra_social === null && body.nroAfiliado === null) {
     return res.status(400).json({ error: 'Los campos id_obra_social y nroAfiliado no pueden ser nulos.' });
   }
@@ -171,17 +168,6 @@ const createPaciente = async (req, res) => {
     return res.status(400).json({ error: 'Si la Obra Social no es Particular el nro de afiliado no puede ser nulo.' });
   }
   try {
-    const usuario = await Usuario.findOne({
-      where: {
-        email: body.email
-      }
-    });
-
-    if (usuario) {
-      const error = new Error('El mail ingresado ya se encuentra en uso');
-      handleHttp(res, error, 400);
-      return;
-    }
     body.password = await cifrarPass(body.password);
     const result = await Usuario.create(body);
     // const result = 200;
@@ -190,9 +176,9 @@ const createPaciente = async (req, res) => {
     res.json(result);
 
   } catch (error) {
-    handleHttp(res, error, 500);
-  }
-};
+      handleHttp(res, error, 500);
+    }
+    };
 
 const createProfesional = async (req, res) => {
   const body = req.body;

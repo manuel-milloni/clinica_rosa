@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 import { ToastrService } from 'ngx-toastr';
-import { first, firstValueFrom } from 'rxjs';
+import { first, firstValueFrom, share } from 'rxjs';
 import { Turno } from 'src/app/interfaces/Turno';
 import { TurnoService } from 'src/app/services/turno.service';
 
 import { Chart, ChartType } from 'chart.js/auto';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { Especialidad } from 'src/app/interfaces/Especialidad';
+import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 @Component({
     selector: 'app-informes',
@@ -35,11 +36,14 @@ export class InformesComponent implements OnInit {
     public barChart: Chart | undefined;
     public barChart3: Chart | undefined;
 
+  
+
 
 
     constructor(private _turnoService: TurnoService,
         private toastr: ToastrService,
-        private _especialidadService: EspecialidadService) {
+        private _especialidadService: EspecialidadService,
+        private sharedFunctions : SharedFunctions) {
 
     }
 
@@ -48,6 +52,7 @@ export class InformesComponent implements OnInit {
         await this.getTurnosLast12M();
         this.generarArrayCantidadTurnosPorMes(this.listTurnosLast12M);
         this.initLineChart();
+        this.cargaInicialGraficos();
     }
 
     toogleFD() {
@@ -63,11 +68,11 @@ export class InformesComponent implements OnInit {
 
         this.fechaDesde = fechaSeleccionada;
 
-        console.log('Fecha seleccionada: ', fechaSeleccionada);
+      
 
-        this.fechaDesdeInput = this.formatearFechaLocal(fechaSeleccionada);
+        this.fechaDesdeInput = this.sharedFunctions.formatearFechaLocal(fechaSeleccionada);
 
-        this.fechaDesdeDB = this.formatearFecha(fechaSeleccionada);
+        this.fechaDesdeDB = this.sharedFunctions.formatearFecha(fechaSeleccionada);
 
         this.mostrarCalendarioFD = false;
 
@@ -80,25 +85,17 @@ export class InformesComponent implements OnInit {
 
 
 
-        this.fechaHastaInput = this.formatearFechaLocal(fechaSeleccionada);
+        this.fechaHastaInput = this.sharedFunctions.formatearFechaLocal(fechaSeleccionada);
 
-        this.fechaHastaDB = this.formatearFecha(fechaSeleccionada);
+        this.fechaHastaDB = this.sharedFunctions.formatearFecha(fechaSeleccionada);
 
         this.mostrarCalendarioFH = false;
 
     }
 
-    formatearFechaLocal(fecha: NgbDate): string {
-        const fechaFormateada: string = `${fecha.day.toString().padStart(2, '0')}/${fecha.month.toString().padStart(2, '0')}/${fecha.year}`;
 
-        return fechaFormateada;
-    }
 
-    formatearFecha(fecha: NgbDate): string {
-        const fechaFormateada: string = `${fecha.year}-${fecha.month.toString().padStart(2, '0')}-${fecha.day.toString().padStart(2, '0')}`;
 
-        return fechaFormateada;
-    }
 
     async buscar() {
 
@@ -112,6 +109,7 @@ export class InformesComponent implements OnInit {
 
     //Obtiene array de turnos en el periodo indicado.
     async getListTurnos() {
+     
         const body: any = {
             fechaDesde: this.fechaDesdeDB,
             fechaHasta: this.fechaHastaDB
@@ -122,7 +120,7 @@ export class InformesComponent implements OnInit {
 
             this.listTurnos = turnos;
 
-            console.log('Turnos: ', this.listTurnos);
+          
         } catch (error) {
             console.error(error);
             this.toastr.error('Error al obtener informe de turnos', 'Error');
@@ -131,23 +129,7 @@ export class InformesComponent implements OnInit {
 
 
 
-    //   generarArrayMeses(){
-    //     const labelMeses : string[] = [];
 
-    //     if (this.fechaDesde && this.fechaHasta) {
-    //         const fechaDesde = new Date(this.fechaDesde.year, this.fechaDesde.month - 1, this.fechaDesde.day);
-    //         const fechaHasta = new Date(this.fechaHasta.year, this.fechaHasta.month - 1, this.fechaHasta.day);
-
-    //         let currentDate = new Date(fechaDesde);
-    //         while (currentDate <= fechaHasta) {
-    //             const monthName = currentDate.toLocaleString('default', { month: 'long' });
-    //             labelMeses.push(this.capitalizeFirstLetter(monthName));
-    //             currentDate.setMonth(currentDate.getMonth() + 1);
-    //         }
-    //     }
-
-    //     console.log(labelMeses);
-    // }
 
 
     //------------------------- LINE CHART--------------------------------------------------------------------------------------------------
@@ -182,9 +164,9 @@ export class InformesComponent implements OnInit {
         const fechaDesdeDate: NgbDate = new NgbDate(elevenMonthsAgoYear, elevenMonthsAgo + 1, 1); //Se suma uno al mes porque los meses en JS van de 0 a 11 y en NgbDate(Angular) van de 1 al 12
 
         const fechaActual: NgbDate = new NgbDate(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate());
-        const fechaDesde = this.formatearFecha(fechaDesdeDate);
+        const fechaDesde = this.sharedFunctions.formatearFecha(fechaDesdeDate);
 
-        const fechaHasta = this.formatearFecha(fechaActual);
+        const fechaHasta = this.sharedFunctions.formatearFecha(fechaActual);
 
 
         const body: any = {
@@ -321,7 +303,7 @@ export class InformesComponent implements OnInit {
         //Genero label de Especialidades
         const especialidadades = await this.getEspecialidades();
         const listEspecialidades: string[] = [];
-        console.log(especialidadades);
+     
         if (especialidadades) {
             especialidadades.forEach((especialidad) => {
                 listEspecialidades.push(especialidad.nombre);
@@ -331,7 +313,7 @@ export class InformesComponent implements OnInit {
         //Falta asignar generar el array data : relacionado con el label especialidad, es decir el procentaje de turnos de cada especialdiad
 
         const totalTurnos : number = turnos.length;
-        console.log('Total turnos : ', totalTurnos);
+    
         const data : number[] = listEspecialidades.map((especialidad)=>{
                 let cantidad : number = 0;
                turnos.forEach((turno)=>{
@@ -344,7 +326,7 @@ export class InformesComponent implements OnInit {
                return cantidad*100/totalTurnos;
         });
 
-        console.log('Data: ', data);
+    
 
         const barData3 = {
             labels: listEspecialidades,
@@ -420,6 +402,34 @@ export class InformesComponent implements OnInit {
 
         return turnos;
 
+
+
+    }
+
+
+       //Al entrar a la pagina los graficos que se crean a partir de la seleccion de fechas se generan para el mes actual
+    async cargaInicialGraficos(){
+         this.mesActual();
+
+         await this.getListTurnos();
+        this.initGrafico2();
+        await this.initGrafico3();
+
+        
+    }
+
+     //Asigna las fechas del primer y ultimo dia del mes para traer los turnos
+    mesActual(){
+        const fechaActual = new Date();
+
+        const primerDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+        const ultimoDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
+
+        this.fechaDesdeDB = this.sharedFunctions.formatoFechaDB(primerDiaMes);
+        this.fechaHastaDB = this.sharedFunctions.formatoFechaDB(ultimoDiaMes);
+
+        this.fechaDesdeInput = this.sharedFunctions.formatoFechaString(primerDiaMes);
+        this.fechaHastaInput = this.sharedFunctions.formatoFechaString(ultimoDiaMes);
 
 
     }

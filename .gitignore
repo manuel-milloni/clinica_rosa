@@ -18,3 +18,5 @@ node_modules
 #Angular CLI
 .angular-cli.json
 .angular-cli/
+
+logError.txt
