@@ -36,6 +36,7 @@ import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-pac
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/pro-informes.component';
+import { SharedFunctions } from './utils/SharedFunctions';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,7 @@ import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/p
     NgbModule,
     FormsModule
   ],
-  providers: [],
+  providers: [SharedFunctions],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
