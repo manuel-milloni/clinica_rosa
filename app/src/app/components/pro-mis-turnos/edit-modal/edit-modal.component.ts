@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Turno } from 'src/app/interfaces/Turno';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { TurnoService } from 'src/app/services/turno.service';
+import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 @Component({
     selector: 'app-edit-modal',
@@ -17,7 +18,7 @@ export class EditModalComponent implements OnInit {
     errrorServer: string | null = null;
     estados: string[] = ['Pendiente', 'Concretado', 'Ausente'];
     observacionValida: boolean = true;
-    estadoValido: boolean = false;
+    estadoValido: boolean = true;
 
     @Output() cerrarModal = new EventEmitter<void>();
 
@@ -26,7 +27,8 @@ export class EditModalComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
         private _turnoService: TurnoService,
-        private toastr: ToastrService) {
+        private toastr: ToastrService,
+        private sharedFunctions : SharedFunctions) {
 
         this.form = this.fb.group({
             estado: [],
@@ -43,10 +45,12 @@ export class EditModalComponent implements OnInit {
            // Establecer el valor del select después de que el estadoValido se haya establecido correctamente
     if (!this.estadoValido) {
         this.form.get('estado')?.disable();
+        console.log('El estado deberia aparecer deshabilitado');
+      } else {
+        console.log('El estado deberia estar habilitado');
       }
 
         console.log('Estado: ', this.estadoValido);
-
 
     }
 
@@ -61,7 +65,7 @@ export class EditModalComponent implements OnInit {
             const turno: Turno = await firstValueFrom(this._turnoService.getOne(this.idTurno));
 
             if(typeof turno.fecha === 'string'){
-                const fecha = this.formatFechaLocal(turno.fecha);
+                const fecha = this.sharedFunctions.formatFechaLocal(turno.fecha);
                 turno.fechaLocal = fecha;
             }
 
@@ -84,20 +88,21 @@ export class EditModalComponent implements OnInit {
 
     }
 
-    formatFechaLocal(fecha: string): string {
-        const elementos = fecha.split('-');
-        const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
-  
-        return fechaLocal;
-     }
 
-     //Valida Select de estado(si la fecha actual no es la misma que la del turno no se puede modificar el estado del mismo)
+     //Permite modificar estado del turno cuando:
+           //-El estado del mismo es distinto de Concretado o Cancelado y cuando la fecha actual es posterior o igual a la fecha del turno
 
      validaEstado(){
         const fechaActual = new Date();
         const fechaTurno = new Date(this.turno!.fecha);
-        
-        this.estadoValido = fechaActual.getTime() === fechaTurno.getTime();
+        if(this.turno?.estado === 'Concretado' || this.turno?.estado === 'Cancelado'){
+             console.log('Estoy en un concretado');
+             this.estadoValido = false;
+        } else {
+             this.estadoValido = fechaActual.getTime() >= fechaTurno.getTime();
+ 
+        }
+       
 
      }
 

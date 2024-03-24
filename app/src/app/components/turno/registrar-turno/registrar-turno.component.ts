@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -6,7 +7,7 @@ import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { NgbDateStruct, NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { HorarioService } from 'src/app/services/horario.service';
 import { Horario } from 'src/app/interfaces/Horario';
@@ -16,7 +17,8 @@ import { Time } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 
 
@@ -29,7 +31,7 @@ import { first, firstValueFrom } from 'rxjs';
 })
 export class RegistrarTurnoComponent implements OnInit {
 
-   
+
    loading: boolean = false;
    listEspecialidad: Especialidad[] = [];
    listProfesional: Usuario[] = [];
@@ -37,8 +39,8 @@ export class RegistrarTurnoComponent implements OnInit {
    form: FormGroup;
    form_profesional: FormGroup;
    fechaTurno: string | null = null;
-   
-   fechaTurnoDate : Date = new Date();
+
+   fechaTurnoDate: Date = new Date();
    horaTurno: Time | undefined;
    horariosDisponibles: string[] = [];
    mostrarHorarios: boolean = false;
@@ -48,11 +50,11 @@ export class RegistrarTurnoComponent implements OnInit {
    especialidad: Especialidad | undefined;
    fechaTurnoString: string | null = null;
    horaString: string | null = null;
-   paciente : Usuario | undefined;
+   paciente: Usuario | undefined;
 
    fechaMinima: NgbDateStruct = { year: 0, month: 0, day: 0 };
 
-  
+
 
 
 
@@ -63,10 +65,10 @@ export class RegistrarTurnoComponent implements OnInit {
       private _turnoService: TurnoService,
       private fb: FormBuilder,
       private router: Router,
-      private _authService : AuthService,
-   
-    
-   
+      private _authService: AuthService,
+      private sharedFunctions: SharedFunctions
+
+
    ) {
       this.form = this.fb.group({
          id_especialidad: ['', Validators.required]
@@ -74,73 +76,74 @@ export class RegistrarTurnoComponent implements OnInit {
       this.form_profesional = this.fb.group({
          id_profesional: ['', Validators.required]
       })
-       
+
    }
 
    async ngOnInit(): Promise<void> {
       await this.getPaciente();
       await this.getListEspecialidad();
       this.deshabilitarFechas();
-    
-   
+
+
    }
 
 
    async getPaciente() {
       try {
-        this.loading = true;
-        const token: string = localStorage.getItem('auth-token')!;
-        const data : any = await firstValueFrom(this._authService.verifyToken(token));
-    
-    
-        const payload = data;
-        this.paciente = await firstValueFrom(this._usuarioService.getOne(payload.id));
-   
-    
-        this.loading = false;
-        console.log('Data usuario: ', this.paciente);
+         this.loading = true;
+         const token: string = localStorage.getItem('auth-token')!;
+         const data: any = await firstValueFrom(this._authService.verifyToken(token));
+
+
+         const payload = data;
+         this.paciente = await firstValueFrom(this._usuarioService.getOne(payload.id));
+
+
+         this.loading = false;
+         console.log('Data usuario: ', this.paciente);
       } catch (error) {
-        this.loading = false;
-        this.errorServer = (error as any)?.error || 'Error al obtener Paciente';
-        this.toastr.error(this.errorServer!, 'Error');
+         this.loading = false;
+         this.errorServer = (error as any)?.error || 'Error al obtener Paciente';
+         this.toastr.error(this.errorServer!, 'Error');
       }
-    }
-    
+   }
 
-  async getListEspecialidad() {
-       this.loading = true;
-      
-       try{
-          const data = await firstValueFrom(this._especialidadService.getAll());
-          this.loading = false;
-          this.listEspecialidad = data;
 
-       }catch(error : any){
+   async getListEspecialidad() {
+      this.loading = true;
+
+      try {
+         const data = await firstValueFrom(this._especialidadService.getAll());
+         this.loading = false;
+         this.listEspecialidad = data;
+
+      } catch (error: any) {
          this.loading = false;
          this.errorServer = error.error?.error;
          console.error(this.errorServer);
          this.toastr.error(this.errorServer!, 'Error');
-       }
+      }
 
    }
-   
+
    //Obtengo todos los profesionales de la Especialidad seleccionada y Obra Social del paciente logueado
    async getListProfesional() {
       try {
          this.loading = true;
 
-         const data : Usuario[] | undefined = await firstValueFrom(this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!));
-   
+         const data: Usuario[] | undefined = await firstValueFrom(this._usuarioService.getProfesionalesByEspecialidadAndObraSocial(Number(this.form.value.id_especialidad), this.paciente?.id_obra_social!));
+
          this.loading = false;
-   
+
          if (data !== undefined) {
             this.listProfesional = data;
+
          } else {
             console.error('El servicio devolvió undefined.');
          }
       } catch (error) {
          this.loading = false;
-   
+
          // Verificar si 'error' es una cadena
          if (typeof error === 'string') {
             this.errorServer = error;
@@ -148,12 +151,12 @@ export class RegistrarTurnoComponent implements OnInit {
             // Si 'error' no es una cadena, asignar un mensaje de error predeterminado
             this.errorServer = 'Error al obtener Profesionales';
          }
-   
+
          console.error(this.errorServer);
          this.toastr.error(this.errorServer, 'Error');
       }
    }
-   
+
 
    getEspecialidad() {
       this.loading = true;
@@ -163,50 +166,58 @@ export class RegistrarTurnoComponent implements OnInit {
    }
 
    async modalProfesional(): Promise<void> {
-     
+      console.log('Form: ', this.form_profesional);
       await this.getListProfesional();
-      
-      if(this.listProfesional.length===0){
-            this.toastr.error('No existen profesionales con su Obra Social y la Especialidad indicada', 'Error');
-            return;
+
+      // Restablecer el valor seleccionado del formulario a null
+      this.form_profesional.patchValue({ id_profesional: null });
+
+      if (this.listProfesional.length === 0) {
+         this.toastr.error('No existen profesionales con su Obra Social y la Especialidad indicada', 'Error');
+         return;
       }
 
       this.getEspecialidad();
-    
+
       const modalElement: any = document.getElementById('modalProfesional');
       if (modalElement) {
          const modal = new Modal(modalElement);
          modal.show();
       }
 
-    
+
    }
 
 
-    
-    
+
+   setId() {
+      this.form_profesional.reset();
+
+   }
 
 
    //Obtengo el profesional seleccionado
-   getProfesional() {
-    
+   async getProfesional() {
+
       this.loading = true;
-   
+
 
       this.profesional = this.listProfesional.find((pro) => pro.id === Number(this.form_profesional.value.id_profesional))!;
-     
-   
+
+
       this.loading = false;
    }
+
+
 
    //Obtengo el horario del profesional seleccionado
    async getHorarioProfesional() {
       this.loading = true;
-      try{
-           const data : Horario = await firstValueFrom(this._horarioService.getOne(this.profesional.id_horario!));
-           this.horarioProfesional = data;
-           this.loading = false;
-      }catch(error : any){
+      try {
+         const data: Horario = await firstValueFrom(this._horarioService.getOne(this.profesional.id_horario!));
+         this.horarioProfesional = data;
+         this.loading = false;
+      } catch (error: any) {
          this.loading = false;
          this.errorServer = error.error?.error || 'Error al obtener Horario del Profesional';
          this.toastr.error(this.errorServer!, 'Error');
@@ -217,128 +228,103 @@ export class RegistrarTurnoComponent implements OnInit {
 
    //Genero modal de fechas
    async modalFechas(): Promise<void> {
-      await this.getProfesional();
-      if(this.profesional === undefined){
-            this.loading=false;
-           const error = new Error('Error al obtener Profesional');
-           this.toastr.error(error.message, 'Error');
-           return;
-           
-      }
-      await this.getHorarioProfesional();
+      if (this.form_profesional.value.id_profesional === '') {
+         this.toastr.error('Seleccione profesional para continuar', '');
+      } else {
+         await this.getProfesional();
+         if (this.profesional === undefined) {
+            console.log('Entre en el error:   Profesinoal: ', this.profesional);
+            this.loading = false;
+            const error = new Error('Error al obtener Profesional');
+            this.toastr.error(error.message, 'Error');
+            return;
 
-      // const modalElementAnt: any = document.getElementById('modalProfesional');
-      // if (modalElementAnt) {
-      //    const modal = new Modal(modalElementAnt);
-      //    modal.dispose();
-      // }
-      const modalElement: any = document.getElementById('modalFechas');
-      if (modalElement) {
-         const modal = new Modal(modalElement);
-         modal.show();
-         this.mostrarHorarios = false;
+         }
+         await this.getHorarioProfesional();
+
+
+         const modalElement: any = document.getElementById('modalFechas');
+         if (modalElement) {
+            const modal = new Modal(modalElement);
+            modal.show();
+            this.mostrarHorarios = false;
+         }
       }
 
-     
+
    }
 
-    //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
-   deshabilitarFechas(){
+   //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
+   deshabilitarFechas() {
       const currentDate = new Date();
 
       // Restar un día a la fecha actual para que también se deshabilite el día actual
       //currentDate.setDate(currentDate.getDate() - 1);
-  
+
       // Asignar la fecha mínima al día anterior al actual
       this.fechaMinima = {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1, // Nota: NgbDate usa meses basados en 1, no en 0
-        day: currentDate.getDate()+1
+         year: currentDate.getFullYear(),
+         month: currentDate.getMonth() + 1, // Nota: NgbDate usa meses basados en 1, no en 0
+         day: currentDate.getDate() + 1
       };
 
-      
-
-      console.log('Fecha minima: ', this.fechaMinima);
    }
 
+   // Funcion que se ejecuta cuando se clickea un día en el calendario
+   async seleccionarDia(event: { year: number; month: number; day: number }): Promise<void> {
+      this.horariosDisponibles = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"];
+      this.mostrarHorarios = false;
 
-// Funcion que se ejecuta cuando se clickea un día en el calendario
-async seleccionarDia(event: { year: number; month: number; day: number }): Promise<void> {
-   this.horariosDisponibles = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"];
-   this.mostrarHorarios = false;
+      // Crear un objeto NgbDate con las propiedades requeridas
+      const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
 
-   // Crear un objeto NgbDate con las propiedades requeridas
-   const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
-   
+      this.fechaTurnoDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-   this.fechaTurnoDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
-   
-
-   console.log('Fecha seleccionada:', fechaSeleccionada);
-
-    // Obtener los componentes de la fecha
-    const year = fechaSeleccionada.year;
-    const month = fechaSeleccionada.month;
-    const day = fechaSeleccionada.day;
-
-   // Formatear la fecha como 'yyyy-mm-dd'
       // Formatear la fecha como 'yyyy-mm-dd'
-      const fechaFormateada: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      console.log('Fecha seleccionada formateada:', fechaFormateada);
-   console.log('Fecha seleccionada formateada:', fechaFormateada);
+      const fechaFormateada: string = this.sharedFunctions.formatearFecha(fechaSeleccionada);
 
-   // Asignar solo como cadena
-   this.fechaTurnoString = this.formatNgbDate(this.fechaTurnoDate);
-   this.fechaTurno = this.formatNgbDate(this.fechaTurnoDate);
+      // Formatear fecha a dd/mm/yyyy
+      this.fechaTurnoString = this.sharedFunctions.formatoFechaString(this.fechaTurnoDate);
 
-   console.log('Fecha Turno en Seleccionar dia: ', this.fechaTurno);
+      this.fechaTurno = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
 
-   // Obtener el día de la semana (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
-   const diaDeLaSemana: number = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day).getDay();
+      // Obtener el día de la semana (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
+      const diaDeLaSemana: number = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day).getDay();
 
-   // Convertir el número del día de la semana a una cadena de texto
-   const diasSemana: string[] = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
-   const nombreDia: string = diasSemana[diaDeLaSemana];
-   const diasHorarioProfesional = [];
-   console.log('Día de la semana:', nombreDia);
-   if (this.horarioProfesional?.lunes) {
-      diasHorarioProfesional.push('lunes')
-   };
+      // Convertir el número del día de la semana a una cadena de texto
+      const diasSemana: string[] = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+      const nombreDia: string = diasSemana[diaDeLaSemana];
+      const diasHorarioProfesional = [];
+      console.log('Día de la semana:', nombreDia);
+      if (this.horarioProfesional?.lunes) {
+         diasHorarioProfesional.push('lunes')
+      };
 
-   if (this.horarioProfesional?.martes) {
-      diasHorarioProfesional.push('martes')
-   };
-   if (this.horarioProfesional?.miercoles) {
-      diasHorarioProfesional.push('miercoles')
-   };
-   if (this.horarioProfesional?.jueves) {
-      diasHorarioProfesional.push('jueves')
-   };
-   if (this.horarioProfesional?.viernes) {
-      diasHorarioProfesional.push('viernes')
-   };
+      if (this.horarioProfesional?.martes) {
+         diasHorarioProfesional.push('martes')
+      };
+      if (this.horarioProfesional?.miercoles) {
+         diasHorarioProfesional.push('miercoles')
+      };
+      if (this.horarioProfesional?.jueves) {
+         diasHorarioProfesional.push('jueves')
+      };
+      if (this.horarioProfesional?.viernes) {
+         diasHorarioProfesional.push('viernes')
+      };
 
-   if (diasHorarioProfesional.some((dia) => dia === nombreDia)) {
-      await this.getHorariosOcupados(fechaFormateada);
-      this.generarArrayHorarios();
-      if(this.listTurnos.length != 0){
-         this.modificarArrayHorarios();
+      if (diasHorarioProfesional.some((dia) => dia === nombreDia)) {
+         await this.getHorariosOcupados(fechaFormateada);
+         this.generarArrayHorarios();
+         if (this.listTurnos.length != 0) {
+            this.modificarArrayHorarios();
+         }
+
+         this.mostrarHorarios = true;
       }
-     
-      this.mostrarHorarios = true;
+
+
    }
-
-   
-}
-
-formatNgbDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-//...
 
 
    //Devuelve los turnos del profesional seleccionado en el dia seleccionado
@@ -347,10 +333,10 @@ formatNgbDate(date: Date): string {
       const idProfesional = Number(this.form_profesional.value.id_profesional)
       try {
          const data = await firstValueFrom(this._turnoService.getByProfesionalAndFecha(idProfesional, fecha));
-       
+
          this.loading = false;
          this.listTurnos = data!
-         
+
          return data!;
       } catch (error) {
          this.loading = false;
@@ -438,16 +424,12 @@ formatNgbDate(date: Date): string {
 
    modalTurno(horario: string): void {
       // Puedes realizar acciones con el horario seleccionado, por ejemplo, almacenarlo en una variable
-       console.log('Fecha en modal turno: ', this.fechaTurno);
-       
-
+      console.log('Fecha en modal turno: ', this.fechaTurno);
 
       this.horaString = horario;
       // Convertir el string de hora a un objeto Time
       const [horas, minutos] = horario.split(':');
       this.horaTurno = { hours: parseInt(horas, 10), minutes: parseInt(minutos, 10) };
-
-      this.fechaTurnoString = this.formatFechaLocal(this.fechaTurnoString!);
 
       // Puedes realizar acciones adicionales con la hora seleccionada, si es necesario
 
@@ -457,7 +439,7 @@ formatNgbDate(date: Date): string {
          modal.show();
       }
 
- 
+
    }
 
    formatFechaLocal(fecha: string): string {
@@ -471,45 +453,76 @@ formatNgbDate(date: Date): string {
       const hours = time.hours.toString().padStart(2, '0');
       const minutes = time.minutes.toString().padStart(2, '0');
       return `${hours}:${minutes}`;
-    }
+   }
 
-  async  createTurno() {
+   async createTurno() {
       this.loading = true;
-      const fecha = this.formatNgbDate(this.fechaTurnoDate);
+      const fecha = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
       const hora = this.formatTime(this.horaTurno!);
-      const turno : Turno ={
-         fecha: fecha,
-         hora: hora,
-         estado: 'Pendiente',
-         observaciones: '',
-         id_profesional: this.profesional.id!,
-         id_paciente: this.paciente?.id!
 
-      };
+      if (await this.validaTurnoRepetido(fecha, hora)) {
+         const turno: Turno = {
+            fecha: fecha,
+            hora: hora,
+            estado: 'Pendiente',
+            observaciones: '',
+            id_profesional: this.profesional.id!,
+            id_paciente: this.paciente?.id!
 
-      try{
-         await firstValueFrom(this._turnoService.create(turno));
+         };
+
+         try {
+            await firstValueFrom(this._turnoService.create(turno));
+            this.loading = false;
+            this.closeModal();
+            this.router.navigate(['mis-turnos']);
+            this.toastr.success('Turno generado exitosamente!');
+
+            // this.router.navigate(['']);
+            // this.toastr.success('Turno generado exitosamente', 'Turno Generado');
+
+         } catch (error: any) {
+            this.loading = false;
+            console.error(error);
+            this.errorServer = error.error?.error || 'Error al generar Turno',
+               this.toastr.error(this.errorServer!, 'Error');
+         }
+
+      } else {
          this.loading = false;
-         this.closeModal();
-         this.router.navigate(['mis-turnos']);
-         this.toastr.success('Turno generado exitosamente!');
-    
-         // this.router.navigate(['']);
-         // this.toastr.success('Turno generado exitosamente', 'Turno Generado');
+         this.toastr.error('No es posible registrar mas de un turno en la misma fecha y hora', 'Error');
 
-      }catch(error : any){
-         this.loading = false;
-         console.error(error);
-         this.errorServer = error.error?.error || 'Error al generar Turno',
-            this.toastr.error(this.errorServer!, 'Error');
+
       }
+
+
+   }
+   //Valida que el paciente no tenga registrado un turno en misma fecha y hora
+   async validaTurnoRepetido(fecha: string, hora: string): Promise<boolean> {
+      console.log('Validando turno: ');
+      const body = {
+         fecha: fecha,
+         hora: hora
+      };
+      try {
+         const turno = await firstValueFrom(this._turnoService.getTurnoByPacFechaHora(body, this.paciente?.id!));
+         console.log('Turno: ', turno);
+         if (turno.length > 0) {
+
+            return false;
+         } else { return true; }
+      } catch (error: any) {
+         console.error(error);
+         return false;
+      }
+
 
    }
 
    // closeModal() {
    //    // Obtener todos los modales abiertos
    //    const modals = document.querySelectorAll('.modal.show');
-      
+
    //    // Iterar sobre los modales y cerrarlos
    //    modals.forEach((modal: any) => {
    //      // Cerrar el modal actual
@@ -520,45 +533,33 @@ formatNgbDate(date: Date): string {
       // Cerrar el primer modal
       const modalProfesional = document.getElementById('modalProfesional');
       if (modalProfesional) {
-          console.log('Cerrando modal Profesional');
-          modalProfesional.classList.remove('show');
+         console.log('Cerrando modal Profesional');
+         modalProfesional.classList.remove('show');
       }
-  
+
       // Cerrar el segundo modal
       const modalFechas = document.getElementById('modalFechas');
       if (modalFechas) {
-          console.log('Cerrando modal Fechas');
-          modalFechas.classList.remove('show');
+         console.log('Cerrando modal Fechas');
+         modalFechas.classList.remove('show');
       }
-  
+
       // Cerrar el tercer modal
       const modalTurno = document.getElementById('modalTurno');
       if (modalTurno) {
-          console.log('Cerrando modal Turno');
-          modalTurno.classList.remove('show');
+         console.log('Cerrando modal Turno');
+         modalTurno.classList.remove('show');
       }
-  
+
       // Eliminar todos los backdrops
       const backdrops = document.querySelectorAll('.modal-backdrop');
       backdrops.forEach(backdrop => {
-          console.log('Eliminando backdrop');
-          backdrop.remove();
+         console.log('Eliminando backdrop');
+         backdrop.remove();
       });
 
-      
-  }
-  
-  
-  
-  
-  
-   
 
-    
-  
-  
-    }
-   
+   }
 
 
 
@@ -568,11 +569,23 @@ formatNgbDate(date: Date): string {
 
 
 
-   //Cuando se clicke un dia el sistema debe:
-   //-El dia actual los botones deben aparecer siempre deshabilitados(es decir el sistema no debe permitir sacar turnos para el mismo dia)
-   //-Traer botones de 9 a 18hs (ejemplo 09:00, 09:30, y asi hasta las 18) figurando habilitados solo los horarios del dia disponibles para turno con dicho profesional
-   //por ende debo validar primero si el dia seleccionado es un dia que forma parte del horario del pro, si no lo es muestro todos los boton deshabilitados pero si es
-   //muestro los botones en los horarios que no haya turno
+
+}
+
+
+
+
+
+
+
+
+
+
+//Cuando se clicke un dia el sistema debe:
+//-El dia actual los botones deben aparecer siempre deshabilitados(es decir el sistema no debe permitir sacar turnos para el mismo dia)
+//-Traer botones de 9 a 18hs (ejemplo 09:00, 09:30, y asi hasta las 18) figurando habilitados solo los horarios del dia disponibles para turno con dicho profesional
+//por ende debo validar primero si el dia seleccionado es un dia que forma parte del horario del pro, si no lo es muestro todos los boton deshabilitados pero si es
+//muestro los botones en los horarios que no haya turno
 
 
 

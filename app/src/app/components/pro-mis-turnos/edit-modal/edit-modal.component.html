@@ -19,7 +19,7 @@
   
             <div class="box">
                <label for="">Estado:</label>
-               <select formControlName="estado" [attr.disabled]="!estadoValido">
+               <select formControlName="estado">
                   <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
                </select>
   

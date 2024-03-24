@@ -17,6 +17,7 @@ import { Time } from '@angular/common';
 import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { Modal } from 'bootstrap';
+import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 @Component({
    selector: 'app-mis-turnos-paciente',
@@ -52,7 +53,8 @@ export class MisTurnosPacienteComponent implements OnInit {
       private _authService: AuthService,
       private _horarioService: HorarioService,
       private _especialidadService: EspecialidadService,
-      private router: Router) {
+      private router: Router,
+      private sharedFunctions : SharedFunctions) {
 
    }
 
@@ -250,9 +252,7 @@ export class MisTurnosPacienteComponent implements OnInit {
          day: currentDate.getDate() + 1
       };
 
-
-
-      console.log('Fecha minima: ', this.fechaMinima);
+     
    }
 
 
@@ -266,15 +266,8 @@ export class MisTurnosPacienteComponent implements OnInit {
       // Crear un objeto NgbDate con las propiedades requeridas
       const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
 
-
       this.fechaTurnoDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-
-
-
-      console.log('Fecha seleccionada:', fechaSeleccionada);
-
-      // Obtener los componentes de la fecha
       const year = fechaSeleccionada.year;
       const month = fechaSeleccionada.month;
       const day = fechaSeleccionada.day;
@@ -282,14 +275,11 @@ export class MisTurnosPacienteComponent implements OnInit {
       // Formatear la fecha como 'yyyy-mm-dd'
       // Formatear la fecha como 'yyyy-mm-dd'
       const fechaFormateada: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      console.log('Fecha seleccionada formateada:', fechaFormateada);
-      console.log('Fecha seleccionada formateada:', fechaFormateada);
+     
 
       // Asignar solo como cadena
-      this.fechaTurnoString = this.formatNgbDate(this.fechaTurnoDate);
-      this.fechaTurno = this.formatNgbDate(this.fechaTurnoDate);
-
-      console.log('Fecha Turno en Seleccionar dia: ', this.fechaTurno);
+      this.fechaTurnoString = this.sharedFunctions.formatoFechaString(this.fechaTurnoDate);
+      this.fechaTurno = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
 
       // Obtener el día de la semana (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
       const diaDeLaSemana: number = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day).getDay();
@@ -298,7 +288,7 @@ export class MisTurnosPacienteComponent implements OnInit {
       const diasSemana: string[] = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
       const nombreDia: string = diasSemana[diaDeLaSemana];
       const diasHorarioProfesional = [];
-      console.log('Día de la semana:', nombreDia);
+     
       if (this.horarioProfesional?.lunes) {
          diasHorarioProfesional.push('lunes')
       };
@@ -323,14 +313,8 @@ export class MisTurnosPacienteComponent implements OnInit {
          this.mostrarHorarios = true;
       }
 
-      console.log('ultima linea de seleccionar dia: ', this.fechaTurno);
    }
-   formatNgbDate(date: Date): string {
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${year}-${month}-${day}`;
-   }
+ 
 
    //Devuelve los turnos del profesional seleccionado en el dia seleccionado
    async getHorariosOcupados(fecha: string): Promise<Turno[]> {
@@ -418,7 +402,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
          return horaFormateada;
       } else {
-         console.log('Hora no definida:', time);
+        
          return 'Horario no disponible';
       }
    }
@@ -426,21 +410,17 @@ export class MisTurnosPacienteComponent implements OnInit {
 
 
    async modalTurno(horario: string) {
-      // Puedes realizar acciones con el horario seleccionado, por ejemplo, almacenarlo en una variable
-      console.log('Fecha en modal turno: ', this.fechaTurno);
+    
+    
 
       await this.getEspecialidad();
 
       this.horaString = horario;
-      // Convertir el string de hora a un objeto Time
+      // convetir el string de hora a un objeto Time
       const [horas, minutos] = horario.split(':');
       this.horaTurno = { hours: parseInt(horas, 10), minutes: parseInt(minutos, 10) };
-
-      this.fechaTurnoString = this.formatFechaLocal(this.fechaTurnoString!);
-
-      // Puedes realizar acciones adicionales con la hora seleccionada, si es necesario
-
-      // const modalElement: any = document.getElementById('modalTurno');
+    
+    
       const modalElement = document.getElementById('modalTurno');
       if (modalElement) {
          this.modalMConfirmacion = new Modal(modalElement);
@@ -459,51 +439,75 @@ export class MisTurnosPacienteComponent implements OnInit {
    }
 
    async createTurno() {
-
-
-
-      //  this.loading = true;
-      const fecha = this.formatNgbDate(this.fechaTurnoDate);
+   
+      const fecha = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
       const hora = this.formatTime(this.horaTurno!);
-      const turno: Turno = {
-         fecha: fecha,
-         hora: hora,
-         estado: 'Pendiente',
-         observaciones: '',
-         id_profesional: this.profesional!.id!,
-         id_paciente: this.paciente?.id!
 
-      };
-
-      try {
-         await firstValueFrom(this._turnoService.create(turno));
-
-         const body: any = {
-            estado: 'Cancelado'
+      if(await this.validaTurnoRepetido(fecha, hora)){
+         const turno: Turno = {
+            fecha: fecha,
+            hora: hora,
+            estado: 'Pendiente',
+            observaciones: '',
+            id_profesional: this.profesional!.id!,
+            id_paciente: this.paciente?.id!
+   
          };
-
-         await firstValueFrom(this._turnoService.update(body, this.turno!.id!));
-
-         await this.getTurnos();
-
-         this.cerrarModales();
-
-       
-
-         this.router.navigate(['mis-turnos']);
-
-         // this.loading = false;
-
-         this.toastr.success('Turno reprogramado exitosamente', 'Turno Generado');
-
-      } catch (error: any) {
-         // this.loading = false;
-         this.errorServer = error.error?.error || 'Error al generar Turno',
-            this.toastr.error(this.errorServer!, 'Error');
-         console.error(error);
+   
+         try {
+            await firstValueFrom(this._turnoService.create(turno));
+   
+            const body: any = {
+               estado: 'Cancelado'
+            };
+   
+            await firstValueFrom(this._turnoService.update(body, this.turno!.id!));
+   
+            await this.getTurnos();
+   
+            this.cerrarModales();
+   
+          
+   
+            this.router.navigate(['mis-turnos']);
+   
+            // this.loading = false;
+   
+            this.toastr.success('Turno reprogramado exitosamente', 'Turno Generado');
+   
+         } catch (error: any) {
+            // this.loading = false;
+            this.errorServer = error.error?.error || 'Error al generar Turno',
+               this.toastr.error(this.errorServer!, 'Error');
+            console.error(error);
+         }        
+      } else {
+         this.toastr.error('No es posible registrar mas de un turno en la misma fecha y hora', 'Error');
       }
+     
 
    }
+
+   async validaTurnoRepetido(fecha : string, hora : string ) : Promise<boolean>{
+      console.log('Validando turno: ');
+        const body = {
+          fecha : fecha,
+          hora : hora
+        };
+        try{
+          const turno = await firstValueFrom(this._turnoService.getTurnoByPacFechaHora(body, this.paciente?.id!));
+          console.log('Turno: ', turno);
+          if(turno.length > 0){
+           
+             return false;
+          } else {return true;}
+        }catch(error : any){
+            console.error(error);
+            return false;
+        }
+        
+    
+ }
 
    formatTime(time: Time): string {
       const hours = time.hours.toString().padStart(2, '0');

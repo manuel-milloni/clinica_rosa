@@ -1,15 +1,20 @@
 
 Seguir con:
--Casos de uso 1,2,3,4 ok ver resto.
+-Casos de uso 1,2,3,4,5, 7,8,9,10 ok ver resto.
+
+-CU 6 Repasar como funcionaba el enviador.
 
 
--Ver que en los graficos los genere por defecto de una determinada fecha y que cuando se presione el buscar ahi tome las fechas indicadas.
 
-
+-Cargar turnos pendientes para el dia 03/ 04/ 05 de abril
 -Ver agregar validacion, que un turno no se puede indicar como concretado si la fecha del turno es mayor a la fecha actual.
-
+-Modificar Fecha de nacimiento de los registros de pacientes a insertar en el sql para que tengan edades entre 0-18 y +51.
+-Cargar videos (1 por CU) en Clasroom
+-En Registrar turno a poartir de la 2da vez que creo el modalProfesional me trae el primer profesional como seleccionado y no seleccionado.
 Extras:
 -Modificar createPaciente para el caso que el email o dni duplicado tome desde el error de sequelize como en createProfesional()
 -Agregar al Crear Turno, que solo aparezcan para seleccionar en el calendario los dias que trabaja el medico.
 -Modificar calendario para que sea en espanol.
 -Crear componente confirm-dialog propio.
+-Agregar buscadores en las ventanas Crud de admin
+-Validar que un usuario no pueda sacar mas de un turno el mismo dia y horario con profesionales distintos. Ni dos turnos con el mismo profesional el mismo dia.

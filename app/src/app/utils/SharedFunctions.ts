@@ -32,5 +32,13 @@ export class SharedFunctions {
         return fechaFormateada;
     }
 
+     //Recibe como parametro una fecha (string) en formato yyyy-mm-dd yla devuelve en formato string dd/mm/yyyy
+    formatFechaLocal(fecha: string): string {
+        const elementos = fecha.split('-');
+        const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
+  
+        return fechaLocal;
+     }
+
 
 }

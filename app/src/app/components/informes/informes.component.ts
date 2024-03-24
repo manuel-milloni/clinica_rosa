@@ -93,18 +93,36 @@ export class InformesComponent implements OnInit {
 
     }
 
-
-
-
-
     async buscar() {
 
-        await this.getListTurnos();
-        this.initGrafico2();
-        await this.initGrafico3();
+        if(this.validaFechas()){
+            await this.getListTurnos();
+            this.initGrafico2();
+            await this.initGrafico3();
+        }else{
+            this.toastr.error('La fecha desde debe ser menor a la fecha hasta', 'Error');
+        }
+      
 
 
     }
+
+        //Valido fechas ingresadas
+        validaFechas() : boolean{
+            if(this.fechaDesde?.year! > this.fechaHasta?.year!){
+                  return false;
+            } else {
+                if(this.fechaDesde?.month! > this.fechaHasta?.month!){
+                    return false;
+                } else {
+                    if(this.fechaDesde?.day! > this.fechaHasta?.day!){
+                            return false;
+                    }else {
+                        return true;
+                    }
+                }
+            }
+        }
 
 
     //Obtiene array de turnos en el periodo indicado.

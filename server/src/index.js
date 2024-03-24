@@ -10,8 +10,6 @@ const {runSender} = require('./utils/mailSender');
 
 const app = express();
 
-
-
 //Middlewares
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));

@@ -10,6 +10,7 @@
       <button (click)="getTurnosByFecha()">Buscar</button>
       <button (click)="getAllTurnos()">Ver todos</button>
       <button (click)="getTurnosToday()">Hoy</button>
+      <button (click)="getTurnosTomorrow()">Mañana</button>
    </div>
 
    <div class="calendario" *ngIf="mostrarCalendarioFD">
@@ -52,6 +53,7 @@
             </div>
 
             <div class="box">
+               <label for="">Fecha:</label>
                <span>{{turno.fechaLocal}}</span>
                <span>{{turno.hora}}</span>
 

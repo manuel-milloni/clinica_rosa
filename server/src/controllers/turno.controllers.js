@@ -262,12 +262,31 @@ const getTurnosByFechaAndProfesional = async(req, res)=> {
   }catch(error){
      handleHttp(res, error, 500);
   }
-  
+}
 
+const getTurnoByPacFechaHora = async (req, res)=>{
+  const idPaciente = req.params.id;
+  const {fecha, hora} = req.body;
+  const fechaDate = new Date(fecha);
+  const horaF = hora + ':00';
+  try{
+     const turno = await Turno.findAll({
+       where : {
+         id_paciente : idPaciente,
+         fecha : fechaDate,
+         hora : horaF
+       }
+     });
+     console.log('Turno back: ',turno)
+   res.json(turno);
+  }catch(error){
+   handleHttp(res,error,500 );
+  }
 }
 
 
 
 
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional};
+module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, 
+  getTurnosByFecha, getTurnosByFechaAndProfesional,getTurnoByPacFechaHora};

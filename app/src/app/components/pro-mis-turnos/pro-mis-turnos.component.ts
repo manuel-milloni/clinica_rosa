@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Router, UrlHandlingStrategy } from '@angular/router';
+import { Component,OnInit} from '@angular/core';
+import { Router} from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Turno } from 'src/app/interfaces/Turno';
-import { Usuario } from 'src/app/interfaces/Usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { TurnoService } from 'src/app/services/turno.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { EditModalComponent } from './edit-modal/edit-modal.component';
+import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 @Component({
    selector: 'app-pro-mis-turnos',
@@ -40,12 +39,13 @@ export class ProMisTurnosComponent implements OnInit {
       private router: Router,
       private _userService: UsuarioService,
       private _turnoService: TurnoService,
+      private sharedFunctions : SharedFunctions
    ) {
 
    }
    async ngOnInit(): Promise<void> {
       await this.getId();
-      await this.getAllTurnos();
+      await this.getTurnosToday();
    
 
    }
@@ -73,17 +73,18 @@ export class ProMisTurnosComponent implements OnInit {
    }
 
 
-
-   //Ver de hacer que solo traiga los turnos del dia actual, y otra funcion que filtre por fecha
    async getAllTurnos() {
+      this.fechaDesdeFormateada = null;
+      this.fechaHastaFormateada = null;
+      this.fechaDesde = null;
+      this.fechaHasta = null;
       try {
          const data: Turno[] = await firstValueFrom(this._userService.getTurnosByProfesional(this.id!));
 
          data.forEach((turno)=>{
             if(typeof turno.fecha === 'string'){
-               const fecha = this.formatFechaLocal(turno.fecha!);
+               const fecha = this.sharedFunctions.formatFechaLocal(turno.fecha!);
                turno.fechaLocal = fecha;
-
             }
             
          })
@@ -122,12 +123,11 @@ export class ProMisTurnosComponent implements OnInit {
 
       this.fechaDesdeDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-      this.fechaDesde = this.formatNgbDate(this.fechaDesdeDate);
+      this.fechaDesde = this.sharedFunctions.formatoFechaDB(this.fechaDesdeDate);
 
-      this.fechaDesdeFormateada = this.formatearFechaLocal(this.fechaDesdeDate);
+      this.fechaDesdeFormateada = this.sharedFunctions.formatoFechaString(this.fechaDesdeDate);
 
       this.mostrarCalendarioFD = false;
-
 
    }
 
@@ -136,12 +136,11 @@ export class ProMisTurnosComponent implements OnInit {
       // Crear un objeto NgbDate con las propiedades requeridas
       const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
 
-
       this.fechaHastaDate = new Date(fechaSeleccionada.year, fechaSeleccionada.month - 1, fechaSeleccionada.day);
 
-      this.fechaHasta = this.formatNgbDate(this.fechaHastaDate);
+      this.fechaHasta = this.sharedFunctions.formatoFechaDB(this.fechaHastaDate);
 
-      this.fechaHastaFormateada = this.formatearFechaLocal(this.fechaHastaDate);
+      this.fechaHastaFormateada = this.sharedFunctions.formatoFechaString(this.fechaHastaDate);
 
       this.mostrarCalendarioFH = false;
    }
@@ -154,44 +153,6 @@ export class ProMisTurnosComponent implements OnInit {
       this.mostrarCalendarioFH = !this.mostrarCalendarioFH;
    }
 
-   //Formato yyyy-mm-dd
-   formatearFecha(fecha: NgbDate): string {
-      const year = fecha.year;
-      const month = fecha.month;
-      const day = fecha.day;
-
-      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
-   }
-
-   formatearFechaLocal(fecha: Date): string {
-      // Obtener los componentes de la fecha
-      const dia = fecha.getDate();
-      const mes = fecha.getMonth() + 1; // Los meses en JavaScript van de 0 a 11, por eso se suma 1
-      const año = fecha.getFullYear();
-
-      // Formatear los componentes de la fecha como cadenas y asegurarse de que tengan dos dígitos
-      const diaFormateado = this.agregarCerosIzquierda(dia, 2);
-      const mesFormateado = this.agregarCerosIzquierda(mes, 2);
-      const añoFormateado = año.toString();
-
-      // Construir la cadena de fecha en el formato deseado
-      const fechaFormateada = `${diaFormateado}-${mesFormateado}-${añoFormateado}`;
-
-      return fechaFormateada;
-
-
-   }
-
-   formatFechaLocal(fecha: string): string {
-      const elementos = fecha.split('-');
-      const fechaLocal: string = `${elementos[2]}/${elementos[1]}/${elementos[0]}`;
-
-      return fechaLocal;
-   }
-
-
-
    // Función auxiliar para agregar ceros a la izquierda si es necesario
    agregarCerosIzquierda(numero: number, longitud: number): string {
       return String(numero).padStart(longitud, '0');
@@ -201,15 +162,25 @@ export class ProMisTurnosComponent implements OnInit {
     
 
       const fechas = {
-         fechaDesde: this.formatNgbDate(this.fechaDesdeDate),
-         fechaHasta: this.formatNgbDate(this.fechaHastaDate)
+         fechaDesde: this.sharedFunctions.formatoFechaDB(this.fechaDesdeDate),
+         fechaHasta: this.sharedFunctions.formatoFechaDB(this.fechaHastaDate)
       };
 
       try {
          const turnos = await firstValueFrom(this._turnoService.getTurnosByFechaAndProfesional(fechas, this.id!));
+         turnos.forEach((turno)=>{
+            if(typeof turno.fecha === 'string'){
+               const fecha = this.sharedFunctions.formatFechaLocal(turno.fecha!);
+               turno.fechaLocal = fecha;
+            }
+         });
          this.listTurno = turnos;
-
+        if(this.listTurno.length > 0){
          await this.getPaciente();
+        } else {
+           this.toastr.error('No existen turnos en el periodo seleccionado');
+        }
+        
 
       } catch (error: any) {
          this.errorServe = error.error?.error || 'Error al obtener turnos';
@@ -217,17 +188,24 @@ export class ProMisTurnosComponent implements OnInit {
       }
    }
 
-   getTurnosToday(){
+  async  getTurnosToday(){
+
        this.fechaDesdeDate = new Date();
        this.fechaHastaDate = new Date();
+       this.fechaDesdeFormateada = this.sharedFunctions.formatoFechaString(this.fechaDesdeDate);
+       this.fechaHastaFormateada = this.sharedFunctions.formatoFechaString(this.fechaHastaDate);
        this.getTurnosByFecha();
+       
    }
 
-   formatNgbDate(date: Date): string {
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${year}-${month}-${day}`;
+   async getTurnosTomorrow(){
+        const fechaActual = new Date();
+        const fechaTomorrow = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate()+1);
+        this.fechaDesdeDate = fechaTomorrow;
+        this.fechaHastaDate = fechaTomorrow;
+        this.fechaDesdeFormateada = this.sharedFunctions.formatoFechaString(this.fechaDesdeDate);
+        this.fechaHastaFormateada = this.sharedFunctions.formatoFechaString(this.fechaHastaDate);
+        this.getTurnosByFecha(); 
    }
 
    abrirModal(idTurno : number) {
@@ -237,15 +215,13 @@ export class ProMisTurnosComponent implements OnInit {
 
     cerrarModal() {
       this.modal = false;
+      if(this.fechaDesde === null && this.fechaHasta === null){
+         this.getAllTurnos();
+      } else {
+         this.getTurnosByFecha();
+      }
     }
     
-
-    
-
-
-
-
-
 
 
 }
