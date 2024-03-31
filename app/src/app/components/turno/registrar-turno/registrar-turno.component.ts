@@ -14,10 +14,10 @@ import { Horario } from 'src/app/interfaces/Horario';
 import { TurnoService } from 'src/app/services/turno.service';
 import { Turno } from 'src/app/interfaces/Turno';
 import { Time } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
-import { firstValueFrom } from 'rxjs';
+import { first, firstValueFrom } from 'rxjs';
 import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 
 
@@ -54,6 +54,11 @@ export class RegistrarTurnoComponent implements OnInit {
 
    fechaMinima: NgbDateStruct = { year: 0, month: 0, day: 0 };
 
+   idPaciente : number = 0;
+   payload : any;
+
+   diasHorarioProfesional : string[] = [];
+   markDisabled: any = null;
 
 
 
@@ -66,7 +71,8 @@ export class RegistrarTurnoComponent implements OnInit {
       private fb: FormBuilder,
       private router: Router,
       private _authService: AuthService,
-      private sharedFunctions: SharedFunctions
+      private sharedFunctions: SharedFunctions,
+      private aRouter : ActivatedRoute
 
 
    ) {
@@ -76,6 +82,8 @@ export class RegistrarTurnoComponent implements OnInit {
       this.form_profesional = this.fb.group({
          id_profesional: ['', Validators.required]
       })
+
+      this.idPaciente = Number(this.aRouter.snapshot.paramMap.get('id'));
 
    }
 
@@ -96,11 +104,18 @@ export class RegistrarTurnoComponent implements OnInit {
 
 
          const payload = data;
-         this.paciente = await firstValueFrom(this._usuarioService.getOne(payload.id));
+         this.payload = payload;
+         if(payload.rol === 2){
+            this.paciente = await firstValueFrom(this._usuarioService.getOne(this.idPaciente));
+         } else {
+               
+            this.paciente = await firstValueFrom(this._usuarioService.getOne(payload.id));
+         }
 
-
+      
+        
          this.loading = false;
-         console.log('Data usuario: ', this.paciente);
+     
       } catch (error) {
          this.loading = false;
          this.errorServer = (error as any)?.error || 'Error al obtener Paciente';
@@ -166,7 +181,7 @@ export class RegistrarTurnoComponent implements OnInit {
    }
 
    async modalProfesional(): Promise<void> {
-      console.log('Form: ', this.form_profesional);
+     
       await this.getListProfesional();
 
       // Restablecer el valor seleccionado del formulario a null
@@ -216,6 +231,12 @@ export class RegistrarTurnoComponent implements OnInit {
       try {
          const data: Horario = await firstValueFrom(this._horarioService.getOne(this.profesional.id_horario!));
          this.horarioProfesional = data;
+         
+
+         //Dias profesional
+         this.getDiasProfesional();
+         this.onCalendarShown();
+         
          this.loading = false;
       } catch (error: any) {
          this.loading = false;
@@ -226,14 +247,63 @@ export class RegistrarTurnoComponent implements OnInit {
 
    }
 
+     //Habilitar solo los dias que trabaja el medico en el calendario
+   getDiasProfesional(){
+        // Convertir el número del día de la semana a una cadena de texto
+      const diasHorarioProfesional = [];
+    
+      if (this.horarioProfesional?.lunes) {
+         diasHorarioProfesional.push('lunes')
+      };
+
+      if (this.horarioProfesional?.martes) {
+         diasHorarioProfesional.push('martes')
+      };
+      if (this.horarioProfesional?.miercoles) {
+         diasHorarioProfesional.push('miercoles')
+      };
+      if (this.horarioProfesional?.jueves) {
+         diasHorarioProfesional.push('jueves')
+      };
+      if (this.horarioProfesional?.viernes) {
+         diasHorarioProfesional.push('viernes')
+      };
+
+      this.diasHorarioProfesional = diasHorarioProfesional;
+
+      console.log('Dias this horario: ', this.diasHorarioProfesional);
+   }
+
+     // Función para filtrar los días seleccionables
+  filtrarDiasSeleccionables = (date: NgbDate) => {
+   const currentDate = new Date(date.year, date.month - 1, date.day);
+   const diaSemana = currentDate.getDay(); // 0 para domingo, 1 para lunes, etc.
+   console.log('Filtrar dias Seleccionables: ',!this.diasHorarioProfesional.includes(this.obtenerNombreDia(diaSemana)));
+   return !this.diasHorarioProfesional.includes(this.obtenerNombreDia(diaSemana));
+   
+ };
+
+ // Función para obtener el nombre del día
+ obtenerNombreDia(diaNumero: number): string {
+   const diasSemana = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+   return diasSemana[diaNumero];
+ }
+
+ onCalendarShown() {
+   // Configurar markDisabled al mostrar el calendario
+   this.markDisabled = this.filtrarDiasSeleccionables;
+ }
+
+
    //Genero modal de fechas
    async modalFechas(): Promise<void> {
+    
       if (this.form_profesional.value.id_profesional === '') {
          this.toastr.error('Seleccione profesional para continuar', '');
       } else {
          await this.getProfesional();
          if (this.profesional === undefined) {
-            console.log('Entre en el error:   Profesinoal: ', this.profesional);
+          
             this.loading = false;
             const error = new Error('Error al obtener Profesional');
             this.toastr.error(error.message, 'Error');
@@ -241,7 +311,7 @@ export class RegistrarTurnoComponent implements OnInit {
 
          }
          await this.getHorarioProfesional();
-
+          //Aca ver de generar una variable con los dias que trabaja el profesional
 
          const modalElement: any = document.getElementById('modalFechas');
          if (modalElement) {
@@ -254,21 +324,31 @@ export class RegistrarTurnoComponent implements OnInit {
 
    }
 
-   //Deshabilito en el date picker las fechas anteiores al dia actual y el actual.
    deshabilitarFechas() {
       const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 1); // Obtener el día siguiente al actual
+  
+      let year = currentDate.getFullYear();
+      let month = currentDate.getMonth() + 1;
+      let day = currentDate.getDate();
+  
+      // Si el día es mayor que el último día del mes actual, avanzamos al próximo mes
+      if (day > new Date(year, month, 0).getDate()) {
+          day = 1; // Establecemos el día en el primero del próximo mes
+          month++; // Avanzamos al próximo mes
+          if (month > 12) {
+              month = 1; // Si hemos superado diciembre, establecemos el mes en enero
+              year++; // Avanzamos al próximo año
+          }
+      }
+  
+      // Asignamos la fecha mínima
+      this.fechaMinima = new NgbDate(year, month, day);
+  
+      console.log('Fecha mínima:', this.fechaMinima);
+  }
 
-      // Restar un día a la fecha actual para que también se deshabilite el día actual
-      //currentDate.setDate(currentDate.getDate() - 1);
-
-      // Asignar la fecha mínima al día anterior al actual
-      this.fechaMinima = {
-         year: currentDate.getFullYear(),
-         month: currentDate.getMonth() + 1, // Nota: NgbDate usa meses basados en 1, no en 0
-         day: currentDate.getDate() + 1
-      };
-
-   }
+ 
 
    // Funcion que se ejecuta cuando se clickea un día en el calendario
    async seleccionarDia(event: { year: number; month: number; day: number }): Promise<void> {
@@ -295,7 +375,7 @@ export class RegistrarTurnoComponent implements OnInit {
       const diasSemana: string[] = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
       const nombreDia: string = diasSemana[diaDeLaSemana];
       const diasHorarioProfesional = [];
-      console.log('Día de la semana:', nombreDia);
+    
       if (this.horarioProfesional?.lunes) {
          diasHorarioProfesional.push('lunes')
       };
@@ -313,6 +393,7 @@ export class RegistrarTurnoComponent implements OnInit {
          diasHorarioProfesional.push('viernes')
       };
 
+    
       if (diasHorarioProfesional.some((dia) => dia === nombreDia)) {
          await this.getHorariosOcupados(fechaFormateada);
          this.generarArrayHorarios();
@@ -383,7 +464,7 @@ export class RegistrarTurnoComponent implements OnInit {
 
          return horaFormateada;
       } else {
-         console.log('Hora no definida:', time);
+        
          return 'Horario no disponible';
       }
    }
@@ -424,7 +505,7 @@ export class RegistrarTurnoComponent implements OnInit {
 
    modalTurno(horario: string): void {
       // Puedes realizar acciones con el horario seleccionado, por ejemplo, almacenarlo en una variable
-      console.log('Fecha en modal turno: ', this.fechaTurno);
+   
 
       this.horaString = horario;
       // Convertir el string de hora a un objeto Time
@@ -475,7 +556,12 @@ export class RegistrarTurnoComponent implements OnInit {
             await firstValueFrom(this._turnoService.create(turno));
             this.loading = false;
             this.closeModal();
-            this.router.navigate(['mis-turnos']);
+            if(this.payload.rol === 2){
+               this.router.navigate(['pacientes']);
+            } else {
+               this.router.navigate(['mis-turnos']);
+            }
+         
             this.toastr.success('Turno generado exitosamente!');
 
             // this.router.navigate(['']);
@@ -499,14 +585,14 @@ export class RegistrarTurnoComponent implements OnInit {
    }
    //Valida que el paciente no tenga registrado un turno en misma fecha y hora
    async validaTurnoRepetido(fecha: string, hora: string): Promise<boolean> {
-      console.log('Validando turno: ');
+
       const body = {
          fecha: fecha,
          hora: hora
       };
       try {
          const turno = await firstValueFrom(this._turnoService.getTurnoByPacFechaHora(body, this.paciente?.id!));
-         console.log('Turno: ', turno);
+      
          if (turno.length > 0) {
 
             return false;
@@ -519,55 +605,38 @@ export class RegistrarTurnoComponent implements OnInit {
 
    }
 
-   // closeModal() {
-   //    // Obtener todos los modales abiertos
-   //    const modals = document.querySelectorAll('.modal.show');
 
-   //    // Iterar sobre los modales y cerrarlos
-   //    modals.forEach((modal: any) => {
-   //      // Cerrar el modal actual
-   //      modal.modal('hide');
-   //    });
-   //  }
    closeModal() {
       // Cerrar el primer modal
       const modalProfesional = document.getElementById('modalProfesional');
       if (modalProfesional) {
-         console.log('Cerrando modal Profesional');
+   
          modalProfesional.classList.remove('show');
       }
 
       // Cerrar el segundo modal
       const modalFechas = document.getElementById('modalFechas');
       if (modalFechas) {
-         console.log('Cerrando modal Fechas');
+       
          modalFechas.classList.remove('show');
       }
 
       // Cerrar el tercer modal
       const modalTurno = document.getElementById('modalTurno');
       if (modalTurno) {
-         console.log('Cerrando modal Turno');
+      
          modalTurno.classList.remove('show');
       }
 
       // Eliminar todos los backdrops
       const backdrops = document.querySelectorAll('.modal-backdrop');
       backdrops.forEach(backdrop => {
-         console.log('Eliminando backdrop');
+      
          backdrop.remove();
       });
 
 
    }
-
-
-
-
-
-
-
-
 
 
 }
@@ -581,11 +650,7 @@ export class RegistrarTurnoComponent implements OnInit {
 
 
 
-//Cuando se clicke un dia el sistema debe:
-//-El dia actual los botones deben aparecer siempre deshabilitados(es decir el sistema no debe permitir sacar turnos para el mismo dia)
-//-Traer botones de 9 a 18hs (ejemplo 09:00, 09:30, y asi hasta las 18) figurando habilitados solo los horarios del dia disponibles para turno con dicho profesional
-//por ende debo validar primero si el dia seleccionado es un dia que forma parte del horario del pro, si no lo es muestro todos los boton deshabilitados pero si es
-//muestro los botones en los horarios que no haya turno
+
 
 
 

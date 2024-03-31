@@ -6,7 +6,7 @@ const {Op} = require('sequelize');
 
 //Devuelve turnos de una determinada Fecha
 const getAllByProfesionalAndFecha = async (req, res)=>{
-     console.log('GetAllByProfesionalAndFecha----------------------------------');
+   
       const fechaString = req.body.fecha;
       const fecha = new Date(fechaString);
       const idProfesional = req.params.id;
@@ -65,7 +65,7 @@ const remove = async (req, res)=>{
    const difMs = fechaTurno - fechaActual;
    
    const difHoras= difMs / (1000*60*60);
-   console.log("DIFERENCIA DE HORAS: ",difHoras);
+
 
    
    if(difHoras < 48){
@@ -135,7 +135,7 @@ const getPaciente = async (req, res)=>{
 
       
         const paciente = await turno.getPaciente();
-        console.log(paciente);
+   
         res.json(paciente);
     }catch(error){
        handleHttp(res, error, 500);
@@ -144,7 +144,7 @@ const getPaciente = async (req, res)=>{
 }
 
 const getTurnosProfesionalByFecha = async (req, res)=>{
-  console.log('GetTurnosProfesionalByFecha----------------------------------------');
+
     const {fechaDesde, fechaHasta} = req.body;
     const fechaDesdeDate = new Date(fechaDesde);
     const fechaHastaDate = new Date(fechaHasta);
@@ -169,7 +169,7 @@ const getTurnosProfesionalByFecha = async (req, res)=>{
 }
 
 const getTurnosByPaciente = async (req, res) =>{
-    console.log('GetTurnosByPaciente-----------------------------------------------------');
+
     const idPaciente = req.params.id;
 
     try{
@@ -189,12 +189,12 @@ const getTurnosByPaciente = async (req, res) =>{
 
 //Informes
 const getTurnosByFecha = async(req, res)=> {
-    console.log('GetTurnosByFecha----------------------------------------------------');
+   
     const {fechaDesde, fechaHasta, estado} = req.body;
-    console.log('Fechaaas: ', fechaDesde, '     ', fechaHasta  );
+ 
     const fechaDesdeDate = new Date(fechaDesde);
     const fechaHastaDate = new Date(fechaHasta);
-    console.log('Fechas:    ', fechaDesdeDate, '         ', fechaHastaDate);
+  
     let turnos = [];
     try{
        
@@ -203,7 +203,8 @@ const getTurnosByFecha = async(req, res)=> {
           where : {
             fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]},
             estado : estado
-          }
+          },
+          order : [['fecha', 'ASC']]
          });
        }
        else {
@@ -211,7 +212,8 @@ const getTurnosByFecha = async(req, res)=> {
           where : {
             fecha : { [Op.between] : [fechaDesdeDate, fechaHastaDate]}
            
-          }
+          },
+          order : [['fecha', 'ASC']]
          });
 
        }
@@ -277,7 +279,7 @@ const getTurnoByPacFechaHora = async (req, res)=>{
          hora : horaF
        }
      });
-     console.log('Turno back: ',turno)
+   
    res.json(turno);
   }catch(error){
    handleHttp(res,error,500 );

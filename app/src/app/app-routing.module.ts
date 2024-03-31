@@ -54,6 +54,9 @@ const routes: Routes = [
     {path: 'turnos', component: TurnosComponent, canActivate: [loginAuthAdmin]},
     {path: 'pacientes', component: PacientesComponent, canActivate: [loginAuthAdmin]},
     {path: 'pacientes/edit-paciente/:id', component: MiperfilPacienteComponent, canActivate: [loginAuthAdmin]},
+    {path: 'pacientes/add-paciente', component: SignInPacienteComponent, canActivate: [loginAuthAdmin]},
+    {path: 'pacientes/add-turno/:id', component: RegistrarTurnoComponent, canActivate: [loginAuthAdmin]},
+
 
     //------------Profesional-------------------------------------//
     {path : 'profesional/mis-turnos', component : ProMisTurnosComponent, canActivate : [loginAuthProfesional] },

@@ -40,7 +40,7 @@ import { SharedFunctions } from './utils/SharedFunctions';
 import { TurnosComponent } from './components/admin/turnos/turnos.component';
 import { PacientesComponent } from './components/admin/pacientes/pacientes.component';
 
-import { EditPacienteComponent } from './components/admin/pacientes/edit-paciente/edit-paciente/edit-paciente.component';
+
 import { AddPacienteComponent } from './components/admin/pacientes/add-paciente/add-paciente/add-paciente.component';
 import { AddTurnoComponent } from './components/admin/pacientes/add-turno/add-turno/add-turno.component';
 import { FilterPipe } from './utils/filter';
@@ -77,7 +77,7 @@ import { FilterPipe } from './utils/filter';
     TurnosComponent,
     PacientesComponent,
     AddPacienteComponent,
-    EditPacienteComponent,
+   
     AddTurnoComponent,
     FilterPipe
   ],
