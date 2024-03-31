@@ -6,6 +6,7 @@
        <h4>Profesionales</h4>
 
        <button type="button" class="btn btn-primary" routerLink="/profesional-add">Agregar</button>
+       <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
 
     </div>
   <table *ngIf="listProfesionales.length>0" class="table table-hover">
@@ -26,7 +27,7 @@
     <tbody>
    
     
-      <tr *ngFor="let item of listProfesionales" class="table-primary">
+      <tr *ngFor="let item of listProfesionales | filter:searchText" class="table-primary">
         <td>{{item.nombre}}</td>
         <td>{{item.apellido}}</td>
         <td>{{item.dni}}</td>

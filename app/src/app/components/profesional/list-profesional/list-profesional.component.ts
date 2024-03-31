@@ -31,6 +31,7 @@ export class ListProfesionalComponent  implements OnInit{
                horario : Horario | undefined;
                obras_sociales : number[] = [];
                listObrasSocialesProfesional : ObraSocial[] = [];
+               searchText : string = '';
         
               
 
