@@ -66,5 +66,9 @@ export class TurnoService {
        return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/paciente/${idPaciente}`, body);
   }
 
+  getAll() : Observable<Turno[]>{
+    return this.http.get<Turno[]>(`${this.myAppUrl}${this.myApiUrl}`);
+  }
+
 
 }

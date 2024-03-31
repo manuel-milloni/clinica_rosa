@@ -5,7 +5,7 @@
     <div class="title">
        <h4>Pacientes</h4>
 
-       <button type="button" class="btn btn-primary" routerLink="">Agregar</button>
+       <button type="button" class="btn btn-primary" routerLink="/pacientes/add-paciente">Agregar</button>
        <!-- <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="buscador"> -->
        <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
 
@@ -38,7 +38,7 @@
                 <button type="button" class="btn btn-secondary btn-sm" routerLink="/pacientes/edit-paciente/{{item.id}}">Editar</button>
         
                 <button (click)="deletePersonal(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-                <button (click)="generarTurno(item.id!)" type="button" class="btn btn-primary btn-sm">Turno</button>
+                <button  type="button" class="btn btn-primary btn-sm" routerLink="/pacientes/add-turno/{{item.id!}}">Turno</button>
         </td>
         
        

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { first, firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { ObraSocial } from 'src/app/interfaces/obraSocial';
+import { AuthService } from 'src/app/services/auth.service';
 import { ObrasocialService } from 'src/app/services/obrasocial.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Validations } from 'src/app/utils/Validations';
@@ -25,11 +26,14 @@ export class SignInPacienteComponent implements OnInit {
   fechaNac : NgbDate | undefined;
   fechaNacInput : string | undefined;
 
+  payload : any;
+
   constructor(private _usuarioService: UsuarioService,
     private toastr: ToastrService,
     private router: Router,
     private fb: FormBuilder,
-    private _obraSocialService: ObrasocialService) {
+    private _obraSocialService: ObrasocialService,
+    private _authService : AuthService) {
 
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
@@ -80,6 +84,22 @@ export class SignInPacienteComponent implements OnInit {
 
   }
 
+  async verifyToken(){
+    const token  = localStorage.getItem('auth-token');
+
+    if(!token){
+      this.toastr.error('Error interno sevidor', 'Error');
+      return;
+    }
+    try{
+       const payload = await firstValueFrom(this._authService.verifyToken(token));
+       
+       this.payload = payload;
+    }catch(error){
+      this.toastr.error('Error interno sevidor', 'Error');
+    }
+  }
+
   async create() {
 
     this.loading = true;
@@ -97,10 +117,16 @@ export class SignInPacienteComponent implements OnInit {
     };
 
     try{
-       await firstValueFrom(this._usuarioService.createPaciente(paciente));
+
+      await firstValueFrom(this._usuarioService.createPaciente(paciente));
        this.loading = false;
-       this.router.navigate(['']);
-       this.toastr.success('Usuario creado exitosamente', 'Registro');
+       if(this.payload.rol === 2){
+          this.router.navigate(['pacientes']);
+       }else {
+        this.router.navigate(['']);
+       }
+      
+       this.toastr.success('Usuario creado exitosamente');
     }catch(error : any){
       this.loading = false;
       this.errorServer = error.error?.error || 'Error al crear usuario';

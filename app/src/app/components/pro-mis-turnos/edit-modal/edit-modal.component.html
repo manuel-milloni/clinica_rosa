@@ -16,6 +16,11 @@
                <span>{{turno?.paciente?.nombre}}, {{turno?.paciente?.apellido}}</span>
   
             </div>
+
+            <div *ngIf="admin" class="box">
+               <span>Profesional: {{turno?.profesional?.nombre}}, {{turno?.profesional?.apellido}}</span> <br>
+  
+            </div>
   
             <div class="box">
                <label for="">Estado:</label>
@@ -30,6 +35,10 @@
                <span>Hora: {{turno?.hora}}</span>
   
             </div>
+
+            
+
+          
   
   
             <div class="box-observaciones">
@@ -50,3 +59,7 @@
     </div>
 
  </div>
+
+
+
+

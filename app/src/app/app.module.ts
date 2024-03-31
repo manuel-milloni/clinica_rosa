@@ -39,10 +39,6 @@ import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/p
 import { SharedFunctions } from './utils/SharedFunctions';
 import { TurnosComponent } from './components/admin/turnos/turnos.component';
 import { PacientesComponent } from './components/admin/pacientes/pacientes.component';
-
-
-import { AddPacienteComponent } from './components/admin/pacientes/add-paciente/add-paciente/add-paciente.component';
-import { AddTurnoComponent } from './components/admin/pacientes/add-turno/add-turno/add-turno.component';
 import { FilterPipe } from './utils/filter';
 
 @NgModule({
@@ -76,9 +72,6 @@ import { FilterPipe } from './utils/filter';
     ProInformesComponent,
     TurnosComponent,
     PacientesComponent,
-    AddPacienteComponent,
-   
-    AddTurnoComponent,
     FilterPipe
   ],
   imports: [

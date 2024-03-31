@@ -35,7 +35,7 @@ export class EspecialidadService {
   }
 
   getOne(id : number): Observable<Especialidad>{
-       return this.http.get<Especialidad>(this.myAppUrl + this.myApiUrl + '/' + id);
+       return this.http.get<Especialidad>(`${this.myAppUrl}${this.myApiUrl}/${id}`);
 
   }
 
