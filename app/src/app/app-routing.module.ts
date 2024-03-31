@@ -24,6 +24,8 @@ import { MisTurnosPacienteComponent } from './components/paciente/mis-turnos-pac
 import { MiperfilPacienteComponent } from './components/paciente/miperfil-paciente/miperfil-paciente.component';
 import { InformesComponent } from './components/informes/informes.component';
 import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/pro-informes.component';
+import { TurnosComponent } from './components/admin/turnos/turnos.component';
+import { PacientesComponent } from './components/admin/pacientes/pacientes.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -49,6 +51,9 @@ const routes: Routes = [
     {path: 'profesional-edit/:id', component: EditProfesionalComponent, canActivate : [loginAuthAdmin]},
 
     {path: 'informes', component: InformesComponent, canActivate: [loginAuthAdmin]},
+    {path: 'turnos', component: TurnosComponent, canActivate: [loginAuthAdmin]},
+    {path: 'pacientes', component: PacientesComponent, canActivate: [loginAuthAdmin]},
+    {path: 'pacientes/edit-paciente/:id', component: MiperfilPacienteComponent, canActivate: [loginAuthAdmin]},
 
     //------------Profesional-------------------------------------//
     {path : 'profesional/mis-turnos', component : ProMisTurnosComponent, canActivate : [loginAuthProfesional] },

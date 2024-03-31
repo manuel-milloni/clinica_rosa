@@ -37,6 +37,13 @@ import { MiperfilPacienteComponent } from './components/paciente/miperfil-pacien
 import { InformesComponent } from './components/informes/informes.component';
 import { ProInformesComponent } from './components/pro-mis-turnos/pro-informes/pro-informes.component';
 import { SharedFunctions } from './utils/SharedFunctions';
+import { TurnosComponent } from './components/admin/turnos/turnos.component';
+import { PacientesComponent } from './components/admin/pacientes/pacientes.component';
+
+import { EditPacienteComponent } from './components/admin/pacientes/edit-paciente/edit-paciente/edit-paciente.component';
+import { AddPacienteComponent } from './components/admin/pacientes/add-paciente/add-paciente/add-paciente.component';
+import { AddTurnoComponent } from './components/admin/pacientes/add-turno/add-turno/add-turno.component';
+import { FilterPipe } from './utils/filter';
 
 @NgModule({
   declarations: [
@@ -66,7 +73,13 @@ import { SharedFunctions } from './utils/SharedFunctions';
     MisTurnosPacienteComponent,
     MiperfilPacienteComponent,
     InformesComponent,
-    ProInformesComponent
+    ProInformesComponent,
+    TurnosComponent,
+    PacientesComponent,
+    AddPacienteComponent,
+    EditPacienteComponent,
+    AddTurnoComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
