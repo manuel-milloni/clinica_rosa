@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { first, firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
@@ -22,6 +22,11 @@ export class MiperfilPacienteComponent implements OnInit {
   form: FormGroup
   listObraSocial: ObraSocial[] = [];
   paciente : Usuario | undefined;
+  payload : any;
+
+  id : number = 0;
+
+ 
 
 
 
@@ -31,7 +36,8 @@ export class MiperfilPacienteComponent implements OnInit {
     private _userService: UsuarioService,
     private router: Router,
     private _obraSocialService : ObrasocialService,
-    private _turnoService : TurnoService) {
+    private _turnoService : TurnoService,
+    private aRouter : ActivatedRoute) {
 
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
@@ -66,6 +72,8 @@ export class MiperfilPacienteComponent implements OnInit {
      this.form.get('nroAfiliado')?.updateValueAndValidity();
    });
 
+   this.id = Number(this.aRouter.snapshot.paramMap.get('id'));
+
   }
  async ngOnInit(): Promise<void> {
       await this.getPaciente();
@@ -74,6 +82,7 @@ export class MiperfilPacienteComponent implements OnInit {
 
   async getPaciente() {
     const token = localStorage.getItem('auth-token');
+    let paciente : Usuario = {};
 
     if (!token) {
       this.router.navigate(['login']);
@@ -82,11 +91,15 @@ export class MiperfilPacienteComponent implements OnInit {
     }
     try {
       const payload : any = await firstValueFrom(this._authService.verifyToken(token));
+       this.payload = payload; 
+      //Si la modificacion la esta realizando un admin
+      if(payload.rol === 2){
+           paciente = await firstValueFrom(this._userService.getOne(this.id));
 
-      const paciente : Usuario = await firstValueFrom(this._userService.getOne(payload.id));
-      
-    
-
+      }else {
+        //Si la modificacion la realiza el paciente
+        paciente = await firstValueFrom(this._userService.getOne(payload.id));
+      }
 
       this.form.patchValue({
           nombre : paciente.nombre,
@@ -178,12 +191,16 @@ export class MiperfilPacienteComponent implements OnInit {
     try{
 
        await firstValueFrom(this._userService.update(this.paciente?.id!, body));
-
+       if(this.payload.rol === 2){
+        this.router.navigate(['pacientes']);
+       }else {
+         this.router.navigate(['']);
+       }
        this.toastr.success('Datos modificados exitosamente!');
     }catch(error){
        this.toastr.error('Error al actualizar datos', 'Error');
     }
-    console.log('Continuo con el hilo de la funcion');
+    
 
   
 }
