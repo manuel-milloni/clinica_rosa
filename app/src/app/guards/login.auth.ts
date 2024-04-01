@@ -20,7 +20,13 @@ export const loginAuth = () => {
   } else {
       return _authService.verifyToken(token).pipe(
           switchMap((data: any) => {
-              return of(true); // Devuelve un observable con valor true
+              if(data.rol === 0){
+              return of(true);
+              } else {
+                toastr.error('Acceso denegado', 'Error');
+                router.navigate(['login']); 
+                return of(false);
+              }
           }),
           catchError(error => {
               console.error(error);
