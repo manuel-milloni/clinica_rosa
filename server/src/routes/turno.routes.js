@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {create, getAll, getOne, remove, edit, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional, getTurnoByPacFechaHora, getTurnosByProfesional} = require('../controllers/turno.controllers');
+const {create, getAll, getOne, edit, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional, getTurnoByPacFechaHora, getTurnosByProfesional, remove} = require('../controllers/turno.controllers');
 
 const router = Router();
 
@@ -7,6 +7,7 @@ router.get('/', getAll);
 router.get('/:id', getOne);
 router.post('/', create);
 router.put('/:id', edit);
+// router.put('/update/:id', cancelarTurno);
 router.delete('/:id', remove);
 
 router.get('/paciente/:id', getPaciente);

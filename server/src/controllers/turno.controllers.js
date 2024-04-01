@@ -48,40 +48,43 @@ const create = async (req, res) =>{
      }
 };
 
-const remove = async (req, res)=>{
-  const id = req.params.id;
-  try{
-   const turno = await Turno.findByPk(id);
-   if(!turno){
-      const error = new Error("Turno no encontrado");
-      handleHttp(res, error, 404);
-      return;
-   }
+// const cancelarTurno = async (req, res)=>{
+//   const id = req.params.id;
+//   try{
+//    const turno = await Turno.findByPk(id);
+//    if(!turno){
+//       const error = new Error("Turno no encontrado");
+//       handleHttp(res, error, 404);
+//       return;
+//    }
 
-   //Valido diferencia de 48hs para cancelar turno.
-   const fechaActual = new Date();
-   const fechaTurno = new Date(turno.fecha + ' ' + turno.hora);
+//    //Valido diferencia de 48hs para cancelar turno.
+//    const fechaActual = new Date();
+//    const fechaTurno = new Date(turno.fecha + ' ' + turno.hora);
 
-   const difMs = fechaTurno - fechaActual;
+//    const difMs = fechaTurno - fechaActual;
    
-   const difHoras= difMs / (1000*60*60);
+//    const difHoras= difMs / (1000*60*60);
 
 
    
-   if(difHoras < 48){
-      const error = new Error("Para cancelar un turno debe ser con 48hs de anticipacion");
-      handleHttp(res, error, 400);
-      return;
-   }
+//    if(difHoras < 48){
+//       const error = new Error("Para cancelar un turno debe ser con 48hs de anticipacion");
+//       handleHttp(res, error, 400);
+//       return;
+//    }
+   
+//    const body = {
+//     estado : 'Cancelado'
+//    };
+//    const result = await turno.update(body);
+//    res.json(result);
 
-   const result = await turno.destroy();
-   res.json(result);
 
-
-  }catch(error){
-     handleHttp(res, error, 500);
-  }
-};
+//   }catch(error){
+//      handleHttp(res, error, 500);
+//   }
+// };
 
 const edit = async (req, res)=>{
     const id= req.params.id;
@@ -307,9 +310,27 @@ const getTurnosByProfesional = async (req, res)=>{
     }
 }
 
+const remove = async (req, res)=>{
+  const id = req.params.id;
+  try{
+   const turno = await Turno.findByPk(id);
+   if(!turno){
+      const error = new Error("Turno no encontrado");
+      handleHttp(res, error, 404);
+      return;
+   }
+   const result = await turno.destroy();
+   res.json(result);
+
+
+  }catch(error){
+     handleHttp(res, error, 500);
+  }
+};
 
 
 
 
-module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, 
-  getTurnosByFecha, getTurnosByFechaAndProfesional,getTurnoByPacFechaHora, getTurnosByProfesional};
+
+module.exports = {getAll, create, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, 
+  getTurnosByFecha, getTurnosByFechaAndProfesional,getTurnoByPacFechaHora, getTurnosByProfesional, remove};

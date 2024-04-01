@@ -53,6 +53,8 @@ export class TurnoService {
     return this.http.delete<void>(`${this.myAppUrl}${this.myApiUrl}/${idTurno}`);
   }
 
+ 
+
   getTurnosByFecha(body: any): Observable<Turno[]> {
     return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/informes`, body)
   }

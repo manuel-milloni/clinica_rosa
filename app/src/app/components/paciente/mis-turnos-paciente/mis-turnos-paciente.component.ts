@@ -148,7 +148,11 @@ export class MisTurnosPacienteComponent implements OnInit {
    
          if (this.valida48hs(fechaTurnoDate)) {
             try {
-               await firstValueFrom(this._turnoService.delete(turno.id!));
+               const body = {
+                  estado : 'Cancelado'
+               };
+
+               await firstValueFrom(this._turnoService.update(body, turno.id!));
                this.getTurnos();
                this.toastr.success('Turno cancelado exitosamente!');
             } catch (error: any) {

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { error } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
-import { firstValueFrom } from 'rxjs';
+import { config, firstValueFrom } from 'rxjs';
 import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { Turno } from 'src/app/interfaces/Turno';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
@@ -39,7 +40,8 @@ export class TurnosComponent implements OnInit {
               private _turnoService : TurnoService,
               private toastr : ToastrService,
               private _userService : UsuarioService,
-              private _especialidadService : EspecialidadService) {
+              private _especialidadService : EspecialidadService,
+              private router : Router) {
 
   }
 
@@ -222,6 +224,23 @@ abrirModal(idTurno : number) {
    } else {
       this.getTurnosByFecha();
    }
+ }
+
+ async deleteTurno(id : number){
+   if(confirm('Desea eliminar el registro?')){
+    try{
+       
+         await firstValueFrom(this._turnoService.delete(id));
+         
+         this.toastr.success('Turno eliminado exitosamente');
+         this.getTurnosByFecha();
+    }catch(error){
+      console.error(error);
+      this.toastr.error('Error al eliminar registro', 'Error');
+    }
+
+        }
+ 
  }
 
 
