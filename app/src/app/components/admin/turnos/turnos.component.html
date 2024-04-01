@@ -11,6 +11,7 @@
        <button (click)="getAllTurnos()">Ver todos</button>
        <button (click)="getTurnosToday()">Hoy</button>
        <button (click)="getTurnosTomorrow()">Mañana</button>
+       <input class="form-control" type="text" id="buscador" placeholder="Buscar turnos(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
     </div>
  
     <div class="calendario" *ngIf="mostrarCalendarioFD">
@@ -31,54 +32,54 @@
     <div class="container-cards">
  
  
-       <div class="card" *ngFor="let turno of listTurno">
+       <div class="card" *ngFor="let item of listTurno | filter:searchText : ['estado', 'paciente.nombre', 'paciente.apellido','profesional.nombre', 'profesional.apellido']">
  
           <div class="content">
  
              <div class="box">
                 <label for="">Turno nro:</label>
-                <span>{{turno.id}}</span>
+                <span>{{item.id}}</span>
  
              </div>
              <div class="box">
                 <label for="">Paciente:</label>
-                <span>{{turno.paciente?.nombre}} {{turno.paciente?.apellido}}</span>
+                <span>{{item.paciente?.nombre}} {{item.paciente?.apellido}}</span>
  
              </div>
  
              <div class="box">
                 <label for="">Estado:</label>
-                <span>{{turno.estado}}</span>
+                <span>{{item.estado}}</span>
  
              </div>
              <div class="box">
                 <label for="">Profesional:</label>
-                <span>{{turno.profesional?.nombre}} {{turno.profesional?.apellido}}</span>
+                <span>{{item.profesional?.nombre}} {{item.profesional?.apellido}}</span>
  
              </div>
              <div class="box">
                 <label for="">Especialidad:</label>
-                <span>{{turno.especialidad?.nombre}}</span>
+                <span>{{item.especialidad?.nombre}}</span>
  
              </div>
  
              <div class="box">
                 <label for="">Fecha:</label>
-                <span>{{turno.fechaLocal}}</span>
-                <span>{{turno.hora}}</span>
+                <span>{{item.fechaLocal}}</span>
+                <span>{{item.hora}}</span>
  
              </div>
  
  
              <div class="box-observaciones">
  
-                <span>{{turno.observaciones}}</span>
+                <span>{{item.observaciones}}</span>
              </div>
  
  
           </div>
           <div class="footer">
-             <button (click)="abrirModal(turno.id!)">Editar</button>
+             <button (click)="abrirModal(item.id!)">Editar</button>
  
           </div>
  

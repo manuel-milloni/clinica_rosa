@@ -33,6 +33,8 @@ export class TurnosComponent implements OnInit {
   modal = false;
   idTurnoModal : number = 0;
 
+  searchText : string = '';
+
   constructor(private sharedFunctions : SharedFunctions,
               private _turnoService : TurnoService,
               private toastr : ToastrService,
