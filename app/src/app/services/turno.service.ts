@@ -70,5 +70,9 @@ export class TurnoService {
     return this.http.get<Turno[]>(`${this.myAppUrl}${this.myApiUrl}`);
   }
 
+  getTurnosByProfesional(body : any, idProfesional : number) : Observable<Turno[]>{
+      return this.http.post<Turno[]>(`${this.myAppUrl}${this.myApiUrl}/profesional/turnos/${idProfesional}`, body);
+  }
+
 
 }

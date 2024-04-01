@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const {create, getAll, getOne, remove, edit, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional, getTurnoByPacFechaHora} = require('../controllers/turno.controllers');
+const {create, getAll, getOne, remove, edit, getAllByProfesionalAndFecha, getPaciente, getTurnosProfesionalByFecha, getTurnosByPaciente, getTurnosByFecha, getTurnosByFechaAndProfesional, getTurnoByPacFechaHora, getTurnosByProfesional} = require('../controllers/turno.controllers');
 
 const router = Router();
 
@@ -17,6 +17,7 @@ router.post('/informes', getTurnosByFecha);
 
 router.post('/profesional/informes/:id', getTurnosByFechaAndProfesional);
 router.post('/profesional/:id', getAllByProfesionalAndFecha);
+router.post('/profesional/turnos/:id', getTurnosByProfesional);
 module.exports = router;
 
 

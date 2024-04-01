@@ -27,7 +27,7 @@
     <tbody>
    
     
-      <tr *ngFor="let item of listPacientes | filter:searchText" class="table-primary">
+      <tr *ngFor="let item of listPacientes | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-primary">
         <td>{{item.nombre}}</td>
         <td>{{item.apellido}}</td>
         <td>{{item.dni}}</td>

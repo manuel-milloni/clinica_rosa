@@ -286,9 +286,30 @@ const getTurnoByPacFechaHora = async (req, res)=>{
   }
 }
 
+const getTurnosByProfesional = async (req, res)=>{
+    const {fecha, estado} = req.body;
+    const idProfesional = req.params.id;
+    const fechaDate = new Date(fecha);
+    try{
+        const turnos = await Turno.findAll({
+          where : {
+            fecha: {[Op.gte]: fechaDate}, //Mayores o iguales
+            estado : estado,
+            id_profesional : idProfesional
+          },
+          order : [['fecha' ,'ASC']]
+        });
+        
+        res.json(turnos);
+      
+    }catch(error){
+        handleHttp(res, error, 500);
+    }
+}
+
 
 
 
 
 module.exports = {getAll, create, remove, edit, getOne, getAllByProfesionalAndFecha,getTurnosProfesionalByFecha, getPaciente, getTurnosByPaciente, 
-  getTurnosByFecha, getTurnosByFechaAndProfesional,getTurnoByPacFechaHora};
+  getTurnosByFecha, getTurnosByFechaAndProfesional,getTurnoByPacFechaHora, getTurnosByProfesional};
