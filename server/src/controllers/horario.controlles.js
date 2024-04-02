@@ -123,4 +123,21 @@ const edit = async(req, res) => {
     } 
 }
 
-module.exports = {getAll, create, edit, remove, getOne};
+const getProfesionalesByHorario = async (req, res) =>{
+     const idHorario = req.params.id;
+     try{
+          const horario = await Horario.findByPk(idHorario);
+          if(!horario){
+               const error = new Error('Horario no encontrado');
+               handleHttp(res, error, 404);
+               return;
+          }
+
+          const profesionales = await horario.getProfesionalesHor();
+          res.json(profesionales);
+     }catch(error){
+          handleHttp(res, error, 500);
+     }
+}
+
+module.exports = {getAll, create, edit, remove, getOne, getProfesionalesByHorario};

@@ -6,6 +6,8 @@ import { Horario } from 'src/app/interfaces/Horario';
 import { HorarioService } from 'src/app/services/horario.service';
 import { Validations } from 'src/app/utils/Validations';
 import { Time } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
+import { Usuario } from 'src/app/interfaces/Usuario';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { Time } from '@angular/common';
 })
 export class EditHorarioComponent implements OnInit {
                  loading : boolean = false;
-                 errorServer: string | null =  null;
+               
                  form : FormGroup;
                  listHoras : string[] = [];
            listHorasDesde : string[] = [];
@@ -52,30 +54,29 @@ export class EditHorarioComponent implements OnInit {
          console.log("Formulario del inicio editar: ",this.form);
    }
 
-   getHorario(){
+   async getHorario(){
         this.loading = true;
-        this._horarioService.getOne(this.id).subscribe((data : Horario)=>{
-                    this.loading = false;
+        try{
+          const data : Horario = await firstValueFrom(this._horarioService.getOne(this.id));
+          this.loading = false;
                     
-                    this.form.setValue({
-                      horaDesde : this.formatTime(data.horaDesde),
-                      horaHasta : this.formatTime(data.horaHasta),
-                      lunes : data.lunes,
-                      martes : data.martes,
-                      miercoles : data.miercoles,
-                      jueves : data.jueves,
-                      viernes: data.viernes
-                    })
-                   
-                    
+          this.form.setValue({
+            horaDesde : this.formatTime(data.horaDesde),
+            horaHasta : this.formatTime(data.horaHasta),
+            lunes : data.lunes,
+            martes : data.martes,
+            miercoles : data.miercoles,
+            jueves : data.jueves,
+            viernes: data.viernes
+          })
 
-        }, (error) =>{
-                this.loading = false;
-                this.errorServer = error.error?.error || 'Error al obtener Horario';
-                console.error(this.errorServer);
-                this.router.navigate(['/horario']);
-                this.toastr.error(this.errorServer!, 'Error');
-        })
+        }catch(error){
+          this.loading = false;
+          console.error(error);
+          this.router.navigate(['/horario']);
+          this.toastr.error('Error al obtener Horario', 'Error');
+        }
+
    }
 
    // Agregar este método para formatear la hora
@@ -101,7 +102,7 @@ export class EditHorarioComponent implements OnInit {
         this.listHorasHasta = this.listHoras.slice(horaDesdeSelect + 1);
   }
 
-   update(){
+   async update(){
         this.loading = true;
         const horario : Horario = {
           horaDesde : this.form.value.horaDesde,
@@ -112,16 +113,27 @@ export class EditHorarioComponent implements OnInit {
           jueves : this.form.value.jueves,
           viernes: this.form.value.viernes
     }
-        this._horarioService.update(this.id, horario).subscribe(()=>{
-                this.loading = false;
-                this.router.navigate(['/horario']);
-                this.toastr.success('Horario modificado exitosamente', 'Horario');
+    try{
 
-        }, (error) => {
-                this.loading = false;
-                this.errorServer = error.error?.error || 'Error al modificar Horario';
-                console.error(this.errorServer);
-                this.toastr.error(this.errorServer!,'Error');
-        })
+      //Valido que no existan profesionales con el Horario asignado
+      const profesionales : Usuario[] = await firstValueFrom(this._horarioService.getProfesionalesByHorario(this.id));
+      if(profesionales.length != 0){
+        this.loading = false;
+        this.router.navigate(['/horario']);
+         this.toastr.error('No es posible modificar un Horario asignado a un Profesional', 'Error');
+         return;
+      };
+
+      await firstValueFrom(this._horarioService.update(this.id, horario));
+      this.loading = false;
+      this.router.navigate(['/horario']);
+      this.toastr.success('Horario modificado exitosamente', 'Horario');
+
+    }catch(error){
+      this.loading = false;
+      console.error(error);
+      this.toastr.error('Error al modificar Horario','Error');
+    }
+  
    }
 }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Horario } from '../interfaces/Horario';
 import { HttpClient } from '@angular/common/http';
+import { Usuario } from '../interfaces/Usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class HorarioService {
 
   getOne(id : number): Observable<Horario>{ 
         return this.http.get<Horario>(this.myAppUrl + this.myApiUrl + '/' + id);
+  }
+
+  getProfesionalesByHorario(idHorario : number) : Observable<Usuario[]>{
+      return this.http.get<Horario[]>(`${this.myAppUrl}${this.myApiUrl}/profesionales/${idHorario}`);
   }
 }

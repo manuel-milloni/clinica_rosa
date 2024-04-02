@@ -18,7 +18,7 @@ Especialidad.hasMany(Usuario, {foreignKey: 'id_especialidad', as: 'profesionales
 
 //Profesional-Horario
 Usuario.belongsTo(Horario, {foreignKey: 'id', as: 'horarios'});
-Horario.hasMany(Usuario, {foreignKey: 'id_horario', as: 'profesionalesHor'});
+Horario.hasMany(Usuario, {foreignKey: 'id_horario', as: 'profesionalesHor'}); //horario.getProfesionalesHor() devuelve todos los profesionales con dicho Horario
 
 //Profesionales - Obrasocial
 Usuario_obra_social.belongsTo(Usuario, {foreignKey: 'id', as: 'obraSocialUsuario'});
