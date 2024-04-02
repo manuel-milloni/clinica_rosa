@@ -1,6 +1,7 @@
 
 Seguir con:
--Casos de uso 1,2,3,4,5, 7,8,9,10 ok ver resto.
+-Casos de uso 1,2,3,4,5, 7,8,9,10,11,12 ok ver resto.
+-Pacientes: eliminar
 
 -Admin pacientes:
     -Eliminar: permitir eliminar si no tiene turnos
@@ -9,8 +10,6 @@ Seguir con:
     -Probar todas las funciones de admin pacientes: Agregar, editar, eliminar, Turno
 
 -CU 6 Repasar como funcionaba el enviador.
--CU 11. Al modificar horarios,obra sociales y especialidad de los profesionales. Validar que no existan turnos futuros en esas condiciones.
-
 -Ver al registrar turno, si cambio de medico hasta no moverme de mes no me actualiza los dias.
 -Cargar turnos pendientes para el dia 03/ 04/ 05 de abril
 -Modificar Fecha de nacimiento de los registros de pacientes a insertar en el sql para que tengan edades entre 0-18 y +51.

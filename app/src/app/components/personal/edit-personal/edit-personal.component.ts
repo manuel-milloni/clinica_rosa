@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
 
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -14,7 +15,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class EditPersonalComponent implements OnInit {
                  loading : boolean = false;
-                 errorServer : string | null = null;
                  form : FormGroup;
                  id : number;
 
@@ -41,27 +41,29 @@ export class EditPersonalComponent implements OnInit {
       
     }
 
-    getPersonal(){
+    async getPersonal(){
           this.loading = true;
-          this._usuarioService.getOne(this.id).subscribe((data : Usuario) => {
-                   this.loading  = false;
-                    this.form.setValue({
-                          nombre : data.nombre,
-                          apellido : data.apellido,
-                          dni : data.dni,
-                          telefono : data.telefono,
-                          
-                    });
-          }, (error) =>{
-                     this.errorServer = error.error?.error || 'Error al obtener Usuario';
-                     console.error(this.errorServer);
-                     this.router.navigate(['/personal']);
-                     this.toastr.error(this.errorServer!, 'Error');
-          })
+          try{
+             const data : Usuario = await firstValueFrom(this._usuarioService.getOne(this.id));
+             this.loading  = false;
+             this.form.setValue({
+                   nombre : data.nombre,
+                   apellido : data.apellido,
+                   dni : data.dni,
+                   telefono : data.telefono,
+                   
+             });
+
+          }catch(error){
+            console.error(error);
+            this.router.navigate(['/personal']);
+            this.toastr.error('Error al obtener Personal', 'Error');
+          }
+     
              
     }
 
-    update(){
+    async update(){
         this.loading = false;
         const personal : Usuario = {
              nombre : this.form.value.nombre,
@@ -69,15 +71,17 @@ export class EditPersonalComponent implements OnInit {
              dni : this.form.value.dni,
              telefono : this.form.value.telefono
         }
-        this._usuarioService.update(this.id, personal).subscribe(()=>{
-                this.loading = false;
-                this.router.navigate(['/personal']);
-                this.toastr.success('Usuario modificado exitosamente', 'Personal');
-        }, (error) =>{
-                this.errorServer = error.error?.error || 'Error al modificar usuario';
-                console.error(this.errorServer);
-                this.toastr.error(this.errorServer!, 'Error');
-        })
+        try{
+            await firstValueFrom(this._usuarioService.update(this.id, personal));
+            this.loading = false;
+            this.router.navigate(['/personal']);
+            this.toastr.success('Usuario modificado exitosamente', 'Personal');
+
+        }catch(error){
+            console.error(error);
+            this.toastr.error('Error al modificar Personal', 'Error');
+        }
+    
 
     }
 

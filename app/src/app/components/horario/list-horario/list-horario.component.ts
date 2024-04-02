@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Horario} from '../../../interfaces/Horario';
 import { HorarioService } from 'src/app/services/horario.service';
 import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list-horario',
@@ -11,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ListHorarioComponent implements OnInit {
          loading : boolean =  false;
          listHorario : Horario[] = [];
-         errorServer : string | null = null;   
+       
   
   constructor(private _horarioService : HorarioService,
               private toastr : ToastrService,
@@ -24,34 +25,36 @@ export class ListHorarioComponent implements OnInit {
              this.getListHorario();
     }
 
-     getListHorario(){
+     async getListHorario(){
            this.loading = true;
-           this._horarioService.getAll().subscribe((data : Horario[])=>{
-                  this.listHorario = data;      
+           try{
+              const data : Horario[] = await firstValueFrom(this._horarioService.getAll());
+              this.listHorario = data;      
                   this.loading = false;
 
-
-            } , (error) =>{
-                 this.loading = false;
-                 this.errorServer = error.error?.error || 'Error al obtener listado de Horarios';
-                 console.error(this.errorServer);
-                 this.toastr.error('Error al obtener listado de Horarios'); 
-           })
+           }catch(error){
+            this.loading = false;
+            console.error(error);
+            this.toastr.error('Error al obtener listado de Horarios');   
+           }
+         
      }
 
-     deleteHorario(id : number){
+   async deleteHorario(id : number){
       if(confirm('Desea eliminar este registro?')){
             this.loading = true;
-            this._horarioService.remove(id).subscribe(()=>{
-                      this.loading = false;
-                      this.getListHorario();
-                      this.toastr.success('Horario eliminado exitosamente', 'Horario');
-            }, (error) =>{
+            try{
+                  await firstValueFrom(this._horarioService.remove(id));
                   this.loading = false;
-                  this.errorServer = error.error?.error || 'Error al eliminar Horario';
-                  console.error(this.errorServer);
-                  this.toastr.error(this.errorServer!, 'Error');
-            })
+                  this.getListHorario();
+                  this.toastr.success('Horario eliminado exitosamente', 'Horario');
+
+            }catch(error){
+                  this.loading = false;
+                  console.error(error);
+                  this.toastr.error('Error al eliminar registro', 'Error');
+            }
+    
       }
    
      }

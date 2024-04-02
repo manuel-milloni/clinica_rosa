@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { firstValueFrom } from 'rxjs';
 import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 
@@ -11,7 +12,7 @@ import { EspecialidadService } from 'src/app/services/especialidad.service';
 export class ListEspecialidadComponent implements OnInit {
                 listEspecialidad : Especialidad[] = [];
                 loading : boolean = false;
-                errorServer : string | null = null;
+             
   
             constructor(private _especialidadService : EspecialidadService, private toastr : ToastrService){
 
@@ -22,36 +23,36 @@ export class ListEspecialidadComponent implements OnInit {
       
     }
 
-    getListEspecialidad(){
+    async getListEspecialidad(){
            this.loading = true;
-           this._especialidadService.getAll().subscribe((data : Especialidad[])=> {
-                    this.listEspecialidad = data;
-                    this.loading = false;
+            try{
+               const data : Especialidad[] =  await firstValueFrom(this._especialidadService.getAll());
+               this.listEspecialidad = data;
+               this.loading = false;
+            }catch(error){
+             
+              this.loading = false;
+              this.toastr.error('Error al obtener Especialidades', 'Error');
 
-           }, (error) => {
-                this.errorServer = error.error?.error || 'Error al obtener lista de Especialidades';
-                this.loading = false;
-                this.toastr.error(this.errorServer!, 'Error');
-           }
-           )
+            }
+    
     }
 
-    deleteEspecialidad(id: number){
+    async deleteEspecialidad(id: number){
         if(confirm('Desea eliminar este registro?')){
           this.loading = true;
-          this._especialidadService.remove(id).subscribe(()=>{
-                      this.getListEspecialidad();
-                      this.toastr.success('Especialidad eliminada exitosamente', 'Especialidad Agregada');
-          }, (error) => {
-                     this.errorServer = error.error?.error || 'Error al eliminar especialidad';
-                     console.error(this.errorServer);
-                     this.loading = false;
-                     this.toastr.error('Error al eliminar Especialdiad', 'Error');
-          })
-        }
+
+          try{
+            await firstValueFrom(this._especialidadService.remove(id));
+            this.getListEspecialidad();
+            this.toastr.success('Especialidad eliminada exitosamente');
+          }catch(error){
+            console.error(error);
+            this.loading = false;
+            this.toastr.error('Error al eliminar Especialdiad', 'Error'); 
+          }
   
     }
 
-
-
+}
 }

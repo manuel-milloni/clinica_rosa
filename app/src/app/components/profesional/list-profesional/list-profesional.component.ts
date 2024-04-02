@@ -15,6 +15,7 @@ import { Modal } from 'bootstrap';
 import { Usuario_obra_social } from 'src/app/interfaces/Usuario_obra_social';
 import { ObrasocialService } from 'src/app/services/obrasocial.service';
 import { ObraSocial } from 'src/app/interfaces/obraSocial';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -24,7 +25,6 @@ import { ObraSocial } from 'src/app/interfaces/obraSocial';
 })
 export class ListProfesionalComponent  implements OnInit{
                loading : boolean = false;
-               errorServer : string | null = null;
                listProfesionales : Usuario[] = [];
                listEspecialidades : Especialidad[] = [];
                listHorarios : Horario[] = [];
@@ -54,48 +54,51 @@ export class ListProfesionalComponent  implements OnInit{
                  
                }
 
-               getListEspecialidades(){
+               async getListEspecialidades(){
                    this.loading = true;
-                   this._especialidadService.getAll().subscribe((data : Especialidad[])=>{
-                                this.loading = false;
-                                this.listEspecialidades = data;
-                   }, (error)=>{
-                                 this.loading = false;
-                                 this.errorServer = error.error?.error || 'Error al obtener Especialidades';
-                                 console.error(this.errorServer);
-                                 this.toastr.error(this.errorServer!, 'Error');
-                   })
+                   try{
+                      const data : Especialidad[] = await firstValueFrom(this._especialidadService.getAll());
+                      this.loading = false;
+                      this.listEspecialidades = data;
+                   }catch(error){
+                    this.loading = false;
+                    console.error(error);
+                    this.toastr.error('Error al obtener Especialidades', 'Error');
+                   }
+             
                }
 
-               getListHorarios(){
+               async getListHorarios(){
                 this.loading = true;
-                this._horarioService.getAll().subscribe((data : Horario[])=>{
-                             this.loading = false;
-                             this.listHorarios = data;
-                            
-                }, (error)=>{
-                              this.loading = false;
-                              this.errorServer = error.error?.error || 'Error al obtener Horarios';
-                              console.error(this.errorServer);
-                              this.toastr.error(this.errorServer!, 'Error');
-                })
+                try{
+                   const data : Horario[] = await firstValueFrom(this._horarioService.getAll());
+                   this.loading = false;
+                   this.listHorarios = data;
+                }catch(error){
+                  this.loading = false;
+                  console.error(error);
+                  this.toastr.error('Error al obtener Horarios', 'Error');
+                }
+         
             }
 
-               getListProfesionales(){
+               async getListProfesionales(){
                    this.loading = true;
-                   this._usuarioService.getAllProfesional().subscribe((data : Usuario[])=>{
-                           this.loading = false;
-                           this.listProfesionales = data;
-                           this.updateEspecialidad();
-                         
-                           this.updateHorario();
-                           this.updateObraSocial();
-                   }, (error)=>{
-                         this.loading = false;
-                         this.errorServer = error.error?.error || 'Error al obtener lista de Profesionales';
-                         console.error(this.errorServer);
-                         this.toastr.error(this.errorServer!, 'Error');
-                   })
+                   try{
+                      const data : Usuario[] = await firstValueFrom(this._usuarioService.getAllProfesional());
+                      this.loading = false;
+                      this.listProfesionales = data;
+                      this.updateEspecialidad();
+                    
+                      this.updateHorario();
+                      await this.updateObraSocial();
+
+                   }catch(error){
+                    this.loading = false;
+                    console.error(error);
+                    this.toastr.error('Error al obtener Profesionales', 'Error');
+                   }
+              
                   
                }
 
@@ -139,48 +142,63 @@ export class ListProfesionalComponent  implements OnInit{
                 this.loading = false;
               }
 
-              updateObraSocial(){
+              async updateObraSocial(){
                   this.loading = true;
+                  try{
+                    this.listProfesionales.forEach(async (profesional)=>{
+                        const data : Usuario_obra_social[] = await firstValueFrom(this._usuarioService.getObrasSociales(profesional.id!));
+                        profesional.obrasSociales = profesional.obrasSociales || [];
+                        data.forEach(async (item)=>{
+                            const os : ObraSocial = await firstValueFrom(this._obraSocialService.getOne(item.id_obra_social));
+                            profesional.obrasSociales?.push(os);
+                            this.loading = false;
+                        })
+
+                    })
+                  }catch(error){
+                    this.loading = false;    
+                    console.error(error);
+                  }
                   
-                  this.listProfesionales.forEach((profesional)=>{
+                  // this.listProfesionales.forEach((profesional)=>{
                       
-                         this._usuarioService.getObrasSociales(profesional.id!).subscribe((data : Usuario_obra_social[])=>{
-                                  profesional.obrasSociales = profesional.obrasSociales || [];
-                                  data.forEach((item)=> { this._obraSocialService.getOne(item.id_obra_social).subscribe((os : ObraSocial)=>{
+                  //        this._usuarioService.getObrasSociales(profesional.id!).subscribe((data : Usuario_obra_social[])=>{
+                  //                 profesional.obrasSociales = profesional.obrasSociales || [];
+                  //                 data.forEach((item)=> { this._obraSocialService.getOne(item.id_obra_social).subscribe((os : ObraSocial)=>{
                                                 
-                                                 profesional.obrasSociales?.push(os);
+                  //                                profesional.obrasSociales?.push(os);
                                             
-                                                 this.loading = false;
-                                  }, (error)=>{
-                                         this.loading = false;    
-                                         console.error(error);
-                                  })});
+                  //                                this.loading = false;
+                  //                 }, (error)=>{
+                  //                        this.loading = false;    
+                  //                        console.error(error);
+                  //                 })});
                                   
 
-                         }, (error)=>{
-                                this.loading  = false;
-                                console.error(error);
-                         })
-                  })
+                  //        }, (error)=>{
+                  //               this.loading  = false;
+                  //               console.error(error);
+                  //        })
+                  // })
               }
 
      
 
-               deleteProfesional(id : number){
+               async deleteProfesional(id : number){
                 if(confirm('Desea eliminar este registro?')){
                   this.loading = true;
-                  this._usuarioService.remove(id).subscribe(()=>{
-                       this.loading = false;
-                       this.getListProfesionales();
-                       this.toastr.success('Usuario eliminado exitosamente', 'Usuario');                        
+                  try{
+                     await firstValueFrom(this._usuarioService.remove(id));
+                     this.loading = false;
+                     this.getListProfesionales();
+                     this.toastr.success('Usuario eliminado exitosamente', 'Usuario'); 
 
-                  }, (error)=>{
-                      this.loading = false;
-                      this.errorServer = error.error?.error || 'Error al eliminar usuario';
-                      console.error(this.errorServer);
-                      this.toastr.error(this.errorServer!, 'Error'); 
-                     
-                  })
+                  }catch(error){
+                    this.loading = false;
+                    console.error(error);
+                    this.toastr.error('Error al eliminar Profesional', 'Error'); 
+                  }
+          
                 }
          
 

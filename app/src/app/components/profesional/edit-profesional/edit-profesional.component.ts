@@ -25,7 +25,6 @@ import { Turno } from 'src/app/interfaces/Turno';
 })
 export class EditProfesionalComponent implements OnInit {
   loading: boolean = false;
-  errorServer: string | null = null;
   form: FormGroup;
   listObraSocial: ObraSocial[] = [];
   listEspecialidad: Especialidad[] = [];
