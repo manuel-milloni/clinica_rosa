@@ -68,18 +68,6 @@ export class AddPersonalComponent implements OnInit {
 
         this.toastr.error('Error al crear Personal', 'Error');
       }
-      this._usuarioService.createPersonal(personal).subscribe(() => {
-        this.router.navigate(['/personal']);
-        this.toastr.success('Usuario creado exitosamente', 'Personal');
-      }, (error) => {
-        this.loading = false;
-        console.error(error);
-
-        this.router.navigate(['/personal-add']);
-
-        this.toastr.error('Error al crear Personal', 'Error');
-      })
-
 
     }
 

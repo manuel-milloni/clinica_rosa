@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
+import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -16,7 +18,9 @@ export class ListPersonalComponent implements OnInit {
 
 
         constructor(private _usuarioService: UsuarioService,
-                private toastr: ToastrService) {
+                        private toastr: ToastrService,
+                        private _authService : AuthService,
+                        private router : Router) {
 
         }
         ngOnInit(): void {
@@ -42,6 +46,12 @@ export class ListPersonalComponent implements OnInit {
                 if (confirm('Desea eliminar este registro?')) {
                         this.loading = true;
                         try {
+                                const payload = await this.verifyToken();
+                                if(payload.id === id){
+                                        this.loading = false;
+                                        this.toastr.error('No es posible eliminar el usuario logueado');
+                                        return;
+                                }
                                 await firstValueFrom(this._usuarioService.remove(id));
                                 this.getListPersonal();
                                 this.toastr.success('Usuario eliminado exitosamente', 'Personal');
@@ -54,6 +64,25 @@ export class ListPersonalComponent implements OnInit {
 
                 }
 
+        }
+
+        async verifyToken(){
+               this.loading = true;
+               const token = localStorage.getItem('auth-token');
+               if(!token){
+                this.router.navigate(['login']);
+                this.toastr.error('Inicie sesion para continuar', 'Error');
+                return;
+               }
+               try{
+                    const payload : any = await firstValueFrom(this._authService.verifyToken(token));
+                    return payload;    
+               }catch(error){
+                 console.error(error);
+                 this.router.navigate(['login']);
+                 this.toastr.error('Inicie sesion para continuar', 'Error');
+
+               } 
         }
 
 }

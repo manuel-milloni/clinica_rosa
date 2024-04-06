@@ -38,8 +38,20 @@ export class PacientesComponent implements OnInit{
       }
      }
 
-     deletePersonal(id : number){
-
+     async deletePersonal(id : number){
+        if(confirm('Desea eliminar el Paciente?')){
+            this.loading = true;
+            try{
+                await firstValueFrom(this._userService.remove(id));
+                this.getPacientes();
+                this.loading = false;
+                this.toastr.success('Paciente eliminado exitosamente');
+            }catch(error){
+              this.loading = false;
+              console.error(error);
+              this.toastr.error('Error al eliminar Paciente', 'Error');
+            }
+        }
      }
 
      generarTurno(id : number){

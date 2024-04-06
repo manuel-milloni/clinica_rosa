@@ -34,8 +34,9 @@ export class EditProfesionalComponent implements OnInit {
   id_horario: number = 0;
   id_profesional: number = 0;
   listObraSocialProfesional: ObraSocial[] = [];
-  profesional : Usuario ={};
-  turnosPendientes : boolean = false;
+  profesional: Usuario = {};
+  turnosPendientes: boolean = false;
+  updateProfesional : boolean = false;
 
   constructor(private _usuarioService: UsuarioService,
     private fb: FormBuilder,
@@ -46,7 +47,7 @@ export class EditProfesionalComponent implements OnInit {
     private router: Router,
     private aRouter: ActivatedRoute,
     private _turnoService: TurnoService,
-    private sharedFunctions : SharedFunctions) {
+    private sharedFunctions: SharedFunctions) {
 
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
@@ -124,8 +125,8 @@ export class EditProfesionalComponent implements OnInit {
         viernes: horario.viernes
       });
 
-      
-    
+
+
 
       this.form.patchValue({
         nombre: profesional.nombre,
@@ -138,13 +139,13 @@ export class EditProfesionalComponent implements OnInit {
       profesional.horario = horario;
       profesional.especialidad = especialidad.nombre;
       this.profesional = profesional;
-      this.loading  = false;
+      this.loading = false;
 
 
     } catch (error) {
       this.loading = false;
-        console.error(error);
-        this.toastr.error('Error al obtener Profesional', 'Error');
+      console.error(error);
+      this.toastr.error('Error al obtener Profesional', 'Error');
     };
   }
 
@@ -160,20 +161,34 @@ export class EditProfesionalComponent implements OnInit {
       viernes: this.form.value.viernes
     };
 
-     if(this.validaObrasSociales() && this.validaHorarios(horario)){
-           console.log('Obras sociales y horarios sin cambios');
-     } else {
-        //Validar si hay turnos pendientes
+    if (this.validaObrasSociales() && this.validaHorarios(horario)) {
+      console.log('Obras sociales y horarios sin cambios');
+      this.updateProfesional = true;
+
+    } else {
+      //Validar si hay turnos pendientes
       console.log('Se detectaron cambios en las obras sociales o en los horarios');
-       await this.validaTurnosPendientes();
-       if(this.turnosPendientes){
+      await this.validaTurnosPendientes();
+      if (this.turnosPendientes) {
         console.log('No tiene turnos pendientes');
+        this.updateProfesional = true;
+ 
+
+      } else {
+
+        this.toastr.error('No es posible modificar los campos Horario y Obra Social cuando el Profesional tiene turnos pendientes');
+        return;
+
+      }
+    }
+
+      if(this.updateProfesional){
         try {
           //Crea horario, si ya existe devuelve id del horario y lo asigna al body
           const data: Horario = await firstValueFrom(this.addHorario(horario));
           this.id_horario = data.id!;
           const profesional: Usuario = {
-    
+
             nombre: this.form.value.nombre,
             apellido: this.form.value.apellido,
             dni: this.form.value.dni,
@@ -184,83 +199,81 @@ export class EditProfesionalComponent implements OnInit {
             id_especialidad: this.form.value.id_especialidad,
             id_horario: this.id_horario,
             obras_sociales: this.form.value.obrasSociales
-    
+
           };
-          await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
+          console.log('Obras sociales: ', profesional.obras_sociales);
+          //await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
           this.router.navigate(['/profesional']);
           this.toastr.success('Usuario modificado exitosamente', 'Usuario');
-    
+
         } catch (error) {
           console.error(error);
           this.toastr.error('Error al modificar usuario', 'Error');
         }
+      
 
-       } else {
-        
-        this.toastr.error('No es posible modificar los campos Horario y Obra Social cuando el Profesional tiene turnos pendientes');
-        
-       }
 
-     }
+
+    }
 
 
 
 
   }
 
-   //Valida si hubo modificaciones en el horario (retorna true cuando no se modifico el horario y false cuando los horarios no son iguales)
-  validaHorarios(horario : Horario) : boolean{
-      const horaDesde : any = this.profesional.horario?.horaDesde.toString().substring(0,5);
-      const horaHasta : any = this.profesional.horario?.horaHasta.toString().substring(0,5);
-      if(horaDesde !== horario.horaDesde){
-           return false;
-      } else if(horaHasta !== horario.horaHasta){
-            return false;
-      } else if(horario.lunes !== this.profesional.horario?.lunes){
-           return false;
-      } else if (horario.martes !== this.profesional.horario?.martes){
-          return false;
-      } else if( (horario.miercoles !== this.profesional.horario?.miercoles)){
-          return false;
-      } else if(horario.jueves !== this.profesional.horario?.jueves){
-          return false;
-      } else if(horario.viernes !== this.profesional.horario?.viernes){
-         return false;
-      } else {
-        return true;
-      }
+  //Valida si hubo modificaciones en el horario (retorna true cuando no se modifico el horario y false cuando los horarios no son iguales)
+  validaHorarios(horario: Horario): boolean {
+    const horaDesde: any = this.profesional.horario?.horaDesde.toString().substring(0, 5);
+    const horaHasta: any = this.profesional.horario?.horaHasta.toString().substring(0, 5);
+    if (horaDesde !== horario.horaDesde) {
+      return false;
+    } else if (horaHasta !== horario.horaHasta) {
+      return false;
+    } else if (horario.lunes !== this.profesional.horario?.lunes) {
+      return false;
+    } else if (horario.martes !== this.profesional.horario?.martes) {
+      return false;
+    } else if ((horario.miercoles !== this.profesional.horario?.miercoles)) {
+      return false;
+    } else if (horario.jueves !== this.profesional.horario?.jueves) {
+      return false;
+    } else if (horario.viernes !== this.profesional.horario?.viernes) {
+      return false;
+    } else {
+      return true;
+    }
 
   }
 
   //Valida si hubo cambios en las obras sociales del Profesional
-  validaObrasSociales() : boolean{
-      const obrasSocialesProfesional = this.listObraSocialProfesional.map((obrasocial)=>{
-            return obrasocial.id;
-      });
+  validaObrasSociales(): boolean {
+    const obrasSocialesProfesional = this.listObraSocialProfesional.map((obrasocial) => {
+      return obrasocial.id;
+    });
 
-      if(this.form.value.obrasSociales.length === obrasSocialesProfesional.length){
-            return obrasSocialesProfesional.every(item => this.form.value.obrasSociales.includes(item));
-      } else {
-        return false;
-      }
+    if (this.form.value.obrasSociales.length === obrasSocialesProfesional.length) {
+      return obrasSocialesProfesional.every(item => this.form.value.obrasSociales.includes(item));
+    } else {
+      return false;
+    }
   }
 
- async  validaTurnosPendientes(){
-      const fecha = new Date();
-      const fechaString = this.sharedFunctions.formatoFechaDB(fecha);
-      const body = {
-        fecha : fechaString,
-        estado : 'Pendiente'
-      };
+  async validaTurnosPendientes() {
+    const fecha = new Date();
+    const fechaString = this.sharedFunctions.formatoFechaDB(fecha);
+    const body = {
+      fecha: fechaString,
+      estado: 'Pendiente'
+    };
 
-      try{
-          const turnosPendientes : Turno[] = await firstValueFrom(this._turnoService.getTurnosByProfesional(body, this.profesional.id!));
-          this.turnosPendientes = !(turnosPendientes.length!=0);
-      }catch(error){
-         console.error(error);
-         this.toastr.error('Error al validar turnos pendientes', 'Error');
-         
-      }
+    try {
+      const turnosPendientes: Turno[] = await firstValueFrom(this._turnoService.getTurnosByProfesional(body, this.profesional.id!));
+      this.turnosPendientes = !(turnosPendientes.length != 0);
+    } catch (error) {
+      console.error(error);
+      this.toastr.error('Error al validar turnos pendientes', 'Error');
+
+    }
   }
 
   //Trae todas las os
@@ -309,21 +322,21 @@ export class EditProfesionalComponent implements OnInit {
     const horaDesdeSelect = this.listHoras.indexOf(horaDesde);
 
     this.listHorasHasta = this.listHoras.slice(horaDesdeSelect + 1);
-   
+
   }
 
   generateListHorasHasta(horaDesde: string) {
     // extraer la hoa desde el string horaDesde
     const hora = parseInt(horaDesde.substring(0, 2));
-  
+
     // genear las horas hasta 18:00 en incrementos de una hora
     this.listHorasHasta = [];
     for (let i = hora + 1; i <= 18; i++) {
       const horaFormateada = i < 10 ? `0${i}` : `${i}`;
       this.listHorasHasta.push(`${horaFormateada}:00`);
     }
-  
-  
+
+
   }
 
   async getObrasSociales(id: number): Promise<void> {

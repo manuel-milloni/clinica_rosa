@@ -44,9 +44,9 @@ export class ListProfesionalComponent  implements OnInit{
 
                }
 
-               ngOnInit(): void {
-                   this.getListEspecialidades();
-                   this.getListHorarios();
+               async ngOnInit(): Promise<void> {
+                   await this.getListEspecialidades();
+                   await this.getListHorarios();
                    this.getListProfesionales();
                   
                    
