@@ -15,7 +15,10 @@ Seguir con:
 -Modificar Fecha de nacimiento de los registros de pacientes a insertar en el sql para que tengan edades entre 0-18 y +51.
 -Cargar videos (1 por CU) en Clasroom
 -Asegurarse que haya dos medicos por especialidad(sino por momentos no me deja seleccionar medico)
+-Al agregar personal no valida que las pass coincidan(valida en el componente).
+
 Extras:
+
 -Modificar createPaciente para el caso que el email o dni duplicado tome desde el error de sequelize como en createProfesional()
 -Agregar al Crear Turno, que solo aparezcan para seleccionar en el calendario los dias que trabaja el medico.
 -Modificar calendario para que sea en espanol.

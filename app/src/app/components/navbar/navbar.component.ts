@@ -16,6 +16,10 @@ export class NavbarComponent implements OnInit {
                payload : any;
                user : Usuario = {};
 
+               homeAdmin : boolean = false;
+               homeProfesional : boolean = false;
+               homePaciente : boolean  = false;
+
      constructor(private _authService : AuthService,
                  private _userService : UsuarioService,
                  private toastr : ToastrService){
@@ -43,6 +47,16 @@ export class NavbarComponent implements OnInit {
       try{
          const data : any = await firstValueFrom(this._authService.verifyToken(token));
          this.payload = data;
+         if(this.payload.rol === 1){
+            this.homeProfesional = true;
+         }
+         if(this.payload.rol === 2){
+            this.homeAdmin = true;
+         }
+
+         if(this.payload.rol === 0){
+            this.homePaciente = true;
+         }
          this.login = true;
 
       } catch(error){

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -21,44 +22,34 @@ export class HomeComponent implements OnInit {
          this.verifyToken();
     }
 
-    verifyToken(){
+   async verifyToken(){
           this.loading = true;
           const token = localStorage.getItem('auth-token');
           if(!token){
              this.loading = false;
              return;
           }
-          this._authService.verifyToken(token!).subscribe((data : any)=>
-          {
-               this.loading = false;
-              const payload = data
-              
-              
-               if(payload.rol === 2){
-                    this.homeAdmin = true;
-                    return;
-               }
 
-               if(payload.rol === 1){
-                      this.homeProfesional = true;
-                      return;
-               }
+          try{
+              const data =  await firstValueFrom(this._authService.verifyToken(token));
+              this.loading = false;
+              const payload = data;
+              if(payload.rol === 2){
+               this.homeAdmin = true;
+               return;
+          }
 
-              
+          if(payload.rol === 1){
+                 this.homeProfesional = true;
+                 return;
+          }
 
-               
 
-          }, (error)=>{
-               this.loading = false;
-              console.error('Error: ', error);
-             
-             
-
-          })
+          }catch(error){
+               console.error(error);
+          }
 
     }
-
-
 
 
 }

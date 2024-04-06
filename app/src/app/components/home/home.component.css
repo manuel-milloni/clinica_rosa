@@ -1,19 +1,60 @@
-.div-homeAdmin {
-     border: 2px solid red;
-     align-items: center;
+
+#carousel-inner {
+    max-height: 39rem;
 }
 
-.div-buttons {
-      border: 2px solid #fff;
-      align-items: center;
-      text-align: center;
+/* ------------------------------- SERVICIOS ---------------------------------------- */
+
+.card-border {
+    border: solid 5px white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all ease-out 0.2s;
+}
+
+.card-border:hover {
+    transform: scale(1.05);
+} 
+
+.card .img-fit {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.card {
+    height: 100%;
+}
+
+
+/* ------------------------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    #intro {
+        width: 90% !important;
+    }
+
+    .servicio-fila {
+        width: 100% !important;
+        text-align: center;
+    }
+
     
 
+    .card .img-fit {
+        aspect-ratio: 1.45 / 1;
+    }
+
+    
 }
 
-.a-button {
-     display: block;
-     width: 150px;
-     border: 2px solid white;
+@media(max-width: 576px){
+    .icono-wrap{
+        flex-wrap: wrap;
+        justify-content: center !important;
+    }
+
+  
 }
+
+
+
 

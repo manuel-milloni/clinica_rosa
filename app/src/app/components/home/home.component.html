@@ -2,6 +2,7 @@
 
 <div class="div-homeAdmin" *ngIf="homeAdmin">
     <div class="div-buttons">
+        <button type="button" class="btn btn-primary btn-lg"><a routerLink="/turnos">Turnos</a></button>
         <a class="a-button" routerLink="/turnos">Turnos</a>
         <a class="a-button" routerLink="/personal">Personal</a>
         <a class="a-button" routerLink="/profesional">Profesionales</a>
@@ -26,9 +27,109 @@
     </div>
 </div>
 
-<div *ngIf="!homeAdmin && !homeProfesional">
-   <button routerLink="/turno">Turnos online</button>
-   <button routerLink="/mis-turnos">Mis turnos</button>
-   <button routerLink="/mi-perfil">Mi perfil</button>
 
-</div>
+
+<!-- -------------------------   SLIDER IMGS --------------------------------------------------- -->
+<div *ngIf="!homeAdmin && !homeProfesional" id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active" data-bs-interval="3000">
+        <img src="../../../assets/slide2.jpg" class="d-block w-100" alt="slide1">
+      </div>
+
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="../../../assets/slide3.jpg" class="d-block w-100" alt="slide2">
+      </div>
+
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="../../../assets/slide1.jpg" class="d-block w-100" alt="slide3">
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+   <!-- -----------------------------------------------   INTRO ----------------------------------------------------- -->
+   <section *ngIf="!homeAdmin && !homeProfesional" class="w-50 mx-auto text-center pt-5" id="intro">
+    <h1 class="p-3 fs-2 border-top border-3"><span class="text-primary">Clinica Rosa</span>
+      inaugurada en abril de 2024 por un equipo de profesionales con una férrea vocación de servicio en la salud. 
+    </h1>
+    <p class="p-3 fs-4">Es actualmente uno de los mayores establecimientos médicos de la región, en infraestructura edilicia, complejidad de 
+      servicios y nivel de tecnología aplicada a salud. Un amplio equipo de profesionales de medicina atiende las necesidades de pacientes internados y 
+      ambulatorios, cubriendo un alto número de especialidades médicas tanto de diagnóstico como de tratamiento.</p>
+
+</section>
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- ------------------------------------------------ SERVICIOS -------------------------------------------------------------- -->
+<div *ngIf="!homeAdmin && !homeProfesional" class="container-servicios">
+    <div class="row g-3">
+
+      <div class="col-lg">
+        <div class="card card-border">
+          <img class="card-img-top img-fit" src="../../../assets/servicios5.jpg" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Mejora continua</h5>
+            <p class="card-text">
+              Estamos convencidos que siempre podemos mejorar lo que hacemos, esa actitud está incorporada
+              en cada proceso que llevamos a cabo y buscamos generar un ambiente favorable en cada servicio que
+              brindamos.
+            </p>
+          
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg">
+        <div class="card card-border">
+          <img class="card-img-top img-fit" src="../../../assets/servicios6.jpg" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Equipamiento</h5>
+            <p class="card-text">
+              Contamos con el mejor equipamiento medico disponible a nivel mundial para poder brindar a
+              nuestros pacientes un servicio de alto nivel.
+            </p>
+          
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg">
+        <div class="card card-border">
+          <img class="card-img-top img-fit" src="../../../assets/servicios7.jpg" alt="">
+          <div class="card-body">
+            <h5 class="card-title">Pasion por el Servicio</h5>
+            <p class="card-text">
+              Quienes trabajamos en Clinica Rosa sentimos pasión por lo que hacemos y deseamos fervientemente responder a
+              las necesidades de nuestros pacientes y de sus acompañantes.
+            </p>
+          
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+     
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------------------- -->
+
