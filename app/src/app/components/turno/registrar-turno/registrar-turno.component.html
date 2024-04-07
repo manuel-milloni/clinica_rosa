@@ -1,74 +1,81 @@
-
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-<div *ngIf="!loading" class="row mt-3">
+<div *ngIf="!loading" class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card text-white bg-dark mb-3 mt-5" style="max-width: 25rem;">
+        <div class="card-header text-center">Nuevo Turno</div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="modalProfesional()">
 
-<!-- <div [class.modal-open]="isModalOpen"> -->
-    <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header text-center">Nuevo Turno</div>
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="modalProfesional()">
+                <div class="form-group">
+                    <label for="id_especialidad" class="form-label mt-4">Seleccione Especialidad</label>
+                    <select formControlName="id_especialidad" class="form-select"
+                        [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched"
+                        id="id_especialidad">
+                        <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id">
+                            {{especialidad.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback">El campo Especialidad es requerido</div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="id_especialidad" class="form-label mt-4">Seleccione Especialidad</label>
-                        <select formControlName="id_especialidad" class="form-select" [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched" id="id_especialidad">
-                           <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id">{{especialidad.nombre}}</option>
-                        </select>
-                        <div class="invalid-feedback">El campo Especialidad es requerido</div>
-                      </div>
+                <div class="row text-center mt-3">
+                    <div class="col-lg-6 col-12">
+                        <button type="button" class="btn btn-danger" routerLink="">Cancelar</button>
+                        <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+                    </div>
 
-                
-              
-
-                    <div class="row mt-2 text-center">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-danger" routerLink="">Cancelar</button>
-                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
-                        </div>
-
-                        <div class="col-lg-6">
-                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
-
-                        </div>
-
+                    <div class="col-lg-6 col-12 mt-lg-0 mt-2">
+                        <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
 
                     </div>
 
-                </form>
+                </div>
 
-            </div>
+            </form>
+
         </div>
-
     </div>
+
+
 </div>
 
 
 <!-- Modal Profesional-->
-<div class="modal fade" id="modalProfesional" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalProfesional" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Seleccione Profesional</h1>
+                <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Seleccione Profesional</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form [formGroup]="form_profesional">
-                    <select formControlName="id_profesional" class="form-select" [class.is-invalid]="form_profesional.get('id_profesional')?.hasError('required') && form_profesional.get('id_profesional')?.touched" id="id_profesional">
-                        <option *ngFor="let profesional of listProfesional" [value]="profesional.id">{{profesional.nombre}}, {{profesional.apellido}}</option>
+                    <select formControlName="id_profesional" class="form-select"
+                        [class.is-invalid]="form_profesional.get('id_profesional')?.hasError('required') && form_profesional.get('id_profesional')?.touched"
+                        id="id_profesional">
+                        <option *ngFor="let profesional of listProfesional" [value]="profesional.id">
+                            {{profesional.nombre}}, {{profesional.apellido}}</option>
                     </select>
                     <div class="invalid-feedback">El campo Profesional es requerido</div>
 
-                    <div class="modal-footer">
-                        <div class="row mt-2 text-center">
-                            <div class="col-lg-6">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="setId()">Cancelar</button>
-                            </div>
-                            <div class="col-lg-6">
-                                <!-- Cambiado de type="submit" a type="button" y agregado (click) -->
-                                <button [disabled]="form_profesional.invalid" type="button" class="btn btn-primary" (click)="modalFechas()">Aceptar</button>
-                            </div>
-                        </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                               <div>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                (click)="setId()">Cancelar</button>
+                               </div>
+                               
+                                <div>
+                                    <button [disabled]="form_profesional.invalid" type="button" class="btn btn-primary"
+                                    (click)="modalFechas()">Aceptar</button>
+
+                                </div>
+                              
+                               
+                         
+
+
+                     
                     </div>
+
                 </form>
             </div>
         </div>
@@ -79,85 +86,87 @@
 
 
 <!-- Modal Fechas-->
-<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
+                <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- Calendario -->
-                        <ngb-datepicker #dp  [minDate]="fechaMinima" [startDate]="fechaMinima" [markDisabled]="markDisabled" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
+                        <ngb-datepicker #dp [minDate]="fechaMinima" [startDate]="fechaMinima"
+                            [markDisabled]="markDisabled" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
                     </div>
                     <div class="col-lg-6" *ngIf="mostrarHorarios">
                         <!-- Botones de horarios -->
                         <div class="d-flex flex-wrap justify-content-between">
-                            <button *ngFor="let horario of horariosDisponibles" type="button" class="btn btn-outline-primary mt-2" (click)="modalTurno(horario)">{{ horario }}</button>
+                            <button *ngFor="let horario of horariosDisponibles" type="button"
+                                class="btn btn-outline-primary mt-2 custom-btn-size" (click)="modalTurno(horario)">{{
+                                horario
+                                }}</button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <div class="row mt-2 text-center">
-                    <div class="col-lg-6">
+            <!-- <div class="modal-footer d-flex justify-content-between">
+             
+                    <div>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
-                    <div class="col-lg-6">
-                        <button [disabled]="form_profesional.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+                    <div>
+                        <button [disabled]="form_profesional.invalid" type="submit"
+                            class="btn btn-primary">Aceptar</button>
                     </div>
-                </div>
-            </div>
+               
+            </div> -->
         </div>
     </div>
 </div>
 
 
 <!-- ----------Modal confirmacion Turno----------------- -->
-<div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmar turno</h1>
+                <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Confirmar turno</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>Confirme los datos para generar nuevo turno</h3>
+                <h3 class="text-light">Confirme los datos para generar nuevo turno</h3>
                 <ng-container *ngIf="profesional">
-                    <p>Paciente: {{paciente?.nombre}}, {{paciente?.apellido}}</p>
-                    <p>Especialidad: {{especialidad?.nombre}}</p>
-                    <p>Profesional: {{profesional.apellido}}, {{profesional.nombre}}</p>
-                    <p>Fecha: {{fechaTurnoString}}</p>
-                    <p>Hora: {{horaString}}</p>
+                    <p class="text-light">Paciente: {{paciente?.nombre}}, {{paciente?.apellido}}</p>
+                    <p class="text-light">Especialidad: {{especialidad?.nombre}}</p>
+                    <p class="text-light">Profesional: {{profesional.apellido}}, {{profesional.nombre}}</p>
+                    <p class="text-light">Fecha: {{fechaTurnoString}}</p>
+                    <p class="text-light">Hora: {{horaString}}</p>
                 </ng-container>
                 <ng-container *ngIf="!profesional">
                     <p>No hay información de profesional disponible.</p>
                 </ng-container>
             </div>
-            <div class="modal-footer">
-                <div class="row mt-2 text-center">
-                    <div class="col-lg-6">
+            <div class="modal-footer d-flex justify-content-between">
+               
+                    <div>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
-                    <div class="col-lg-6">
-                        <button type="button" class="btn btn-primary" (click)="createTurno()" [disabled]="!profesional">Aceptar</button>
+                    <div>
+                        <button type="button" class="btn btn-primary" (click)="createTurno()"
+                            [disabled]="!profesional">Aceptar</button>
                     </div>
-                </div>
+               
             </div>
         </div>
     </div>
 
-<!-- </div> -->
+    <!-- </div> -->
 
 
 </div>
-    
-
-
-
-
-

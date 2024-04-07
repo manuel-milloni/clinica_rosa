@@ -1,104 +1,72 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-<div *ngIf="!loading" class="row mt-3">
-    <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header text-center">Registrarse</div>
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="create()">
+    <br>
+                <form *ngIf="!loading" class="row g-3 mx-5 my-5" [formGroup]="form" (ngSubmit)="create()">
 
 
-                    <div class="form-group"
+                    <div class="col-md-6"
                         [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
-                        <label class="col-form-label mt-4" for="nombre">Nombre</label>
-                        <input formControlName="nombre" type="text" class="form-control"
+                        <label class="form-label label-text" for="nombre">Nombre</label>
+                        <input formControlName="nombre" type="text" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched"
                             placeholder="Ingrese nombre" id="nombre" maxlength="20">
-
-                        <!-- <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
-                             El campo nombre es requerido
-                        </span> -->
                         <div class="invalid-feedback">El campo nombre es requerido</div>
 
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="nombre">Apellido</label>
-                        <input formControlName="apellido" type="text" class="form-control"
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="nombre">Apellido</label>
+                        <input formControlName="apellido" type="text" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched"
                             placeholder="Ingrese apellido" id="apellido" maxlength="20">
-                        <!-- <span *ngIf="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched">
-                             El campo apellido es requerido
-                        </span> -->
                         <div class="invalid-feedback">El campo apellido es requerido</div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="dni">Dni</label>
-                        <input formControlName="dni" type="text" class="form-control"
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="dni">Dni</label>
+                        <input formControlName="dni" type="text" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('dni')?.hasError('required') && form.get('dni')?.touched"
                             placeholder="Ingrese dni" id="dni" maxlength="10">
-                        <!-- <span *ngIf="form.get('dni')?.hasError('required') && form.get('dni')?.touched">
-                             El campo dni es requerido
-                        </span> -->
                         <div class="invalid-feedback">El campo dni es requerido</div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="telefono">Telefono</label>
-                        <input formControlName="telefono" type="text" class="form-control"
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="telefono">Telefono</label>
+                        <input formControlName="telefono" type="text" class="form-control bg-dark text-light"
                             placeholder="Ingrese telefono" id="telefono" maxlength="15">
 
                     </div>
 
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="email">Email</label>
-                        <input formControlName="email" type="text" class="form-control"
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="email">Email</label>
+                        <input formControlName="email" type="text" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched"
                             placeholder="Ingrese Email" id="email" maxlength="40">
                         <div class="invalid-feedback">El campo email es requerido</div>
                     </div>
 
-
-
-                    <fieldset class="form-group">
-                        <legend class="mt-4">Seleccione género</legend>
+                    <fieldset class="col-md-6">
+                        <legend class="mt-4 fs-5 text-light">Seleccione género</legend>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="genero_M"
+                            <input class="form-check-input bg-dark text-light" type="checkbox" id="genero_M"
                                 [checked]="isGeneroSelected('M')" (change)="toggleGenero('M')" />
-                            <label class="form-check-label" for="genero_M">Masculino</label>
+                            <label class="form-check-label text-light" for="genero_M">Masculino</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="genero_F"
+                            <input class="form-check-input bg-dark text-light" type="checkbox" id="genero_F"
                                 [checked]="isGeneroSelected('F')" (change)="toggleGenero('F')" />
-                            <label class="form-check-label" for="genero_F">Femenino</label>
+                            <label class="form-check-label text-light" for="genero_F">Femenino</label>
                         </div>
                     </fieldset>
 
-                    <!-- Fecha nac -->
+             
 
-                    <div class="form-group">
-                        <div>
-                            <input type="text" class="form-control" formControlName="fecha_nac" placeholder="Fecha nac"
-                                value="{{fechaNacInput}}" readonly>
-                            <button type="button" (click)="toogleCalendario()">Selecccionar Fecha</button>
-                        </div>
-
-                        <div class="calendario" *ngIf="mostrarCalendario">
-                            <!-- Calendario -->
-                            <ngb-datepicker (dateSelect)="seleccionarFecha($event)"></ngb-datepicker>
-                            <button (click)="toogleCalendario()">Aceptar</button>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password">Contraseña</label>
-                        <input formControlName="password" type="password" class="form-control"
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="password">Contraseña</label>
+                        <input formControlName="password" type="password" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('password')?.hasError('required') && form.get('password')?.touched"
                             placeholder="Ingrese Contraseña" id="password" maxlength="16">
                         <div class="invalid-feedback">El campo contraseña es requerido</div>
@@ -106,22 +74,25 @@
 
 
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password_2">Repita Contraseña</label>
-                        <input formControlName="password_2" type="password" class="form-control"
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="password_2">Repita Contraseña</label>
+                        <input formControlName="password_2" type="password" class="form-control bg-dark text-light"
                             [class.is-invalid]="(form.get('password_2')?.hasError('required') && form.get('password_2')?.touched) || (form.hasError('passwordMismatch')  && form.get('password_2')?.touched)"
                             placeholder="Ingrese Contraseña" id="password_2" maxlength="16">
                         <div class="invalid-feedback">El campo contraseña es requerido</div>
-
 
                         <span *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched">
                             Las contraseñas no coinciden
                         </span>
                     </div>
+                        </div>
+                    </div>
 
-                    <div class="form-group">
-                        <label for="obraSocial" class="form-label mt-4">Seleccione Obra social</label>
-                        <select formControlName="obraSocial" class="form-select"
+
+
+                    <div class="col-md-6">
+                        <label for="obraSocial" class="form-label label-text">Seleccione Obra social</label>
+                        <select formControlName="obraSocial" class="form-select bg-dark text-light"
                             [class.is-invalid]="form.get('obraSocial')?.hasError('required') && form.get('obraSocial')?.touched"
                             id="obraSocial">
                             <option *ngFor="let obraSocial of listObraSocial" [value]="obraSocial.id">
@@ -130,25 +101,46 @@
                         <div class="invalid-feedback">El campo obra social es requerido</div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="nroAfiliado">Ingrese nro de afiliado</label>
+                    <div class="col-md-6">
+                        <label class="form-label label-text" for="nroAfiliado">Ingrese nro de afiliado</label>
                         <input [attr.disabled]="isNroAfiliadoDisabled() ? true : null" formControlName="nroAfiliado"
-                            type="text" class="form-control"
+                            type="text" class="form-control bg-dark text-light"
                             [class.is-invalid]="form.get('nroAfiliado')?.hasError('required') && form.get('nroAfiliado')?.touched"
                             placeholder="Ingrese Nro de Afiliado" id="nroAfiliado" maxlength="20">
 
                         <div class="invalid-feedback">El campo nro Afiliado es requerido</div>
                     </div>
 
-                    <div class="row mt-2 text-center">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-danger" routerLink="/login">Cancelar</button>
-                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+              
+
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-primary ms-2" type="button" (click)="toogleCalendario()">Selecccionar Fecha</button>
+                            <input type="text" class="form-control bg-dark text-light" formControlName="fecha_nac" placeholder="Fecha nac"
+                                value="{{fechaNacInput}}" readonly style="width: 50%;">
+                          
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="mt-2" *ngIf="mostrarCalendario">
+                            <!-- Calendario -->
+                            <div class="bg-dark d-flex flex-column align-items-center justify-content-center rounded w-content">
+                                <ngb-datepicker (dateSelect)="seleccionarFecha($event)"></ngb-datepicker>
+                                <button class="btn btn-primary mt-2" (click)="toogleCalendario()">Aceptar</button>
+
+                            </div>
+                   
+                        </div>
+                    </div>
+
+                    <div class="text-center d-flex justify-content-between" >
+                        <div>
+                            <button type="button" class="btn btn-danger" routerLink="/login">Cancelar</button>
+                          
+                        </div>
+
+                        <div>
                             <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
-                            <!-- <button type="submit" class="btn btn-primary">Aceptar</button> -->
+                     
 
                         </div>
 
@@ -157,8 +149,3 @@
 
                 </form>
 
-            </div>
-        </div>
-
-    </div>
-</div>

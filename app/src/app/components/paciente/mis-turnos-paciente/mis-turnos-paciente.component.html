@@ -1,48 +1,25 @@
+<br><br>
 <div class="container">
-    <div class="container-cards">
 
-        <div *ngFor="let turno of listTurnos" class="card">
-            <div class="card-content">
+    <div class="row">
 
-                <div class="box">
-                    <label for="">Turno nro:</label>
-                    <span>{{turno.id}}</span>
-
-                </div>
-                <div class="box">
-                    <label for="">Profesional:</label>
-                    <span>{{turno.profesional?.nombre}} {{turno.profesional?.apellido}}</span>
+        <div *ngFor="let turno of listTurnos" class="col-12 col-md-6 col-lg-4 mt-5">
+            <div class="card bg-dark">
+                <div class="card-body">
+                        <p class="card-text text-light fs-5">Profesional: {{turno.profesional?.nombre}} {{turno.profesional?.apellido}}</p>
+                        <p class="card-text text-light fs-5">Estado: {{turno.estado}}</p>
+                        <p class="card-text text-light fs-5">Fecha: {{turno.fechaLocal}}</p>
+                        <p class="card-text text-light fs-5">Hora: {{turno.hora}}</p>
 
                 </div>
 
-                <div class="box">
-                    <label for="">Estado:</label>
-                    <span>{{turno.estado}}</span>
+                <div class="card-footer d-flex justify-content-between">
+                    <button class="btn btn-danger" (click)="cancelarTurno(turno.id!)">Cancelar</button>
+                    <button class="btn btn-primary" (click)="reprogramarTurno(turno.id!)">Reprogramar</button>
 
                 </div>
-
-                <div class="box">
-                    <span>{{turno.fechaLocal}}</span> <br>
-                    <span>{{turno.hora}}</span>
-
-                </div>
-
-
-                <div class="box-observaciones">
-
-                    <span>{{turno.observaciones}}</span>
-                </div>
-
 
             </div>
-
-            <div class="card-footer">
-                <button (click)="cancelarTurno(turno.id!)">Cancelar</button>
-                <button (click)="reprogramarTurno(turno.id!)">Reprogramar</button>
-
-            </div>
-
-
 
         </div>
 
@@ -53,7 +30,8 @@
 
 
 <!-- Modal Fechas-->
-<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,15 +42,18 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <!-- Calendario -->
-                        <ngb-datepicker #dp [(ngModel)]="fechaTurno" [minDate]="fechaMinima" [startDate]="fechaMinima" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
+                        <ngb-datepicker #dp [(ngModel)]="fechaTurno" [minDate]="fechaMinima" [startDate]="fechaMinima"
+                            (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
                     </div>
                     <div class="col-lg-6" *ngIf="mostrarHorarios">
                         <!-- Botones de horarios -->
                         <div class="d-flex flex-wrap justify-content-between">
-                            <button *ngFor="let horario of horariosDisponibles" type="button" class="btn btn-outline-primary mt-2" (click)="modalTurno(horario)">{{ horario }}</button>
+                            <button *ngFor="let horario of horariosDisponibles" type="button"
+                                class="btn btn-outline-primary mt-2" (click)="modalTurno(horario)">{{ horario
+                                }}</button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -93,7 +74,8 @@
 
 
 <!-- Modal confirmacion turno -->
-<div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,7 +100,8 @@
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                     <div class="col-lg-6">
-                        <button type="button" class="btn btn-primary" (click)="createTurno()" [disabled]="!profesional">Aceptar</button>
+                        <button type="button" class="btn btn-primary" (click)="createTurno()"
+                            [disabled]="!profesional">Aceptar</button>
                     </div>
                 </div>
             </div>

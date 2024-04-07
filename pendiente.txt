@@ -1,3 +1,7 @@
+--Frontend
+-Ver de poner un formulario de contacto en el Home.
+
+
 
 Seguir con:
 -Casos de uso 1,2,3,4,5, 7,8,9,10,11,12 ok ver resto.
