@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Turno } from 'src/app/interfaces/Turno';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { TurnoService } from 'src/app/services/turno.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+
 import { Chart, ChartType } from 'chart.js/auto';
 import { SharedFunctions } from 'src/app/utils/SharedFunctions';
+import { Modal } from 'bootstrap';
 
 @Component({
     selector: 'app-pro-informes',
@@ -503,6 +505,22 @@ export class ProInformesComponent implements OnInit {
 
 
     }
+
+    abrirModalFD() {
+        const modalElement: any = document.getElementById('modalFechaDesde');
+        if (modalElement) {
+           const modal = new Modal(modalElement);
+           modal.show();
+        }
+      }
+
+      abrirModalFH() {
+        const modalElement: any = document.getElementById('modalFechaHasta');
+        if (modalElement) {
+           const modal = new Modal(modalElement);
+           modal.show();
+        }
+      }
 
 
 

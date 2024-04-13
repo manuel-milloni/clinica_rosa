@@ -1,43 +1,93 @@
+<br>
+<br>
+<br>
 <div class="container">
-    <div class="buscador-fechas">
-        <button (click)="toogleFD()">Fecha desde</button>
-        <input type="text" value="{{fechaDesdeInput}}">
-        <button (click)="toogleFH()">Fecha hasta</button>
-        <input type="text" value="{{fechaHastaInput}}">
+    <div class="input-group mb-3">
 
-        <button (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
+        <button class="btn btn-primary" (click)="abrirModalFD()">Fecha desde</button>
 
-    </div>
 
-    <div class="calendario" *ngIf="mostrarCalendarioFD">
-        <!-- Calendario -->
-        <ngb-datepicker (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
-    </div>
+        <input class="form-control bg-dark text-light" type="text" value="{{fechaDesdeInput}}" style="max-width: 120px;">
 
-    <div class="calendario" *ngIf="mostrarCalendarioFH">
-        <!-- Calendario -->
-        <ngb-datepicker (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
-    </div>
+        <button class="btn btn-primary" (click)="abrirModalFH()">Fecha hasta</button>
 
-    <div class="grafico">
-        <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
+
+        <input class="form-control bg-dark text-light" type="text" value="{{fechaHastaInput}}" style="max-width: 120px;">
+
+
+        <button class="btn btn-primary" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
 
     </div>
 
-    <div class="grafico">
-        <canvas id="barChart"></canvas>
-    
-    </div>
 
-    <div class="grafico">
-        <canvas id="barChart3"></canvas>
-    
+ 
+<div class="row">
+    <div class="col">
+        <div class="grafico">
+            <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
+        </div>
     </div>
+    <div class="col">
+        <div class="grafico">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+    <div class="col">
+        <div class="grafico">
+            <canvas id="barChart3"></canvas>
+        </div>
+    </div>
+    <div class="col">
+        <div class="grafico">
+            <canvas id="barChart4"></canvas>
+        </div>
+    </div>
+</div>
 
-    <div class="grafico">
-        <canvas id="barChart4"></canvas>
-    
-    </div>
 
 
 </div>
+
+
+<!-- ------------------------------ MODAL FECHA DESDE ----------------------------------------- -->
+
+<div class="modal" id="modalFechaDesde" tabindex="-1" aria-labelledby="modalFDLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFDLabel">Seleccionar Fecha Desde</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+        
+          <ngb-datepicker (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Aceptar</button>
+     
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ------------------------------------- MODAL FECHA HASTA ----------------------------------------------- -->
+  <div class="modal" id="modalFechaHasta" tabindex="-1" aria-labelledby="modalFDLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFDLabel">Seleccionar Fecha Desde</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+        
+          <ngb-datepicker (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Aceptar</button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  

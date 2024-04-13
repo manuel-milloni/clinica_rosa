@@ -1,0 +1,19 @@
+
+#buscador {
+    color: #fff; 
+  
+}
+
+#buscador::placeholder {
+    color: #fff;
+}
+
+.card {
+    height: 100%;
+}
+
+.observaciones{
+    border: solid 1px grey;
+    border-radius: 10px;
+    
+}

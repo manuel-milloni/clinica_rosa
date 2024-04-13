@@ -1,6 +1,7 @@
 import { Component,OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Modal } from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { Turno } from 'src/app/interfaces/Turno';
@@ -219,6 +220,22 @@ export class ProMisTurnosComponent implements OnInit {
          this.getAllTurnos();
       } else {
          this.getTurnosByFecha();
+      }
+    }
+
+    abrirModalFD() {
+      const modalElement: any = document.getElementById('modalFechaDesde');
+      if (modalElement) {
+         const modal = new Modal(modalElement);
+         modal.show();
+      }
+    }
+
+    abrirModalFH() {
+      const modalElement: any = document.getElementById('modalFechaHasta');
+      if (modalElement) {
+         const modal = new Modal(modalElement);
+         modal.show();
       }
     }
     

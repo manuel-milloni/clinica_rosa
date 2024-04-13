@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Modal } from 'bootstrap';
 import { error } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { config, firstValueFrom } from 'rxjs';
@@ -20,8 +21,7 @@ export class TurnosComponent implements OnInit {
   listTurno: Turno[] = [];
   errorServer : string | null = null;
 
-  mostrarCalendarioFD: boolean = false;
-  mostrarCalendarioFH: boolean = false;
+
   fechaDesdeDate = new Date();
   fechaHastaDate = new Date();
   
@@ -141,7 +141,7 @@ async getEspecialidades() {
 
     this.fechaDesdeFormateada = this.sharedFunctions.formatoFechaString(this.fechaDesdeDate);
 
-    this.mostrarCalendarioFD = false;
+  
 
  }
 
@@ -156,16 +156,12 @@ async getEspecialidades() {
 
   this.fechaHastaFormateada = this.sharedFunctions.formatoFechaString(this.fechaHastaDate);
 
-  this.mostrarCalendarioFH = false;
+
 }
 
-toggleCalendarioFechaDesde() {
-  this.mostrarCalendarioFD = !this.mostrarCalendarioFD;
-}
 
-toggleCalendarioFechaHasta() {
-  this.mostrarCalendarioFH = !this.mostrarCalendarioFH;
-}
+
+
 
 async getAllTurnos() {
    this.fechaDesdeFormateada = null;
@@ -241,6 +237,22 @@ abrirModal(idTurno : number) {
 
         }
  
+ }
+
+ abrirModalFD() {
+   const modalElement: any = document.getElementById('modalFechaDesde');
+   if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+   }
+ }
+
+ abrirModalFH() {
+   const modalElement: any = document.getElementById('modalFechaHasta');
+   if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+   }
  }
 
 

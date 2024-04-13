@@ -1,94 +1,105 @@
+<br>
+<br>
+<br>
 <div *ngIf="!modal" class="container">
 
-    <div class="container-buscador">
-       <button (click)="toggleCalendarioFechaDesde()">Fecha desde</button>
-       <input type="text" value="{{fechaDesdeFormateada}}">
- 
-       <button (click)="toggleCalendarioFechaHasta()">Fecha hasta</button>
-       <input type="text" value="{{fechaHastaFormateada}}">
- 
-       <button (click)="getTurnosByFecha()">Buscar</button>
-       <button (click)="getAllTurnos()">Ver todos</button>
-       <button (click)="getTurnosToday()">Hoy</button>
-       <button (click)="getTurnosTomorrow()">Mañana</button>
-       <input class="form-control" type="text" id="buscador" placeholder="Buscar turnos(estado, paciente o profesional)..." [(ngModel)]="searchText">
-    </div>
- 
-    <div class="calendario" *ngIf="mostrarCalendarioFD">
-       <!-- Calendario -->
-       <ngb-datepicker #dp  (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
- 
- 
-    </div>
- 
-    <div class="calendario" *ngIf="mostrarCalendarioFH">
-       <!-- Calendario -->
-       <ngb-datepicker #dp (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
- 
- 
-    </div>
- 
- 
-    <div class="container-cards">
- 
- 
-       <div class="card" *ngFor="let item of listTurno | filter:searchText : ['estado', 'paciente.nombre', 'paciente.apellido','profesional.nombre', 'profesional.apellido']">
- 
-          <div class="content">
- 
-             <div class="box">
-                <label for="">Turno nro:</label>
-                <span>{{item.id}}</span>
- 
-             </div>
-             <div class="box">
-                <label for="">Paciente:</label>
-                <span>{{item.paciente?.nombre}} {{item.paciente?.apellido}}</span>
- 
-             </div>
- 
-             <div class="box">
-                <label for="">Estado:</label>
-                <span>{{item.estado}}</span>
- 
-             </div>
-             <div class="box">
-                <label for="">Profesional:</label>
-                <span>{{item.profesional?.nombre}} {{item.profesional?.apellido}}</span>
- 
-             </div>
-             <div class="box">
-                <label for="">Especialidad:</label>
-                <span>{{item.especialidad?.nombre}}</span>
- 
-             </div>
- 
-             <div class="box">
-                <label for="">Fecha:</label>
-                <span>{{item.fechaLocal}}</span>
-                <span>{{item.hora}}</span>
- 
-             </div>
- 
- 
-             <div class="box-observaciones">
- 
-                <span>{{item.observaciones}}</span>
-             </div>
- 
- 
-          </div>
-          <div class="footer">
-             <button (click)="abrirModal(item.id!)">Editar</button>
-             <button (click)="deleteTurno(item.id!)">Eliminar</button>
- 
-          </div>
- 
-       </div>
- 
-    </div>
- 
- </div>
- 
- 
- <app-edit-modal [idTurno]="idTurnoModal" *ngIf="modal" (cerrarModal)="cerrarModal()"></app-edit-modal>
+   <div class="input-group">
+      <button class="btn btn-primary" (click)="abrirModalFD()">Fecha desde</button>
+      <input class="form-control bg-dark text-light text-center" type="text" value="{{fechaDesdeFormateada}}"
+         style="max-width: 120px;">
+
+      <button class="btn btn-primary" (click)="abrirModalFH()">Fecha hasta</button>
+      <input class="form-control bg-dark text-light text-center" type="text" value="{{fechaHastaFormateada}}"
+         style="max-width: 120px;">
+
+      <button class="btn btn-primary" (click)="getTurnosByFecha()">Buscar</button>
+      <button class="btn btn-primary" (click)="getAllTurnos()">Ver todos</button>
+      <button class="btn btn-primary" (click)="getTurnosToday()">Hoy</button>
+      <button class="btn btn-primary" (click)="getTurnosTomorrow()">Mañana</button>
+      <input class="form-control bg-dark text-light" type="text" id="buscador"
+         placeholder="Buscar turnos(estado, paciente o profesional)..." [(ngModel)]="searchText">
+   </div>
+
+
+   <div class="container">
+      <div class="row">
+         <div class="col-12 col-md-6 col-lg-4 mt-5" *ngFor="let item of listTurno | filter:searchText : ['estado', 'paciente.nombre', 'paciente.apellido','profesional.nombre', 'profesional.apellido']">
+            <div class="card bg-dark text-light">
+               <div class="card-body">
+                  <p class="card-text text-light fs-5">Turno nro: {{item.id}}</p>
+                  <p class="card-text text-light fs-5">Paciente: {{item.paciente?.nombre}} {{item.paciente?.apellido}}</p>
+                  <p class="card-text text-light fs-5">Estado: {{item.estado}}</p>
+                  <p class="card-text text-light fs-5">Profesional: {{item.profesional?.nombre}} {{item.profesional?.apellido}}</p>
+                  <p class="card-text text-light fs-5">Especialidad: {{item.especialidad?.nombre}}</p>
+                  <p class="card-text text-light fs-5">Fecha: {{item.fechaLocal}}</p>
+                  <p class="card-text text-light fs-5">{{item.observaciones}}</p>
+                
+   
+               </div>
+               
+               <div class="card-footer d-flex justify-content-between">
+                  <button class="btn btn-danger" (click)="deleteTurno(item.id!)">Eliminar</button>
+                  <button class="btn btn-primary" (click)="abrirModal(item.id!)">Editar</button>
+                 
+         
+               </div>
+   
+            </div>
+         </div>
+      </div>
+
+      
+
+
+    
+
+   </div>
+
+</div>
+
+
+
+<!-- ------------------------------ MODAL FECHA DESDE ----------------------------------------- -->
+
+<div class="modal" id="modalFechaDesde" tabindex="-1" aria-labelledby="modalFDLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="modalFDLabel">Seleccionar Fecha Desde</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body text-center">
+
+            <ngb-datepicker (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
+         </div>
+         <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+
+         </div>
+      </div>
+   </div>
+</div>
+<!-- ------------------------------------- MODAL FECHA HASTA ----------------------------------------------- -->
+<div class="modal" id="modalFechaHasta" tabindex="-1" aria-labelledby="modalFDLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="modalFDLabel">Seleccionar Fecha Desde</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body text-center">
+
+            <ngb-datepicker (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
+         </div>
+         <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<app-edit-modal [idTurno]="idTurnoModal" *ngIf="modal" (cerrarModal)="cerrarModal()"></app-edit-modal>

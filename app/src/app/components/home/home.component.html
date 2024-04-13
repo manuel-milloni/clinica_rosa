@@ -1,16 +1,20 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 
-<div class="div-homeAdmin" *ngIf="homeAdmin">
-    <div class="div-buttons">
-        <button type="button" class="btn btn-primary btn-lg"><a routerLink="/turnos">Turnos</a></button>
-        <a class="a-button" routerLink="/turnos">Turnos</a>
-        <a class="a-button" routerLink="/personal">Personal</a>
-        <a class="a-button" routerLink="/profesional">Profesionales</a>
-        <a class="a-button" routerLink="/pacientes">Pacientes</a>
-        <a class="a-button" routerLink="/obraSocial">Obras Sociales</a>
-        <a class="a-button" routerLink="/horario">Horarios</a>
-        <a class="a-button" routerLink="/especialidad">Especialidades</a>
-        <a class="a-button" routerLink="/informes">Informes</a>
+<!-- ---------------------------- HOME ADMIN ------------------------------------------------- -->
+<div class="container d-flex justify-content-center align-items-center vh-100" *ngIf="homeAdmin">
+    <div class="row">
+      <div class="col text-center">
+       
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/turnos">Turnos</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/personal">Personal</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/profesional">Profesionales</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/pacientes">Pacientes</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/obraSocial">Obras Sociales</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/horario">Horarios</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/especialidad">Especialidades</a>
+        <a class="btn btn-primary btn-lg mx-auto d-block" routerLink="/informes">Informes</a>
+      </div>
+       
 
 
     </div>
@@ -18,14 +22,19 @@
 
 </div>
 
-<div class="div-homeAdmin" *ngIf="homeProfesional">
-    <div class="div-buttons">
-        <a class="a-button" href="" routerLink="/profesional/mis-turnos">Mis Turnos</a>
-        <a class="a-button" href="" routerLink="/personal">Mi Perfil</a>
-        <a class="a-button" href="" routerLink="/profesional/informes">Infomes</a>
+<!-- --------------------------------  HOME PROFESIONAL ------------------------------------------------------------ -->
 
-    </div>
+<div class="container d-flex justify-content-center align-items-center vh-100" *ngIf="homeProfesional">
+  <div class="row">
+      <div class="col text-center">
+          <a class="btn btn-primary mx-auto d-block mb-3 btn-profesional" style="max-width: 300px;" routerLink="/profesional/mis-turnos">Mis Turnos</a>
+          <a class="btn btn-primary mx-auto d-block btn-profesional" style="max-width: 300px;" routerLink="/profesional/informes">Informes</a>
+      </div>
+  </div>
 </div>
+
+
+
 
 
 
