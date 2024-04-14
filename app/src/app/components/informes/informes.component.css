@@ -1,6 +1,35 @@
 
-
 .grafico {
     width: 600px;
     height: 400px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+
+@media (max-width: 768px) {
+
+    .grafico {
+        width: 500px;
+        height: 300px;
+        border: 1px solid grey;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+  
+}
+
+@media(max-width: 576px){
+  
+    .grafico {
+        width: 400px;
+        height: 200px;
+        border: 1px solid grey;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+   
 }

@@ -1,0 +1,14 @@
+
+#nombre{
+    max-width: 400px;
+}
+
+#nombre::placeholder{
+    color: #fff;
+    opacity: 0.5;
+}
+
+#descripcion::placeholder{
+    color: #fff;
+    opacity: 0.5;
+}

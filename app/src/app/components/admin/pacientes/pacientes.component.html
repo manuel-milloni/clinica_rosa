@@ -1,55 +1,56 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-
+<br><br><br>
 <div *ngIf="!loading" class="container">
 
     <div class="title">
-       <h4>Pacientes</h4>
-
+       <h4 class="text-light">Pacientes</h4>
+       <input class="form-control bg-dark text-light mb-2" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
        <button type="button" class="btn btn-primary" routerLink="/pacientes/add-paciente">Agregar</button>
-       <!-- <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="buscador"> -->
-       <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
-
-
 
     </div>
-  <table *ngIf="listPacientes.length>0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Dni</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Email</th>
-        <th scope="col">Accion</th>
-       
-      </tr>
-    </thead>
-    <tbody>
-   
-    
-      <tr *ngFor="let item of listPacientes | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-primary">
-        <td>{{item.nombre}}</td>
-        <td>{{item.apellido}}</td>
-        <td>{{item.dni}}</td>
-        <td>{{item.telefono}}</td>
-        <td>{{item.email}}</td>
-        <td>
-            
-                <button type="button" class="btn btn-secondary btn-sm" routerLink="/pacientes/edit-paciente/{{item.id}}">Editar</button>
-        
-                <button (click)="deletePersonal(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-                <button  type="button" class="btn btn-primary btn-sm" routerLink="/pacientes/add-turno/{{item.id!}}">Turno</button>
-        </td>
-        
-       
-      </tr>
-   
-  
-   
-   
 
-    </tbody>
-  </table>
+    <div class="table-responsive">
+      <table *ngIf="listPacientes.length>0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Dni</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Email</th>
+            <th scope="col">Accion</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+       
+        
+          <tr *ngFor="let item of listPacientes | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-dark">
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.dni}}</td>
+            <td>{{item.telefono}}</td>
+            <td>{{item.email}}</td>
+            <td>
+                
+                    <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/pacientes/edit-paciente/{{item.id}}">Editar</button>
+            
+                    <button (click)="deletePersonal(item.id!)" type="button" class="btn btn-danger btn-sm me-2 btn-respon">Eliminar</button>
+                    <button  type="button" class="btn btn-primary btn-sm" routerLink="/pacientes/add-turno/{{item.id!}}">Turno</button>
+            </td>
+            
+           
+          </tr>
+       
+      
+       
+       
+    
+        </tbody>
+      </table>
+
+    </div>
+ 
 
   <h5 *ngIf="listPacientes.length==0">No hay Pacientes cargados en el sistema</h5>
 

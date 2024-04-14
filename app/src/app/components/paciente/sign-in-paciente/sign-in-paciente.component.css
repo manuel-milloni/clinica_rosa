@@ -5,3 +5,9 @@
 .w-content {
     width: fit-content;
 }
+
+.fecha-nac::placeholder{
+    color: #fff;
+}
+
+

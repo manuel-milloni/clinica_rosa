@@ -5,3 +5,15 @@
     justify-content: space-between;
 
 }
+
+@media (max-width: 786px){
+    .btn-respon{
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px){
+    .btn-respon{
+        margin-bottom: 10px;
+    }
+}

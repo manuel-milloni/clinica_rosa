@@ -1,44 +1,48 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-
+<br><br><br>
 <div *ngIf="!loading" class="container">
 
     <div class="title">
-       <h4>Obras Sociales</h4>
+       <h4 class="text-light">Obras Sociales</h4>
 
        <button type="button" class="btn btn-primary" routerLink="/obraSocial-add">Agregar</button>
 
     </div>
-  <table *ngIf="listObraSocial.length>0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Obra social</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Accion</th>
+    <div class="table-responsive">
+      <table *ngIf="listObraSocial.length>0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Obra social</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Accion</th>
+           
+          </tr>
+        </thead>
+        <tbody>
        
-      </tr>
-    </thead>
-    <tbody>
-   
-    
-      <tr *ngFor="let item of listObraSocial" class="table-primary">
-        <td>{{item.nombre}}</td>
-        <td>{{item.descripcion}}</td>
-        <td>
+        
+          <tr *ngFor="let item of listObraSocial" class="table-dark">
+            <td>{{item.nombre}}</td>
+            <td>{{item.descripcion}}</td>
+            <td>
+                
+                    <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/obraSocial-edit/{{item.id}}">Editar</button>
             
-                <button type="button" class="btn btn-secondary btn-sm" routerLink="/obraSocial-edit/{{item.id}}">Editar</button>
-        
-                <button (click)="deleteObraSocial(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-        </td>
-        
+                    <button (click)="deleteObraSocial(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+            </td>
+            
+           
+          </tr>
        
-      </tr>
-   
-  
-   
-   
+      
+       
+       
+    
+        </tbody>
+      </table>
 
-    </tbody>
-  </table>
+    </div>
+ 
 
   <h5 *ngIf="listObraSocial.length==0">No hay Obras Sociales cargadas en el sistema</h5>
 

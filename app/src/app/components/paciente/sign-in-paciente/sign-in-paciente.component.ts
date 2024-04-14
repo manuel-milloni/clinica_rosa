@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { Modal } from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first, firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
@@ -22,7 +23,7 @@ export class SignInPacienteComponent implements OnInit {
   form: FormGroup
   listObraSocial: ObraSocial[] = [];
   genero: string = ''; // Variable para almacenar el género seleccionado
-  mostrarCalendario : boolean = false;
+
   fechaNac : NgbDate | undefined;
   fechaNacInput : string | undefined;
 
@@ -174,11 +175,7 @@ isGeneroSelected(genero: string): boolean {
     }
   }
 
-  //-----Fecha nac-------------------------------------------------
-
-  toogleCalendario(){
-     this.mostrarCalendario = !this.mostrarCalendario;
-  }
+// ----------------------- FECHA NAC -----------------------------
 
   seleccionarFecha(event: { year: number; month: number; day: number }) {
     const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
@@ -206,13 +203,14 @@ formatearFechaDB(fecha : NgbDate) : string{
       const fechaFormateada : string = `${fecha.year}-${fecha.month.toString().padStart(2, '0')}-${fecha.day.toString().padStart(2,'0')}`;
       return fechaFormateada;
 }
-  
 
- 
-
-
-
-
+abrirModalFecha() {
+  const modalElement: any = document.getElementById('modalFecha');
+  if (modalElement) {
+     const modal = new Modal(modalElement);
+     modal.show();
+  }
+}
 
 
 

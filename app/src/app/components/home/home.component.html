@@ -2,22 +2,22 @@
 
 <!-- ---------------------------- HOME ADMIN ------------------------------------------------- -->
 <div class="container d-flex justify-content-center align-items-center vh-100" *ngIf="homeAdmin">
-    <div class="row">
-      <div class="col text-center">
-       
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/turnos">Turnos</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/personal">Personal</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/profesional">Profesionales</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/pacientes">Pacientes</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/obraSocial">Obras Sociales</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/horario">Horarios</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/especialidad">Especialidades</a>
-        <a class="btn btn-primary btn-lg mx-auto d-block" routerLink="/informes">Informes</a>
-      </div>
-       
+  <div class="row">
+    <div class="col text-center">
 
-
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/turnos">Turnos</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/personal">Personal</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/profesional">Profesionales</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/pacientes">Pacientes</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/obraSocial">Obras Sociales</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/horario">Horarios</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block mb-3" routerLink="/especialidad">Especialidades</a>
+      <a class="btn btn-primary btn-lg mx-auto d-block" routerLink="/informes">Informes</a>
     </div>
+
+
+
+  </div>
 
 
 </div>
@@ -26,10 +26,12 @@
 
 <div class="container d-flex justify-content-center align-items-center vh-100" *ngIf="homeProfesional">
   <div class="row">
-      <div class="col text-center">
-          <a class="btn btn-primary mx-auto d-block mb-3 btn-profesional" style="max-width: 300px;" routerLink="/profesional/mis-turnos">Mis Turnos</a>
-          <a class="btn btn-primary mx-auto d-block btn-profesional" style="max-width: 300px;" routerLink="/profesional/informes">Informes</a>
-      </div>
+    <div class="col text-center">
+      <a class="btn btn-primary mx-auto d-block mb-3 btn-profesional" style="max-width: 300px;"
+        routerLink="/profesional/mis-turnos">Mis Turnos</a>
+      <a class="btn btn-primary mx-auto d-block btn-profesional" style="max-width: 300px;"
+        routerLink="/profesional/informes">Informes</a>
+    </div>
   </div>
 </div>
 
@@ -40,45 +42,47 @@
 
 <!-- -------------------------   SLIDER IMGS --------------------------------------------------- -->
 <div *ngIf="!homeAdmin && !homeProfesional" id="carouselExample" class="carousel slide">
-    <div class="carousel-inner">
+  <div class="carousel-inner">
 
-      <div class="carousel-item active" data-bs-interval="3000">
-        <img src="../../../assets/slide2.jpg" class="d-block w-100" alt="slide1">
-      </div>
-
-      <div class="carousel-item" data-bs-interval="3000">
-        <img src="../../../assets/slide3.jpg" class="d-block w-100" alt="slide2">
-      </div>
-
-      <div class="carousel-item" data-bs-interval="3000">
-        <img src="../../../assets/slide1.jpg" class="d-block w-100" alt="slide3">
-      </div>
-
+    <div class="carousel-item active" data-bs-interval="3000">
+      <img src="../../../assets/slide2.jpg" class="d-block w-100" alt="slide1">
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img src="../../../assets/slide3.jpg" class="d-block w-100" alt="slide2">
+    </div>
 
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img src="../../../assets/slide1.jpg" class="d-block w-100" alt="slide3">
+    </div>
+
   </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 
 
 
 <!-- --------------------------------------------------------------------------------------------------- -->
 
-   <!-- -----------------------------------------------   INTRO ----------------------------------------------------- -->
-   <section *ngIf="!homeAdmin && !homeProfesional" class="w-50 mx-auto text-center pt-5" id="intro">
-    <h1 class="p-3 fs-2 border-top border-3"><span class="text-primary">Clinica Rosa</span>
-      inaugurada en abril de 2024 por un equipo de profesionales con una férrea vocación de servicio en la salud. 
-    </h1>
-    <p class="p-3 fs-4 text-light">Es actualmente uno de los mayores establecimientos médicos de la región, en infraestructura edilicia, complejidad de 
-      servicios y nivel de tecnología aplicada a salud. Un amplio equipo de profesionales de medicina atiende las necesidades de pacientes internados y 
-      ambulatorios, cubriendo un alto número de especialidades médicas tanto de diagnóstico como de tratamiento.</p>
+<!-- -----------------------------------------------   INTRO ----------------------------------------------------- -->
+<section *ngIf="!homeAdmin && !homeProfesional" class="w-50 mx-auto text-center pt-5" id="intro">
+  <h1 class="p-3 fs-2 border-top border-3"><span class="text-primary">Clinica Rosa</span>
+    inaugurada en abril de 2024 por un equipo de profesionales con una férrea vocación de servicio en la salud.
+  </h1>
+  <p class="p-3 fs-4 text-light">Es actualmente uno de los mayores establecimientos médicos de la región, en
+    infraestructura edilicia, complejidad de
+    servicios y nivel de tecnología aplicada a salud. Un amplio equipo de profesionales de medicina atiende las
+    necesidades de pacientes internados y
+    ambulatorios, cubriendo un alto número de especialidades médicas tanto de diagnóstico como de tratamiento.</p>
 
 </section>
 
@@ -89,56 +93,173 @@
 
 <!-- ------------------------------------------------ SERVICIOS -------------------------------------------------------------- -->
 <div *ngIf="!homeAdmin && !homeProfesional" class="container-servicios">
-    <div class="row g-3">
+  <div class="row g-3">
 
-      <div class="col-lg">
-        <div class="card card-border">
-          <img class="card-img-top img-fit" src="../../../assets/servicios5.jpg" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Mejora continua</h5>
-            <p class="card-text">
-              Estamos convencidos que siempre podemos mejorar lo que hacemos, esa actitud está incorporada
-              en cada proceso que llevamos a cabo y buscamos generar un ambiente favorable en cada servicio que
-              brindamos.
-            </p>
-          
-          </div>
+    <div class="col-lg">
+      <div class="card card-border bg-dark">
+        <img class="card-img-top img-fit" src="../../../assets/servicios5.jpg" alt="">
+        <div class="card-body">
+          <h5 class="card-title text-light">Mejora continua</h5>
+          <p class="card-text text-light">
+            Estamos convencidos que siempre podemos mejorar lo que hacemos, esa actitud está incorporada
+            en cada proceso que llevamos a cabo y buscamos generar un ambiente favorable en cada servicio que
+            brindamos.
+          </p>
+
         </div>
       </div>
-
-      <div class="col-lg">
-        <div class="card card-border">
-          <img class="card-img-top img-fit" src="../../../assets/servicios6.jpg" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Equipamiento</h5>
-            <p class="card-text">
-              Contamos con el mejor equipamiento medico disponible a nivel mundial para poder brindar a
-              nuestros pacientes un servicio de alto nivel.
-            </p>
-          
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg">
-        <div class="card card-border">
-          <img class="card-img-top img-fit" src="../../../assets/servicios7.jpg" alt="">
-          <div class="card-body">
-            <h5 class="card-title">Pasion por el Servicio</h5>
-            <p class="card-text">
-              Quienes trabajamos en Clinica Rosa sentimos pasión por lo que hacemos y deseamos fervientemente responder a
-              las necesidades de nuestros pacientes y de sus acompañantes.
-            </p>
-          
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <div class="col-lg">
+      <div class="card card-border bg-dark">
+        <img class="card-img-top img-fit" src="../../../assets/servicios6.jpg" alt="">
+        <div class="card-body">
+          <h5 class="card-title text-light">Equipamiento</h5>
+          <p class="card-text text-light">
+            Contamos con el mejor equipamiento medico disponible a nivel mundial para poder brindar a
+            nuestros pacientes un servicio de alto nivel.
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg">
+      <div class="card card-border bg-dark">
+        <img class="card-img-top img-fit" src="../../../assets/servicios7.jpg" alt="">
+        <div class="card-body">
+          <h5 class="card-title text-light">Pasion por el Servicio</h5>
+          <p class="card-text text-light">
+            Quienes trabajamos en Clinica Rosa sentimos pasión por lo que hacemos y deseamos fervientemente responder a
+            las necesidades de nuestros pacientes y de sus acompañantes.
+          </p>
+
+        </div>
+      </div>
+    </div>
+
   </div>
-     
+</div>
+
 
 
 
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
+
+<!-- ----------------------------------------- FOOTER ---------------------------------------------- -->
+
+<footer class="bg-dark text-light pt-5 pb-4 mt-4">
+  <div class="container text-center text-md-left">
+    <div class="row text-center text-md-left">
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h5 class="text-uppercase mb-4 fs-bold text-warninr">Clinica Rosa srl</h5>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia rerum, nisi facere odio, adipisci itaque ad
+          voluptas porro perferendis magni nobis voluptatum, laborum quasi dolorum tempore aut. Asperiores, nihil
+          deserunt!</p>
+      </div>
+
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h5 class="text-upeprcase mb-4 fs-bold text-warning">Products</h5>
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+      </div>
+
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h5 class="text-upeprcase mb-4 fs-bold text-warning">Useful links</h5>
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+        <p>
+          <a class="text-white" style="text-decoration: none;">Providers</a>
+        </p>
+
+      </div>
+
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h5 class="text-upeprcase mb-4 fs-bold text-warning">Contact</h5>
+        <p>
+          <i class="fa fa-home me-3" style="font-size:24px"></i>Rosario, Laprida 42341
+        </p>
+
+        <p>
+          <i class="fa fa-envelope me-3" style="font-size:24px"></i>clinicarosaslr&#64;gmail.com
+        </p>
+
+        <p>
+          <i class="fa fa-phone me-3" style="font-size:24px"></i>+549 3413 541222
+        </p>
+
+      </div>
+
+      <hr class="mb-4">
+
+      <div class="row align-items-center">
+        <div class="col-md-7 col-lg-8">
+          <p>Copyright ©2024 All rights reserved by:
+            <a href="" style="text-decoration: none;">
+              <strong class="text-warning">Clinica Rosa SRL</strong>
+            </a>
+
+          </p>
+        </div>
+
+        <div class="col-md-5 col-lg-4">
+          <div class="text-center text-md-right">
+            <ul class="list-unstyled list-inline">
+              <li class="list-inline-item me-3">
+                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                    class="fa fa-facebook"></i></a>
+              </li>
+
+              <li class="list-inline-item me-3">
+                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                    class="fa fa-twitter"></i></a>
+              </li>
+
+              <li class="list-inline-item me-3">
+                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                    class="fa fa-google-plus"></i></a>
+              </li>
+
+              <li class="list-inline-item">
+                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i
+                    class="fa fa-linkedin"></i></a>
+              </li>
+
+            
+            </ul>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+
+</footer>

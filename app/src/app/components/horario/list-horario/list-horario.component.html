@@ -1,56 +1,56 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-
+<br><br><br>
 <div *ngIf="!loading" class="container">
 
     <div class="title">
-       <h4>Horarios</h4>
+       <h4 class="text-light">Horarios</h4>
 
        <button type="button" class="btn btn-primary" routerLink="/horario-add">Agregar</button>
 
     </div>
-  <table *ngIf="listHorario.length>0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Hora Desde</th>
-        <th scope="col">Hora Hasta</th>
-        <th scope="col">Lunes</th>
-        <th scope="col">Martes</th>
-        <th scope="col">Miercoles</th>
-        <th scope="col">Jueves</th>
-        <th scope="col">Viernes</th>
-       
-      </tr>
-    </thead>
-    <tbody>
-   
-    
-      <tr *ngFor="let item of listHorario" class="table-primary">
-        <td>{{item.id}}</td>
-        <td>{{item.horaDesde}}</td>
-        <td>{{item.horaHasta}}</td>
-        <td><span [ngClass]="{'green-tick': item.lunes, 'red-x': !item.lunes}">{{item.lunes ? '✔' : '✘'}}</span></td>
-        <td><span [ngClass]="{'green-tick': item.martes, 'red-x': !item.martes}">{{item.martes ? '✔' : '✘'}}</span></td>
-        <td><span [ngClass]="{'green-tick': item.miercoles, 'red-x': !item.miercoles}">{{item.miercoles ? '✔' : '✘'}}</span></td>
-        <td><span [ngClass]="{'green-tick': item.jueves, 'red-x': !item.jueves}">{{item.jueves ? '✔' : '✘'}}</span></td>
-        <td><span [ngClass]="{'green-tick': item.viernes, 'red-x': !item.viernes}">{{item.viernes ? '✔' : '✘'}}</span></td>
-        <td>
-            
-                <button type="button" class="btn btn-secondary btn-sm" routerLink="/horario-edit/{{item.id}}">Editar</button>
-        
-                <button  (click)="deleteHorario(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-        </td>
-       
-        
-       
-      </tr>
-   
-  
-   
-   
 
-    </tbody>
-  </table>
+    <div class="table-responsive">
+      <table *ngIf="listHorario.length>0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Hora Desde</th>
+            <th scope="col">Hora Hasta</th>
+            <th scope="col">Lunes</th>
+            <th scope="col">Martes</th>
+            <th scope="col">Miercoles</th>
+            <th scope="col">Jueves</th>
+            <th scope="col">Viernes</th>
+            <th scope="col">Acciones</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+       
+        
+          <tr *ngFor="let item of listHorario" class="table-dark">
+            <td>{{item.id}}</td>
+            <td>{{item.horaDesde}}</td>
+            <td>{{item.horaHasta}}</td>
+            <td><span [ngClass]="{'green-tick': item.lunes, 'red-x': !item.lunes}">{{item.lunes ? '✔' : '✘'}}</span></td>
+            <td><span [ngClass]="{'green-tick': item.martes, 'red-x': !item.martes}">{{item.martes ? '✔' : '✘'}}</span></td>
+            <td><span [ngClass]="{'green-tick': item.miercoles, 'red-x': !item.miercoles}">{{item.miercoles ? '✔' : '✘'}}</span></td>
+            <td><span [ngClass]="{'green-tick': item.jueves, 'red-x': !item.jueves}">{{item.jueves ? '✔' : '✘'}}</span></td>
+            <td><span [ngClass]="{'green-tick': item.viernes, 'red-x': !item.viernes}">{{item.viernes ? '✔' : '✘'}}</span></td>
+            <td>
+                
+                    <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/horario-edit/{{item.id}}">Editar</button>
+            
+                    <button  (click)="deleteHorario(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+            </td>
+           
+          </tr>
+    
+        </tbody>
+      </table>
+
+    </div>
+ 
 
   <h5 *ngIf="listHorario.length==0">No hay Horarios cargados en el sistema</h5>
 

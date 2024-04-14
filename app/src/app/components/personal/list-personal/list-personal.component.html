@@ -1,50 +1,46 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-
+<br><br><br>
 <div *ngIf="!loading" class="container">
 
     <div class="title">
-       <h4>Personal</h4>
+       <h4 class="text-light">Personal</h4>
 
        <button type="button" class="btn btn-primary" routerLink="/personal-add">Agregar</button>
 
     </div>
-  <table *ngIf="listPersonal.length>0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Dni</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Email</th>
-        <th scope="col">Accion</th>
-       
-      </tr>
-    </thead>
-    <tbody>
-   
-    
-      <tr *ngFor="let item of listPersonal" class="table-primary">
-        <td>{{item.nombre}}</td>
-        <td>{{item.apellido}}</td>
-        <td>{{item.dni}}</td>
-        <td>{{item.telefono}}</td>
-        <td>{{item.email}}</td>
-        <td>
+    <div class="table-responsive">
+      <table *ngIf="listPersonal.length>0" class="table table-secondary">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Dni</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Email</th>
+            <th scope="col">Accion</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listPersonal" class="table-dark">
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.dni}}</td>
+            <td>{{item.telefono}}</td>
+            <td>{{item.email}}</td>
+            <td>
+                
+                    <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/personal-edit/{{item.id}}">Editar</button>
             
-                <button type="button" class="btn btn-secondary btn-sm" routerLink="/personal-edit/{{item.id}}">Editar</button>
-        
-                <button (click)="deletePersonal(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-        </td>
-        
-       
-      </tr>
-   
-  
-   
-   
+                    <button (click)="deletePersonal(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+            </td>
+          </tr>
+    
+        </tbody>
+      </table>
 
-    </tbody>
-  </table>
+    </div>
+ 
 
   <h5 *ngIf="listPersonal.length==0">No hay Personal cargados en el sistema</h5>
 

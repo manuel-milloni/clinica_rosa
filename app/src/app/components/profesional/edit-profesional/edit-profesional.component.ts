@@ -193,7 +193,6 @@ export class EditProfesionalComponent implements OnInit {
             apellido: this.form.value.apellido,
             dni: this.form.value.dni,
             telefono: this.form.value.telefono,
-            email: this.form.value.email,
             password: this.form.value.password,
             matricula: this.form.value.matricula,
             id_especialidad: this.form.value.id_especialidad,
@@ -201,8 +200,8 @@ export class EditProfesionalComponent implements OnInit {
             obras_sociales: this.form.value.obrasSociales
 
           };
-          console.log('Obras sociales: ', profesional.obras_sociales);
-          //await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
+          console.log('Usuario: ,', profesional);
+          await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
           this.router.navigate(['/profesional']);
           this.toastr.success('Usuario modificado exitosamente', 'Usuario');
 

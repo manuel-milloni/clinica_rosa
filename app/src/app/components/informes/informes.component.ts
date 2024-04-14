@@ -10,6 +10,7 @@ import { Chart, ChartType } from 'chart.js/auto';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { Especialidad } from 'src/app/interfaces/Especialidad';
 import { SharedFunctions } from 'src/app/utils/SharedFunctions';
+import { Modal } from 'bootstrap';
 
 @Component({
     selector: 'app-informes',
@@ -17,9 +18,6 @@ import { SharedFunctions } from 'src/app/utils/SharedFunctions';
     styleUrls: ['./informes.component.css']
 })
 export class InformesComponent implements OnInit {
-    mostrarCalendarioFD: boolean = false;
-    mostrarCalendarioFH: boolean = false;
-
     fechaDesde: NgbDate | undefined;
     fechaHasta: NgbDate | undefined;
 
@@ -55,13 +53,7 @@ export class InformesComponent implements OnInit {
         this.cargaInicialGraficos();
     }
 
-    toogleFD() {
-        this.mostrarCalendarioFD = !this.mostrarCalendarioFD;
-    }
 
-    toogleFH() {
-        this.mostrarCalendarioFH = !this.mostrarCalendarioFH;
-    }
 
     seleccionarFechaDesde(event: { year: number; month: number; day: number }) {
         const fechaSeleccionada: NgbDate = new NgbDate(event.year, event.month, event.day);
@@ -74,7 +66,7 @@ export class InformesComponent implements OnInit {
 
         this.fechaDesdeDB = this.sharedFunctions.formatearFecha(fechaSeleccionada);
 
-        this.mostrarCalendarioFD = false;
+     
 
     }
 
@@ -89,7 +81,7 @@ export class InformesComponent implements OnInit {
 
         this.fechaHastaDB = this.sharedFunctions.formatearFecha(fechaSeleccionada);
 
-        this.mostrarCalendarioFH = false;
+    
 
     }
 
@@ -451,6 +443,22 @@ export class InformesComponent implements OnInit {
 
 
     }
+
+    abrirModalFD() {
+        const modalElement: any = document.getElementById('modalFechaDesde');
+        if (modalElement) {
+           const modal = new Modal(modalElement);
+           modal.show();
+        }
+      }
+
+      abrirModalFH() {
+        const modalElement: any = document.getElementById('modalFechaHasta');
+        if (modalElement) {
+           const modal = new Modal(modalElement);
+           modal.show();
+        }
+      }
 
 
 

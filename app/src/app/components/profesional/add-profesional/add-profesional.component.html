@@ -1,163 +1,174 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-<div *ngIf="!loading" class="row mt-3">
-    <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header text-center">Agregar Profesional</div>
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="create()">
 
-                    
-                    <div class="form-group" [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
-                        <label class="col-form-label mt-4" for="nombre">Nombre</label>
-                        <input formControlName="nombre" type="text" class="form-control" [class.is-invalid]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched" placeholder="Ingrese nombre" id="nombre" maxlength="20">
-                        <div class="invalid-feedback">El campo nombre es requerido</div>
+<form *ngIf="!loading" class="row g-3 mx-5 my-5" [formGroup]="form" (ngSubmit)="create()">
+  <legend class="fw-bold text-light">Agregar Profesional</legend>
+  <legend class="fw-bold text-light fs-5">Datos personales</legend>
 
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="nombre">Apellido</label>
-                        <input formControlName="apellido" type="text" class="form-control" [class.is-invalid]="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched" placeholder="Ingrese apellido" id="apellido" maxlength="20">
-                        <div class="invalid-feedback">El campo apellido es requerido</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="dni">Dni</label>
-                        <input formControlName="dni" type="text" class="form-control" [class.is-invalid]="form.get('dni')?.hasError('required') && form.get('dni')?.touched" placeholder="Ingrese dni" id="dni" maxlength="10">
-                        <div class="invalid-feedback">El campo dni es requerido</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="telefono">Telefono</label>
-                        <input formControlName="telefono" type="text" class="form-control" placeholder="Ingrese telefono" id="telefono" maxlength="15">
-                        
-                    </div>
-                    
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="email">Email</label>
-                        <input formControlName="email" type="text" class="form-control" [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched" placeholder="Ingrese Email" id="email" maxlength="40">
-                        <div class="invalid-feedback">El campo email es requerido</div>
-                    </div>
-
-                   
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password">Contraseña</label>
-                        <input formControlName="password" type="password" class="form-control" [class.is-invalid]="form.get('password')?.hasError('required') && form.get('password')?.touched" placeholder="Ingrese Contraseña" id="password" maxlength="16">
-                        <div class="invalid-feedback">El campo contraseña es requerido</div>
-                    </div>
-
-                  
-
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="password_2">Repita Contraseña</label>
-                        <input formControlName="password_2" type="password" class="form-control" [class.is-invalid]="(form.get('password_2')?.hasError('required') && form.get('password_2')?.touched) || (form.hasError('passwordMismatch')  && form.get('password_2')?.touched)" placeholder="Ingrese Contraseña" id="password_2" maxlength="16">
-                        <div class="invalid-feedback">El campo contraseña es requerido</div>
-                        <span *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched">
-                            Las contraseñas no coinciden
-                       </span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="id_especialidad" class="form-label mt-4">Seleccione Especialidad</label>
-                        <select formControlName="id_especialidad" class="form-select" [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched" id="id_especialidad">
-                           <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id">{{especialidad.nombre}}</option>
-                        </select>
-                        <div class="invalid-feedback">El campo Especialdiad es requerido</div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-form-label mt-4" for="matricula">Matricula</label>
-                        <input formControlName="matricula" type="text" class="form-control" [class.is-invalid]="form.get('matricula')?.hasError('required') && form.get('matricula')?.touched" placeholder="Ingrese Matricula" id="matricula" maxlength="10">
-                        <div class="invalid-feedback">El campo matricula es requerido</div>
-                    </div>
-
-
-                      <fieldset class="form-group">
-                        <legend class="mt-4">Seleccione Horario</legend>
-                       
-                        <div class="form-group">
-                            <label for="horaDesde" class="form-label mt-4">Seleccione hora inicio</label>
-                            <select formControlName="horaDesde" class="form-select" id="horaDesde">
-                               <option *ngFor="let hora of listHorasDesde" [value]="hora">{{hora}}</option>
-                            </select>
-                          </div>
-    
-                          <div class="form-group">
-                            <label for="horaHasta" class="form-label mt-4">Seleccione hora fin</label>
-                            <select formControlName="horaHasta" class="form-select" id="horaHasta">
-                                <option *ngFor="let hora of listHorasHasta" [value]="hora">{{hora}}</option>
-                            </select>
-                          </div>
-
-                          <div class="form-check">
-                            <input formControlName="lunes" class="form-check-input" type="checkbox" value="" id="lunes">
-                            <label class="form-check-label" for="flexCheckDefault">Lunes</label>
-                          </div>
-  
-                          <div class="form-check">
-                            <input formControlName="martes" class="form-check-input" type="checkbox" value="" id="martes" checked="">
-                            <label class="form-check-label" for="flexCheckChecked">Martes</label>
-                          </div>
-  
-                          <div class="form-check">
-                              <input formControlName="miercoles" class="form-check-input" type="checkbox" value="" id="miercoles" checked="">
-                              <label class="form-check-label" for="flexCheckChecked">Miercoles</label>
-                            </div>
-  
-                            <div class="form-check">
-                              <input formControlName="jueves" class="form-check-input" type="checkbox" value="" id="jueves" checked="">
-                              <label class="form-check-label" for="flexCheckChecked">Jueves</label>
-                            </div>
-  
-                            <div class="form-check">
-                              <input formControlName="viernes" class="form-check-input" type="checkbox" value="" id="viernes" checked="">
-                              <label class="form-check-label" for="flexCheckChecked">Viernes</label>
-                            </div>
-
-
-
-                      </fieldset>
-
-                  
-
-                      <fieldset class="form-group">
-                        <legend class="mt-4">Seleccione obras sociales</legend>
-                        <div *ngFor="let obraSocial of listObraSocial" class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            [id]="'obraSocial_' + obraSocial.id"
-                            [checked]="isObraSocialSelected(obraSocial.id!)"
-                            (change)="toggleObraSocial(obraSocial.id!)"
-                          />
-                          <label [for]="'obraSocial_' + obraSocial.id">{{ obraSocial.nombre }}</label>
-                        </div>
-                      </fieldset>
-
-
-
-              
-
-                    <div class="row mt-2 text-center">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-danger" routerLink="/personal">Cancelar</button>
-                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
-                        </div>
-
-                        <div class="col-lg-6">
-                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
-
-                        </div>
-
-
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-
-    </div>
+  <div class="col-md-6" [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+    <label class="form-label label-text text-light" for="nombre">Nombre</label>
+       <input formControlName="nombre" type="text" class="form-control bg-dark text-light" [class.is-invalid]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched"
+       placeholder="Ingrese nombre" id="nombre" maxlength="20">
+       <div class="invalid-feedback">El campo nombre es requerido</div>
 </div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="nombre">Apellido</label>
+  <input formControlName="apellido" type="text" class="form-control bg-dark text-light"
+      [class.is-invalid]="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched"
+      placeholder="Ingrese apellido" id="apellido" maxlength="20">
+  <div class="invalid-feedback">El campo apellido es requerido</div>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="dni">Dni</label>
+  <input formControlName="dni" type="text" class="form-control bg-dark text-light"
+      [class.is-invalid]="form.get('dni')?.hasError('required') && form.get('dni')?.touched"
+      placeholder="Ingrese dni" id="dni" maxlength="10">
+  <div class="invalid-feedback">El campo dni es requerido</div>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="telefono">Telefono</label>
+  <input formControlName="telefono" type="text" class="form-control bg-dark text-light"
+      placeholder="Ingrese telefono" id="telefono" maxlength="15">
+
+</div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="email">Email</label>
+  <input formControlName="email" type="text" class="form-control bg-dark text-light"
+      [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched"
+      placeholder="Ingrese Email" id="email" maxlength="40">
+  <div class="invalid-feedback">El campo email es requerido</div>
+</div>
+
+<div class="col-md-12">
+  <div class="row">
+      
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="password">Contraseña</label>
+  <input formControlName="password" type="password" class="form-control bg-dark text-light"
+      [class.is-invalid]="form.get('password')?.hasError('required') && form.get('password')?.touched"
+      placeholder="Ingrese Contraseña" id="password" maxlength="16">
+  <div class="invalid-feedback">El campo contraseña es requerido</div>
+</div>
+
+
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="password_2">Repita Contraseña</label>
+  <input formControlName="password_2" type="password" class="form-control bg-dark text-light"
+      [class.is-invalid]="(form.get('password_2')?.hasError('required') && form.get('password_2')?.touched) || (form.hasError('passwordMismatch')  && form.get('password_2')?.touched)"
+      placeholder="Ingrese Contraseña" id="password_2" maxlength="16">
+  <div class="invalid-feedback">El campo contraseña es requerido</div>
+
+  <div *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched" class="invalid-feedback">
+      Las contraseñas no coinciden
+  </div>
+</div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="dni">Seleccione Especialidad</label>
+  <select formControlName="id_especialidad" class="form-select bg-dark text-light" [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched" id="id_especialidad">
+    <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id" class="text-light">{{especialidad.nombre}}</option>
+ </select>
+  <div class="invalid-feedback">El campo especialidad es requerido</div>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label label-text text-light" for="matricula">Matricula</label>
+  <input formControlName="matricula" type="text" class="form-control bg-dark text-light"
+      [class.is-invalid]="form.get('matricula')?.hasError('required') && form.get('matricula')?.touched"
+      placeholder="Ingrese matricula" id="matricula" maxlength="10">
+  <div class="invalid-feedback">El campo matricula es requerido</div>
+</div>
+
+<legend class="fw-bold text-light fs-5">Horario</legend>
+
+<div class="col-md-6">
+    <label for="horaDesde" class="form-label text-light">Hora inicio</label>
+    <select formControlName="horaDesde" class="form-select bg-dark text-light" id="horaDesde">
+       <option *ngFor="let hora of listHorasDesde" [value]="hora" class="text-light">{{hora}}</option>
+    </select>
+    </div>
+ 
+<div class="col-md-6">
+  <label for="horaHasta" class="form-label text-light">Hora fin</label>
+  <select formControlName="horaHasta" class="form-select bg-dark text-light" id="horaHasta">
+      <option *ngFor="let hora of listHorasHasta" [value]="hora" class="text-light">{{hora}}</option>
+  </select>
+
+</div>
+
+<div class="container d-flex mt-4 align-items-center justify-content-center text-center">
+  <div class="form-check me-4">
+    <input formControlName="lunes" class="form-check-input" type="checkbox" value="" id="lunes">
+    <label class="form-check-label text-light" for="flexCheckDefault">Lunes</label>
+  </div>
+  
+  <div class="form-check me-4">
+    <input formControlName="martes" class="form-check-input" type="checkbox" value="" id="martes" checked="">
+    <label class="form-check-label text-light" for="flexCheckChecked">Martes</label>
+  </div>
+
+  <div class="form-check me-4">
+    <input formControlName="miercoles" class="form-check-input" type="checkbox" value="" id="miercoles" checked="">
+    <label class="form-check-label text-light" for="flexCheckChecked">Miercoles</label>
+  </div>
+
+  <div class="form-check me-4">
+    <input formControlName="jueves" class="form-check-input" type="checkbox" value="" id="jueves" checked="">
+    <label class="form-check-label text-light" for="flexCheckChecked">Jueves</label>
+  </div>
+
+  <div class="form-check">
+    <input formControlName="viernes" class="form-check-input" type="checkbox" value="" id="viernes" checked="">
+    <label class="form-check-label text-light" for="flexCheckChecked">Viernes</label>
+  </div>
+
+</div>
+
+<legend class="fw-bold text-light fs-5">Obras Sociales</legend>
+<fieldset class="form-group">
+  <label for="obraSocial" class="form-label text-light">Seleccione obras sociales</label>
+  <div class="container d-flex">
+    <div *ngFor="let obraSocial of listObraSocial" class="form-check me-3">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [id]="'obraSocial_' + obraSocial.id"
+        [checked]="isObraSocialSelected(obraSocial.id!)"
+        (change)="toggleObraSocial(obraSocial.id!)"
+      />
+      <label class="text-light" [for]="'obraSocial_' + obraSocial.id">{{ obraSocial.nombre }}</label>
+    </div>
+  </div>
+
+
+</fieldset>
+
+
+<div class="mt-4 d-flex justify-content-between text-center">
+  <div>
+      <button type="button" class="btn btn-danger" routerLink="/personal">Cancelar</button>
+      <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+  </div>
+
+  <div>
+      <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+
+  </div>
+
+
+</div>
+
+
+
+
+</form>
+
+
+
 

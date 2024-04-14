@@ -1,8 +1,7 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
     <br>
                 <form *ngIf="!loading" class="row g-3 mx-5 my-5" [formGroup]="form" (ngSubmit)="create()">
-
-
+                    <legend class="fw-bold text-light">Nuevo usuario</legend>    
                     <div class="col-md-6"
                         [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
                         <label class="form-label label-text" for="nombre">Nombre</label>
@@ -81,9 +80,9 @@
                             placeholder="Ingrese Contraseña" id="password_2" maxlength="16">
                         <div class="invalid-feedback">El campo contraseña es requerido</div>
 
-                        <span *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched">
+                        <div *ngIf="form.hasError('passwordMismatch') && form.get('password_2')?.touched" class="invalid-feedback">
                             Las contraseñas no coinciden
-                        </span>
+                        </div>
                     </div>
                         </div>
                     </div>
@@ -113,23 +112,14 @@
 
               
 
-                    <div class="col-md-12">
-                        <div class="d-flex align-items-center">
-                            <button class="btn btn-primary ms-2" type="button" (click)="toogleCalendario()">Selecccionar Fecha</button>
-                            <input type="text" class="form-control bg-dark text-light" formControlName="fecha_nac" placeholder="Fecha nac"
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <button class="btn btn-primary" type="button" (click)="abrirModalFecha()">Selecccionar</button>
+                            <input type="text" class="form-control bg-dark text-light fecha-nac" formControlName="fecha_nac" placeholder="Fecha nacimiento"
                                 value="{{fechaNacInput}}" readonly style="width: 50%;">
                           
                         </div>
-
-                        <div class="mt-2" *ngIf="mostrarCalendario">
-                            <!-- Calendario -->
-                            <div class="bg-dark d-flex flex-column align-items-center justify-content-center rounded w-content">
-                                <ngb-datepicker (dateSelect)="seleccionarFecha($event)"></ngb-datepicker>
-                                <button class="btn btn-primary mt-2" (click)="toogleCalendario()">Aceptar</button>
-
-                            </div>
-                   
-                        </div>
+                  
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center text-center" >
@@ -148,4 +138,27 @@
                     </div>
 
                 </form>
+
+
+ <!-- ------------------------------ MODAL FECHA DESDE ----------------------------------------- -->
+
+<div class="modal" id="modalFecha" tabindex="-1" aria-labelledby="modalFDLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFDLabel">Seleccionar Fecha Desde</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+
+                <ngb-datepicker (dateSelect)="seleccionarFecha($event)"></ngb-datepicker>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+
+            </div>
+        </div>
+    </div>
+</div>               
 

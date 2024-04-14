@@ -1,48 +1,35 @@
+<br><br><br>
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-<div *ngIf="!loading" class="row mt-3">
-    <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header text-center">{{operacion}} Especialidad</div>
-            <div class="card-body">
-                <form [formGroup]="form" (ngSubmit)="addEditEspecialdiad()">
-                    <div class="form-group">
-                        <label class="col-form-label mt-4" for="nombre">Nombre</label>
-                        <input formControlName="nombre" type="text" class="form-control" placeholder="Ingrese Especialidad" id="nombre">
-                        <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
-                             El campo nombre es requerido
-                        </span>
-                    </div>
+<form *ngIf="!loading" class="row g-3 mx-5 my-5" [formGroup]="form" (ngSubmit)="addEditEspecialdiad()">
+    <legend class="fw-bold text-light">Agregar Especialidad</legend>
 
-                    <div class="form-group">
-                        <label for="descripcion" class="form-label mt-4">Descripcion</label>
-                        <textarea formControlName="descripcion" class="form-control" id="descripcion" placeholder="Ingrese descripcion"
-                            rows="6"></textarea>
-                    </div>
+    <div class="col-md-6" [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+        <label class="form-label label-text text-light" for="nombre">Nombre</label>
+        <input formControlName="nombre" type="text" class="form-control bg-dark text-light" placeholder="Ingrese Obra Social" id="nombre" [class.is-invalid]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched" maxlength="20"> 
+        <div class="invalid-feedback">El campo nombre es requerido</div>
+    </div>
 
-                    <div class="row mt-2 text-center">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn btn-danger" routerLink="/especialidad">Cancelar</button>
-                            <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
-                        </div>
+    <div class="form-group">
+        <label for="descripcion" class="form-label label-text text-light">Descripcion</label>
+        <textarea formControlName="descripcion" class="form-control bg-dark text-light" id="descripcion" placeholder="Ingrese descripcion"
+            rows="6"></textarea>
+    </div>
 
-                        <div class="col-lg-6">
-                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
-
-                        </div>
-
-
-                    </div>
-
-                </form>
-
-
-
-
-
-            </div>
+    <div class="d-flex justify-content-between mt-4 text-center">
+        <div>
+            <button type="button" class="btn btn-danger" routerLink="/especialidad">Cancelar</button>
+     
         </div>
+
+        <div>
+            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+
+        </div>
+
 
     </div>
 
+</form>
 
-</div>
+
+

@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom } from 'rxjs';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Validations } from 'src/app/utils/Validations';
 
 @Component({
   selector: 'app-add-personal',
@@ -29,7 +30,7 @@ export class AddPersonalComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.maxLength(16)]],
       password_2: ['', [Validators.required, Validators.maxLength(16)]]
-    });
+    }, { validator: Validations.matchPasswords('password', 'password_2') });
 
 
   }

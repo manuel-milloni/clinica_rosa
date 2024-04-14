@@ -59,8 +59,8 @@ export class AddProfesionalComponent implements OnInit {
       viernes: [false]
 
 
-    }, { validator: Validations.validateCheckboxs() })
-
+    }, { validator: [Validations.validateCheckboxs(), Validations.matchPasswords('password', 'password_2')]},)
+ 
     // this.form = this.fb.group({
     //      obrasSociales : this.fb.array([])
     // }, {validator : Validations.atLeastOneObraSocialSelected()});

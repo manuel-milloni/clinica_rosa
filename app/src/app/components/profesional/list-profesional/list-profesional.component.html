@@ -1,63 +1,67 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
-
+<br><br><br>
 <div *ngIf="!loading" class="container">
 
     <div class="title">
-       <h4>Profesionales</h4>
-
+       <h4 class="text-light">Profesionales</h4>
+       <input class="form-control bg-dark text-light mb-2" type="text" id="buscador" placeholder="Buscar profesional(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
        <button type="button" class="btn btn-primary" routerLink="/profesional-add">Agregar</button>
-       <input class="form-control" type="text" id="buscador" placeholder="Buscar paciente(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
-
     </div>
-  <table *ngIf="listProfesionales.length>0" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Dni</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Email</th>
-        <th scope="col">Especialidad</th>
-        <th scope="col">Horario</th>
-        <th scope="col">Obras sociales</th>
-        <th scope="col">Accion</th>
-       
-      </tr>
-    </thead>
-    <tbody>
-   
     
-      <tr *ngFor="let item of listProfesionales | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-primary">
-        <td>{{item.nombre}}</td>
-        <td>{{item.apellido}}</td>
-        <td>{{item.dni}}</td>
-        <td>{{item.telefono}}</td>
-        <td>{{item.email}}</td>
-        <td>{{item.especialidad}}</td>
-        <td>
-          <!-- <button type="button" class="btn btn-secondary btn-sm"  id="horario" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver</button> -->
-          <button type="button" class="btn btn-secondary btn-sm"  id="horario" (click)="modalHorario(item.id!)">Ver</button>  
-  
-        </td>
-        <td>
-            <button type="button" class="btn btn-secondary btn-sm" id="obraSocial" (click)="modalObraSocial(item.id!)" >Ver</button>  
-        </td>
-        <td>
-            
-                <button type="button" class="btn btn-secondary btn-sm" routerLink="/profesional-edit/{{item.id}}">Editar</button>
-        
-                <button (click)="deleteProfesional(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-        </td>
-        
-       
-      </tr>
-   
-  
-   
-   
 
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table *ngIf="listProfesionales.length>0" class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Dni</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Email</th>
+          <th scope="col">Especialidad</th>
+          <th scope="col">Horario</th>
+          <th scope="col">Obras sociales</th>
+          <th scope="col">Accion</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+     
+      
+        <tr *ngFor="let item of listProfesionales | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-dark">
+          <td>{{item.nombre}}</td>
+          <td>{{item.apellido}}</td>
+          <td>{{item.dni}}</td>
+          <td>{{item.telefono}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.especialidad}}</td>
+          <td>
+            <!-- <button type="button" class="btn btn-secondary btn-sm"  id="horario" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver</button> -->
+            <button type="button" class="btn btn-secondary btn-sm"  id="horario" (click)="modalHorario(item.id!)">Ver</button>  
+    
+          </td>
+          <td>
+              <button type="button" class="btn btn-secondary btn-sm" id="obraSocial" (click)="modalObraSocial(item.id!)" >Ver</button>  
+          </td>
+          <td>
+              
+                  <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/profesional-edit/{{item.id}}">Editar</button>
+          
+                  <button (click)="deleteProfesional(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+          </td>
+          
+         
+        </tr>
+     
+    
+     
+     
+  
+      </tbody>
+    </table>
+
+  </div>
+ 
 
 
 
