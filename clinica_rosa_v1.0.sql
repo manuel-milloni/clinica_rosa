@@ -145,10 +145,10 @@ INSERT INTO `clinica_rosa_db`.`usuario` (`id`,`nombre`, `apellido`, `dni`, `tele
 (10,	'Marcelo', 	'Salas',	'27921002',	'3413678998',	'marcelo@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'30212',	0,	null,	null,	2,	'M',	'1990-05-23'),
 (11,	'Lisa',	'Lauro',	'33122020',	'3415729922',	'lisa@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	null,	0,	null,	null,	1,	'F',	'1985-10-17'),
 (12,	'Julio',	'Grondona',	'15021221',	'3417652881',	'julio@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'32102',	0,	null,	null,	3,	'M',	'1978-03-09'),
-(13,	'Marisa',	'Olasca',	'19220331',	'3416721003',	'marisa@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	null,	0,	null,	null,	1,	'F',	'1996-08-31'),
+(13,	'Marisa',	'Olasca',	'19220331',	'3416721003',	'marisa@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	null,	0,	null,	null,	1,	'F',	'2007-08-31'),
 (14,	'Adolfo',	'Ruperti',	'12332122',	'3416872993',	'adolfo@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'54431',	0,	null,	null,	4,	'M',	'1982-11-14'),
 (15,	'Lucas',	'Usb',	'16222321',	'3417628221',	'lucas@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'69492',	0,	null,	null,	2,	'M',	'1975-07-28'),
-(16,	'Miriam',	'Lupestri',	'17822311',	'3418761121',	'miriam@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'34122',	0,	null,	null,	2,	'F',	'2000-01-05'),
+(16,	'Miriam',	'Lupestri',	'17822311',	'3418761121',	'miriam@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	'34122',	0,	null,	null,	2,	'F',	'2008-01-05'),
 (17,	'Ludovica',	'Arrazabal',	'14230222',	'3413876221',	'ludovica@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	null,	null,	0,	null,	null,	1,	'F',	'1999-07-22');
 COMMIT;
 
@@ -237,6 +237,67 @@ INSERT INTO `clinica_rosa_db`.`turno` (`fecha`, `hora`, `estado`, `observaciones
 ('2024-03-06',	'15:30:00',	'Concretado',	'Astigmatismo: Un error de refracción del ojo causado por una curvatura irregular de la córnea o del cristalino, lo que provoca una visión borrosa tanto de objetos cercanos como lejanos',	8,	10),
 ('2024-03-06',	'16:00:00',	'Concretado',	'Cataratas: Opacidad del cristalino del ojo, generalmente asociada con el envejecimiento, que puede causar visión borrosa, sensibilidad a la luz, visión doble y dificultad para ver en condiciones de poca luz.',	8,	11);
 COMMIT;
+
+
+
+-- Abril
+INSERT INTO `clinica_rosa_db`.`turno` (`fecha`, `hora`, `estado`, `observaciones`, `id_profesional`, `id_paciente`) VALUES
+('2024-04-08',	'09:00:00',	'Concretado',	'Paciente se presenta con molestias lumbares.Se recomienda reposo y estudios a realizar.',	2,	10),
+('2024-04-08',	'14:30:00',	'Ausente',	'',	2,	11),
+('2024-04-10',	'10:00:00',	'Concretado','Problemas de Vista. Se deriva con los estudios correspondientes',	3,	17),
+('2024-04-10',	'10:30:00',	'Ausente',	'',	3,	14),
+('2024-04-11',	'10:00:00',	'Concretado',	'Afección cutánea crónica caracterizada por picazón, enrojecimiento y sequedad de la piel, que puede ser desencadenada por alergias o factores ambientales.',	4,	11),
+('2024-04-11',	'13:00:00',	'Concretado',	'Afección cutánea crónica caracterizada por picazón, enrojecimiento y sequedad de la piel, que puede ser desencadenada por alergias o factores ambientales.',	4,	13),
+('2024-04-12',	'16:00:00',	'Ausente',	'',	5,	17),
+('2024-04-12',	'14:30:00',	'Concretado',	'Paciente se presenta con problemas auditivos de la oreja izq.Se genera orden de estudios.',	5,	12),
+('2024-04-17',	'10:00:00',	'Concretado',	'Después del turno de pediatría, el diagnóstico revela que el paciente presenta una infección respiratoria leve. Se ha recetado un curso de antibióticos y se recomienda descanso adecuado y mantenerse hidratado. Se aconseja seguir de cerca la evolución y, si persisten los síntomas o hay complicaciones, consultar de inmediato.',	6,	14),
+('2024-04-17',	'10:30:00',	'Concretado',	'Después del turno de pediatría, el diagnóstico revela que el paciente presenta una infección respiratoria leve. Se ha recetado un curso de antibióticos y se recomienda descanso adecuado y mantenerse hidratado. Se aconseja seguir de cerca la evolución y, si persisten los síntomas o hay complicaciones, consultar de inmediato.',	6,	11),
+('2024-04-15',	'10:00:00',	'Concretado',	'Después del turno de traumatología, se ha diagnosticado al paciente con una fractura de muñeca. Se ha inmovilizado la zona con un yeso y se ha recetado analgésicos para el dolor. Se recomienda evitar actividades que pongan presión en la muñeca y seguir las indicaciones del médico para una recuperación óptima.',	7,	15),
+('2024-04-15',	'11:00:00',	'Concretado',	'Después del turno de traumatología, se ha diagnosticado al paciente con una fractura de muñeca. Se ha inmovilizado la zona con un yeso y se ha recetado analgésicos para el dolor. Se recomienda evitar actividades que pongan presión en la muñeca y seguir las indicaciones del médico para una recuperación óptima.',	7,	16),
+('2024-04-22',	'12:00:00',	'Concretado',	'Conjuntivitis: Inflamación de la membrana transparente que recubre la parte blanca del ojo y el interior de los párpados, generalmente causada por infecciones virales, bacterianas o alérgicas, que puede provocar enrojecimiento, picazón, secreción y sensación de cuerpo extraño en el ojo.',	8,	17),
+('2024-04-22',	'13:00:00',	'Concretado',	'Conjuntivitis: Inflamación de la membrana transparente que recubre la parte blanca del ojo y el interior de los párpados, generalmente causada por infecciones virales, bacterianas o alérgicas, que puede provocar enrojecimiento, picazón, secreción y sensación de cuerpo extraño en el ojo.',	8,	14),
+('2024-04-23',	'10:00:00',	'Concretado',	'Problemas de Vista. Se recetan lentes',	9,	12),
+('2024-04-23',	'13:00:00',	'Concretado',   'Problemas de Vista. Se recetan lentes',	9,	15);
+COMMIT;
+
+-- Mayo turnos
+INSERT INTO `clinica_rosa_db`.`turno` (`fecha`, `hora`, `estado`, `observaciones`, `id_profesional`, `id_paciente`) VALUES
+('2024-05-03',	'09:00:00',	'Concretado',	'Paciente se presenta con molestias lumbares.Se recomienda reposo y estudios a realizar.',	2,	10),
+('2024-05-03',	'14:30:00',	'Concretado',	'Paciente se presenta con molestias lumbares.Se recomienda reposo y estudios a realizar.',	2,	11),
+('2024-05-03',	'10:00:00',	'Concretado',	'Problemas de Vista. Se deriva con los estudios correspondientes',	3,	17),
+('2024-05-03',	'10:30:00',	'Concretado',	'Problemas de Vista. Se deriva con los estudios correspondientes',	3,	14),
+('2024-05-07',	'10:00:00',	'Concretado',	'Afección cutánea crónica caracterizada por picazón, enrojecimiento y sequedad de la piel, que puede ser desencadenada por alergias o factores ambientales.',	4,	11),
+('2024-05-07',	'13:00:00',	'Concretado',	'Afección cutánea crónica caracterizada por picazón, enrojecimiento y sequedad de la piel, que puede ser desencadenada por alergias o factores ambientales.',	4,	13),
+('2024-05-06',	'16:00:00',	'Concretado',	'Paciente se presenta con problemas auditivos de la oreja izq.Se genera orden de estudios.',	5,	17),
+('2024-05-06',	'14:30:00',	'Concretado',	'Paciente se presenta con problemas auditivos de la oreja izq.Se genera orden de estudios.',	5,	12),
+('2024-05-10',	'10:00:00',	'Pendiente',	'',	6,	14),
+('2024-05-10',	'10:30:00',	'Pendiente',	'',	6,	11),
+('2024-05-13',	'10:00:00',	'Pendiente',	'',	7,	15),
+('2024-05-13',	'11:00:00',	'Pendiente',	'',	7,	16),
+('2024-05-15',	'12:00:00',	'Pendiente',	'',	8,	17),
+('2024-05-15',	'13:00:00',	'Pendiente',	'',	8,	14),
+('2024-05-16',	'10:00:00',	'Pendiente',	'',	9,	12),
+('2024-05-16',	'13:00:00',	'Pendiente',	'',	9,	15);
+COMMIT;
+
+-- Profesionales Agregado
+
+INSERT INTO `clinica_rosa_db`.`usuario` (`id`,`nombre`, `apellido`, `dni`, `telefono`, `email`, `password`,`matricula`, `nroAfiliado`, `rol`, `id_especialidad`, `id_horario`, `id_obra_social`, `genero`, `fecha_nac`) VALUES 
+(18,	'Jose',	'Ventura',	'20678326',	'3416751003',	'jose@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	'32229',	null,	1,	4,	4,	null,	null,	null),
+(19,	'Vanesa',	'Coppola',	'30042783',	'3416822993',	'vanesa@gmail.com',	'$2a$10$0xgAHLDMWhw82l52iHHQW.LFCWQO1d2wbup4sgQPIHkvZhN8MtUam',	'99231',	null,	1,	5,	5,	null,	null,	null);
+COMMIT;
+
+INSERT INTO `clinica_rosa_db`.`usuario_obra_social` (`id_profesional`, `id_obra_social`) VALUES 
+(18,	1),
+(18,	3),
+(18,	4),
+(18,	7),
+(19,	1),
+(19,	3),
+(19,	4);
+COMMIT;
+
+
 
 
 
