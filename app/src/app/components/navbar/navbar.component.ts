@@ -5,6 +5,9 @@ import { Usuario } from 'src/app/interfaces/Usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { firstValueFrom } from 'rxjs';
+import * as bootstrap from 'bootstrap';
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +22,7 @@ export class NavbarComponent implements OnInit {
                homeAdmin : boolean = false;
                homeProfesional : boolean = false;
                homePaciente : boolean  = false;
+               isNavbarCollapsed = true;
 
      constructor(private _authService : AuthService,
                  private _userService : UsuarioService,
@@ -79,6 +83,16 @@ export class NavbarComponent implements OnInit {
      
 
    }
+
+   toggleNavbar() {
+      const navbarCollapse = document.getElementById('navbarSupportedContent');
+      if (navbarCollapse) {
+        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+        bsCollapse.toggle();
+      }
+    }
+    
+
 
 
 

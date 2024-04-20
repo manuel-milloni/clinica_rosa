@@ -1,5 +1,5 @@
 --Frontend
--Ver de poner un formulario de contacto en el Home.
+-botones responsive del home
 -Ver responsive de pro-informes el input group y centrar graficos.
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
 -Agregar que se pueda modificar password desde Edit profesional.

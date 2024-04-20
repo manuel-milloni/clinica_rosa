@@ -9,3 +9,17 @@
       font-size: 18px;
       font-weight: bold;
   }
+
+
+  @media (max-width: 768px){
+    #boton-to {
+        margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: 576px){
+        #boton-to {
+            margin-bottom: 10px;
+        }
+  }
+

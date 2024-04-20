@@ -3,17 +3,21 @@
     <a class="navbar-brand" href="#" routerLink="">
       <span class="text-primary fs-5 fw-bold"> Clinica Rosa</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav me-auto">
+    <!-- --------------- BOTON RESPONSIVE----------------------- -->
+    <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+
+    <div class="collapse navbar-collapse" [ngClass]="{'show': !isNavbarCollapsed}" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" routerLink="">Inicio
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
+        <!-- ------------------------- PACIENTE -------------------------------------------- -->
         <li class="nav-item">
           <a *ngIf="homePaciente" class="nav-link active" routerLink="/mis-turnos">Mis Turnos
             <span class="visually-hidden">(current)</span>
@@ -24,16 +28,18 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
+        <!-- ------------------------------------------------------------------------------------------ -->
 
       </ul>
       <div>
         <ul class="navbar-nav me-auto">
           <li class="nav-item ms-1">
-            <a *ngIf="!homeAdmin && !homeProfesional" class="btn btn-primary" routerLink="/turno">Turnos Online</a>
-          </li> 
+            <a *ngIf="!homeAdmin && !homeProfesional" class="btn btn-primary" routerLink="/turno" id="boton-to">Turnos Online</a>
+          </li>
 
           <li class="nav-item ms-1">
-            <a *ngIf="login" class="nav-link active" routerLink="/mi-perfil">Bienvenido {{user.nombre}} {{user.apellido}}!</a>
+            <a *ngIf="login" class="nav-link active" routerLink="/mi-perfil">Bienvenido {{user.nombre}}
+              {{user.apellido}}!</a>
           </li>
           <li class="nav-item ms-1">
             <a *ngIf="login" class="btn btn-outline-danger" href="" (click)="logout()">Salir</a>
@@ -49,5 +55,7 @@
 
       </div>
     </div>
+
   </div>
+
 </nav>
