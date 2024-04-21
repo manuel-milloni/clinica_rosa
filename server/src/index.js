@@ -33,16 +33,16 @@ app.listen(config.app.port , () => {
     
     console.log("Server runing on port ", config.app.port);
 
-    // //Enviador de correos
-    // cron.schedule('00 09 * * *', () => { 
-    //     runSender()
-    //         .then(() => {
-    //             console.log('Función runSender ejecutada correctamente.');
-    //         })
-    //         .catch(error => {
-    //             console.error('Error al ejecutar runSender:', error);
-    //         });
-    // });
+    //Enviador de correos
+    cron.schedule('00 09 * * *', () => { 
+        runSender()
+            .then(() => {
+                console.log('Función runSender ejecutada correctamente.');
+            })
+            .catch(error => {
+                console.error('Error al ejecutar runSender:', error);
+            });
+    });
      
     
 });
