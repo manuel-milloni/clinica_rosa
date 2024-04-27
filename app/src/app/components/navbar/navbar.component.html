@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-ligth fixed-top" id="menu">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" routerLink="">
+    <a class="navbar-brand" href="#" routerLink="" (click)="toggleNavbar()">
       <span class="text-primary fs-5 fw-bold"> Clinica Rosa</span>
     </a>
     <!-- --------------- BOTON RESPONSIVE----------------------- -->
@@ -13,18 +13,18 @@
     <div class="collapse navbar-collapse" [ngClass]="{'show': !isNavbarCollapsed}" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="">Inicio
+          <a class="nav-link active" routerLink="" (click)="toggleNavbar()">Inicio
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <!-- ------------------------- PACIENTE -------------------------------------------- -->
         <li class="nav-item">
-          <a *ngIf="homePaciente" class="nav-link active" routerLink="/mis-turnos">Mis Turnos
+          <a *ngIf="homePaciente" class="nav-link active" routerLink="/mis-turnos" (click)="toggleNavbar()">Mis Turnos
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a *ngIf="homePaciente" class="nav-link active" routerLink="/mi-perfil">Mi perfil
+          <a *ngIf="homePaciente" class="nav-link active" routerLink="/mi-perfil" (click)="toggleNavbar()">Mi perfil
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
@@ -34,20 +34,20 @@
       <div>
         <ul class="navbar-nav me-auto">
           <li class="nav-item ms-1">
-            <a *ngIf="!homeAdmin && !homeProfesional" class="btn btn-primary" routerLink="/turno" id="boton-to">Turnos Online</a>
+            <a *ngIf="!homeAdmin && !homeProfesional" class="btn btn-primary" routerLink="/turno" id="boton-to" (click)="toggleNavbar()">Turnos Online</a>
           </li>
 
           <li class="nav-item ms-1">
-            <a *ngIf="login" class="nav-link active" routerLink="/mi-perfil">Bienvenido {{user.nombre}}
+            <a *ngIf="login" class="nav-link active" routerLink="/mi-perfil" (click)="toggleNavbar()">Bienvenido {{user.nombre}}
               {{user.apellido}}!</a>
           </li>
           <li class="nav-item ms-1">
-            <a *ngIf="login" class="btn btn-outline-danger" href="" (click)="logout()">Salir</a>
+            <a *ngIf="login" class="btn btn-outline-danger" href="" (click)="toggleNavbar();logout()">Salir</a>
 
           </li>
 
           <li class="nav-item ms-1">
-            <a class="btn btn-outline-primary" *ngIf="!login" routerLink="/login">Iniciar Sesion</a>
+            <a class="btn btn-outline-primary" *ngIf="!login" routerLink="/login" (click)="toggleNavbar()">Iniciar Sesion</a>
           </li>
 
         </ul>
@@ -59,3 +59,6 @@
   </div>
 
 </nav>
+
+
+

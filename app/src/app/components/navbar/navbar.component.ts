@@ -85,21 +85,14 @@ export class NavbarComponent implements OnInit {
    }
 
    toggleNavbar() {
-      const navbarCollapse = document.getElementById('navbarSupportedContent');
-      if (navbarCollapse) {
-        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-        bsCollapse.toggle();
-      }
+      this.isNavbarCollapsed = !this.isNavbarCollapsed;
     }
     
 
 
 
 
-
-
-
-
+    
 
 
 }
