@@ -1,3 +1,14 @@
 .custom-btn-size {
     width: 65px; /* Establece el ancho deseado para los botones */
 }
+
+.card-especialidad{
+    width: 400px;
+}
+
+
+@media (max-width: 768px){
+    .body-respon{
+        text-align: center;
+    }
+}

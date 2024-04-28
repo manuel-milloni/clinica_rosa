@@ -1,0 +1,16 @@
+.login {
+    width: 600px;
+}
+
+@media (max-width: 768px){
+    .login{
+        width: 400px;
+    }
+}
+
+@media (max-width: 568px){
+    .login{
+        width: 350px;
+    }
+
+}

@@ -1,8 +1,14 @@
+
 <br><br>
+<app-progress-bar *ngIf="loading"></app-progress-bar>
 <div class="container">
 
     <div class="row">
-
+        <span *ngIf="listTurnos.length==0">
+            <br>
+            <br>
+            <h5 class="text-light text-center">No posee turnos Pendientes.</h5>
+        </span>
         <div *ngFor="let turno of listTurnos" class="col-12 col-md-6 col-lg-4 mt-5">
             <div class="card bg-dark">
                 <div class="card-body">
@@ -40,7 +46,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 body-respon">
                         <!-- Calendario -->
                         <ngb-datepicker #dp [(ngModel)]="fechaTurno" [minDate]="fechaMinima" [startDate]="fechaMinima"
                             (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
@@ -57,16 +63,13 @@
                 </div>
             </div>
 
-            <div class="modal-footer">
-                <div class="row mt-2 text-center">
-                    <div class="col-lg-6">
+            <div class="modal-footer d-flex justify-content-center">
+             
+                   
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                    <div class="col-lg-6">
-                        <!-- <button [disabled]="form_profesional.invalid"  type="submit" class="btn btn-primary">Aceptar</button> -->
-                        <button type="submit" class="btn btn-primary">Aceptar</button>
-                    </div>
-                </div>
+                   
+                  
+               
             </div>
         </div>
     </div>
@@ -94,16 +97,16 @@
                     <p>No hay información de profesional disponible.</p>
                 </ng-container>
             </div>
-            <div class="modal-footer">
-                <div class="row mt-2 text-center">
-                    <div class="col-lg-6">
+            <div class="modal-footer d-flex justify-content-between">
+             
+                    <div>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
-                    <div class="col-lg-6">
+                    <div>
                         <button type="button" class="btn btn-primary" (click)="createTurno()"
                             [disabled]="!profesional">Aceptar</button>
                     </div>
-                </div>
+                
             </div>
         </div>
     </div>

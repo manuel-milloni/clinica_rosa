@@ -1,6 +1,6 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!loading" class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="card text-white bg-dark mb-3 mt-5" style="max-width: 25rem;">
+    <div class="card text-white bg-dark mb-3 mt-5 card-especialidad" style="max-width: 25rem;">
         <div class="card-header text-center">Nuevo Turno</div>
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="modalProfesional()">
@@ -16,13 +16,13 @@
                     <div class="invalid-feedback">El campo Especialidad es requerido</div>
                 </div>
 
-                <div class="row text-center mt-3">
-                    <div class="col-lg-6 col-12">
+                <div class="mt-4 d-flex justify-content-between text-center">
+                    <div>
                         <button type="button" class="btn btn-danger" routerLink="">Cancelar</button>
-                        <!-- El button se deshabilita cuando el formulario es invalido, es decir cuando falta completar algun campo -->
+             
                     </div>
 
-                    <div class="col-lg-6 col-12 mt-lg-0 mt-2">
+                    <div>
                         <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
 
                     </div>
@@ -69,10 +69,6 @@
 
                                 </div>
                               
-                               
-                         
-
-
                      
                     </div>
 
@@ -91,12 +87,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5 text-light" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
+                <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">Seleccione Fecha y Hora del Turno</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body body-respon">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 body-respon">
                         <!-- Calendario -->
                         <ngb-datepicker #dp [minDate]="fechaMinima" [startDate]="fechaMinima"
                             [markDisabled]="markDisabled" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
@@ -114,17 +110,6 @@
                 </div>
             </div>
 
-            <!-- <div class="modal-footer d-flex justify-content-between">
-             
-                    <div>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
-                    <div>
-                        <button [disabled]="form_profesional.invalid" type="submit"
-                            class="btn btn-primary">Aceptar</button>
-                    </div>
-               
-            </div> -->
         </div>
     </div>
 </div>
@@ -166,7 +151,7 @@
         </div>
     </div>
 
-    <!-- </div> -->
+  
 
 
 </div>

@@ -31,6 +31,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    idPaciente: number = 0;
    turno: Turno | undefined;
    profesional: Usuario | undefined;
+   loading : boolean = false;
 
    //Reprogramar turno
    horarioProfesional: Horario | undefined;
@@ -65,6 +66,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    }
 
    async getPaciente() {
+      this.loading = true;
       const token = localStorage.getItem('auth-token');
       if (!token) {
 
@@ -82,6 +84,7 @@ export class MisTurnosPacienteComponent implements OnInit {
          const paciente: Usuario = await firstValueFrom(this._userService.getOne(this.idPaciente));
 
          this.paciente = paciente;
+         this.loading = false;
       } catch (error: any) {
          this.errorServer = error.error?.error || 'Error al validar usuario';
          this.router.navigate(['login'])
@@ -92,6 +95,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    }
 
    async getTurnos() {
+      this.loading = true;
 
       try {
          const data: Turno[] = await firstValueFrom(this._turnoService.getTurnosPaciente(this.idPaciente));
@@ -106,7 +110,9 @@ export class MisTurnosPacienteComponent implements OnInit {
          this.listTurnos = data;
 
          await this.setProfesionalTurnos();
+         this.loading = false;
       } catch (error: any) {
+         this.loading = false;
          this.errorServer = error.error?.error || 'Error al obtener turnos del paciente';
          this.toastr.error(this.errorServer!, 'Error');
       }
@@ -122,6 +128,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
 
    async setProfesionalTurnos() {
+      this.loading = true;
       try {
 
 
@@ -131,8 +138,9 @@ export class MisTurnosPacienteComponent implements OnInit {
             turno.profesional = profesional;
          })
 
-
+         this.loading = false;
       } catch (error: any) {
+         this.loading = false;
          this.errorServer = error.error?.error || 'Error server';
          this.toastr.error(this.errorServer!, 'Error');
       }
@@ -147,6 +155,7 @@ export class MisTurnosPacienteComponent implements OnInit {
          const fechaTurnoDate = new Date(`${turno.fecha}T${turno.hora}`);
    
          if (this.valida48hs(fechaTurnoDate)) {
+            this.loading = true;
             try {
                const body = {
                   estado : 'Cancelado'
@@ -154,12 +163,15 @@ export class MisTurnosPacienteComponent implements OnInit {
 
                await firstValueFrom(this._turnoService.update(body, turno.id!));
                this.getTurnos();
+               this.loading = false;
                this.toastr.success('Turno cancelado exitosamente!');
             } catch (error: any) {
+               this.loading = false;
                this.errorServer = error.error?.error || 'Error al cancelar turno';
                this.toastr.error(this.errorServer!, 'Error');
             }
          } else {
+            this.loading = false;
             this.toastr.error('No es posible cancelar el turno, comuniquese con la Clinica', 'Error');
    
          }
@@ -186,6 +198,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    //Reprogramar turno ------------------------------------
 
    async reprogramarTurno(idTurno: number) {
+     
       this.deshabilitarFechas();
       const turno: Turno = this.listTurnos.find((turno) => idTurno === turno.id)!;
 
@@ -207,10 +220,13 @@ export class MisTurnosPacienteComponent implements OnInit {
    }
 
    async getProfesional(idProfesional: number) {
+      this.loading = true;
       try {
          const profesional: Usuario = await firstValueFrom(this._userService.getOne(idProfesional));
          this.profesional = profesional;
+         this.loading = false;
       } catch (error: any) {
+         this.loading = false;
          this.errorServer = error.error?.error || 'Error al obtener profesional del turno.';
          this.toastr.error(this.errorServer!, 'Error');
       }
@@ -218,12 +234,13 @@ export class MisTurnosPacienteComponent implements OnInit {
 
    //Obtengo el horario del profesional seleccionado
    async getHorarioProfesional() {
-
+      this.loading = true;
       try {
          const horarioProfesional: Horario = await firstValueFrom(this._horarioService.getOne(this.profesional?.id_horario!));
          this.horarioProfesional = horarioProfesional;
+         this.loading = false;
       } catch (error: any) {
-
+         this.loading = false;
          this.toastr.error('Error al obtener horario del profesional', error);
       }
 
@@ -443,6 +460,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    }
 
    async createTurno() {
+      this.loading = true;
    
       const fecha = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
       const hora = this.formatTime(this.horaTurno!);
@@ -472,7 +490,7 @@ export class MisTurnosPacienteComponent implements OnInit {
             this.cerrarModales();
    
           
-   
+            this.loading = false;
             this.router.navigate(['mis-turnos']);
    
             // this.loading = false;
@@ -480,12 +498,13 @@ export class MisTurnosPacienteComponent implements OnInit {
             this.toastr.success('Turno reprogramado exitosamente', 'Turno Generado');
    
          } catch (error: any) {
-            // this.loading = false;
+            this.loading = false;
             this.errorServer = error.error?.error || 'Error al generar Turno',
                this.toastr.error(this.errorServer!, 'Error');
             console.error(error);
          }        
       } else {
+         this.loading = false;
          this.toastr.error('No es posible registrar mas de un turno en la misma fecha y hora', 'Error');
       }
      

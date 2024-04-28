@@ -18,6 +18,7 @@ import { Modal } from 'bootstrap';
     styleUrls: ['./informes.component.css']
 })
 export class InformesComponent implements OnInit {
+    loading : boolean = false;
     fechaDesde: NgbDate | undefined;
     fechaHasta: NgbDate | undefined;
 
@@ -86,12 +87,14 @@ export class InformesComponent implements OnInit {
     }
 
     async buscar() {
-
+        this.loading = true;
         if(this.validaFechas()){
             await this.getListTurnos();
             this.initGrafico2();
             await this.initGrafico3();
+            this.loading = false;
         }else{
+            this.loading = false;
             this.toastr.error('La fecha desde debe ser menor a la fecha hasta', 'Error');
         }
       
@@ -119,6 +122,7 @@ export class InformesComponent implements OnInit {
 
     //Obtiene array de turnos en el periodo indicado.
     async getListTurnos() {
+        this.loading = true;
      
         const body: any = {
             fechaDesde: this.fechaDesdeDB,
@@ -129,9 +133,11 @@ export class InformesComponent implements OnInit {
             const turnos: Turno[] = await firstValueFrom(this._turnoService.getTurnosByFecha(body));
 
             this.listTurnos = turnos;
+            this.loading = false;
 
           
         } catch (error) {
+            this.loading = false;
             console.error(error);
             this.toastr.error('Error al obtener informe de turnos', 'Error');
         }
@@ -162,7 +168,7 @@ export class InformesComponent implements OnInit {
 
       //Todos los turnos de los ultimos 12 meses.
     async getTurnosLast12M() {
-
+        this.loading = true;
         //Genero fecha Desde
         const currentDate: Date = new Date();
         const currentMonth = currentDate.getMonth();
@@ -188,9 +194,12 @@ export class InformesComponent implements OnInit {
             const turnos: Turno[] = await firstValueFrom(this._turnoService.getTurnosByFecha(body));
 
             this.listTurnosLast12M = turnos;
+            this.loading = false;
+
 
 
         } catch (error) {
+            this.loading = false;
             console.error(error);
             this.toastr.error('Error al obtener informe de turnos', 'Error');
         }
@@ -200,7 +209,7 @@ export class InformesComponent implements OnInit {
 
     initLineChart() {
         //Grafico Linea Cant turnos mensual de los ult 12 meses.
-
+   
         const labelMonths: string[] = this.getLast12M();
         const data: number[] = this.generarArrayCantidadTurnosPorMes(this.listTurnosLast12M);
         const lineData = {

@@ -20,7 +20,7 @@ import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 export class TurnosComponent implements OnInit {
   listTurno: Turno[] = [];
   errorServer : string | null = null;
-
+  loading : boolean = false; 
 
   fechaDesdeDate = new Date();
   fechaHastaDate = new Date();
@@ -86,14 +86,16 @@ export class TurnosComponent implements OnInit {
  }
 
  async getPaciente() {
-
+    this.loading = true;
   try {
      for (let turno of this.listTurno) {
         const paciente = await firstValueFrom(this._turnoService.getPaciente(turno.id!));
      
         turno.paciente = paciente;
      }
+     this.loading=false;
   } catch (error: any) {
+   this.loading = false;
      this.errorServer = error.error?.error || 'Server error';
      this.toastr.error('Error Server', 'Error');
   }
@@ -102,19 +104,23 @@ export class TurnosComponent implements OnInit {
 }
 
 async getProfesionales() {
+   this.loading = true;
    try {
        for (let i = 0; i < this.listTurno.length; i++) {
            const turno = this.listTurno[i];
            const profesional = await firstValueFrom(this._userService.getOne(turno.id_profesional));
            turno.profesional = profesional!;
        }
+       this.loading = false;
    } catch (error) {
+      this.loading=false;
        console.error(error);
        this.toastr.error('Error al obtener profesionales de los turnos', 'Error');
    }
 }
 
 async getEspecialidades() {
+   this.loading = true;
    try {
        for (let i = 0; i < this.listTurno.length; i++) {
            const turno = this.listTurno[i];
@@ -122,7 +128,9 @@ async getEspecialidades() {
            const especialidad: Especialidad = await firstValueFrom(this._especialidadService.getOne(turno.profesional?.id_especialidad!));
            turno.especialidad = especialidad!;
        }
+       this.loading = false;
    } catch (error) {
+      this.loading = false;
        console.error(error);
        this.toastr.error('Error al obtener especialidades de los turnos', 'Error');
    }
@@ -164,6 +172,7 @@ async getEspecialidades() {
 
 
 async getAllTurnos() {
+   this.loading = true;
    this.fechaDesdeFormateada = null;
    this.fechaHastaFormateada = null;
    this.fechaDesde = null;
@@ -183,8 +192,10 @@ async getAllTurnos() {
       await this.getPaciente();
       await this.getProfesionales();
       await this.getEspecialidades();
+      this.loading = false;
 
    } catch (error: any) {
+      this.loading = false;
       this.errorServer = error.error?.error || 'Server error';
       this.toastr.error('Error al obtener Turnos', 'Error');
    }
@@ -223,6 +234,7 @@ abrirModal(idTurno : number) {
  }
 
  async deleteTurno(id : number){
+   this.loading = true;
    if(confirm('Desea eliminar el registro?')){
     try{
        
@@ -230,7 +242,9 @@ abrirModal(idTurno : number) {
          
          this.toastr.success('Turno eliminado exitosamente');
          this.getTurnosByFecha();
+         this.loading = false;
     }catch(error){
+      this.loading = false;
       console.error(error);
       this.toastr.error('Error al eliminar registro', 'Error');
     }
