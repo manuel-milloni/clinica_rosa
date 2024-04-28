@@ -1,8 +1,14 @@
 --Frontend
 
+-Responsive no aparece en boton desde el deploy
+
+
+
+-Responsive de admin informes, achicar y centrar graficos y acomodar botones de busqueda.
+-Responsive de todas las secciones de admin.
 
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
--Agregar que se pueda modificar password desde Edit profesional.
+-Agregar que se pueda modificar password desde Edit profesional. 
 
 Seguir con:
 -Casos de uso 1,2,3,4,5, 7,8,9,10,11,12 ok ver resto.

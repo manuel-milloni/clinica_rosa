@@ -101,7 +101,6 @@ CREATE TABLE `clinica_rosa_db`.`usuario_obra_social` (
 
 -- Ingreso de Registros----------------------------------------------------------------------------
 INSERT INTO `clinica_rosa_db`.`obra_social` (`id`,`nombre`,`descripcion`) VALUES 
-
 (2, 'OSDE', 'Organización de Servicios Directos Empresarios'),
 (3, 'IAPOS', 'Instituto Autárquico Provincial de Obra Social'),
 (4, 'OSECAC', 'Obra Social de Empleados de Comercio y Actividades Civiles'),
