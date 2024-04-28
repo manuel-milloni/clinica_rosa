@@ -1,1 +1,28 @@
 
+@media (max-width: 576px) {
+    .div-respon {
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .div-check-respon {
+        margin-bottom: 10px !important;
+    }
+
+    .check-respon {
+        margin: 0 auto !important;
+    }
+
+       /* Obras sociales */
+        .form-check {
+          display: block !important; /* Cambiar a bloque para que los elementos aparezcan uno debajo del otro */
+          margin-bottom: 10px !important; /* Agregar espacio entre los elementos */
+        }
+
+        .os-respon{
+            display: block !important;
+        }
+    
+      
+}
+

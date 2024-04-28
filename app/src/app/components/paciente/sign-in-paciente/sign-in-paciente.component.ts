@@ -19,7 +19,7 @@ import { Validations } from 'src/app/utils/Validations';
 })
 export class SignInPacienteComponent implements OnInit {
   loading: boolean = false;
-  errorServer: string | null = null;
+
   form: FormGroup
   listObraSocial: ObraSocial[] = [];
   genero: string = ''; // Variable para almacenar el género seleccionado
@@ -89,13 +89,13 @@ export class SignInPacienteComponent implements OnInit {
     const token  = localStorage.getItem('auth-token');
 
     if(!token){
-      this.toastr.error('Error interno sevidor', 'Error');
+    
       return;
     }
     try{
        const payload = await firstValueFrom(this._authService.verifyToken(token));
-       
-       this.payload = payload;
+       return payload;
+       //this.payload = payload;
     }catch(error){
       this.toastr.error('Error interno sevidor', 'Error');
     }
@@ -120,20 +120,24 @@ export class SignInPacienteComponent implements OnInit {
     try{
 
       await firstValueFrom(this._usuarioService.createPaciente(paciente));
+      const payload = await this.verifyToken();
        this.loading = false;
-       if(this.payload.rol === 2){
+       if(payload){
+        if(payload.rol === 2){
           this.router.navigate(['pacientes']);
-       }else {
+       }    
+
+       } else {
         this.router.navigate(['']);
        }
+     
       
        this.toastr.success('Usuario creado exitosamente');
     }catch(error : any){
       this.loading = false;
-      this.errorServer = error.error?.error || 'Error al crear usuario';
-      console.error(this.errorServer);
+      console.error(error);
       this.router.navigate(['/signIn']);
-      this.toastr.error(this.errorServer!, 'Error');
+      this.toastr.error('Error al crear usuario', 'Error');
     }
 
   }
@@ -147,9 +151,9 @@ export class SignInPacienteComponent implements OnInit {
 
     }, (error) => {
       this.loading = false;
-      this.errorServer = error.error?.error || 'Error al obtener Lista de Obra Sociales';
-      console.error(this.errorServer);
-      this.toastr.error(this.errorServer!, 'Error');
+   
+      console.error(error);
+      this.toastr.error('Error al obtener obras sociales.', 'Error');
     })
   }
 
@@ -211,6 +215,8 @@ abrirModalFecha() {
      modal.show();
   }
 }
+
+
 
 
 

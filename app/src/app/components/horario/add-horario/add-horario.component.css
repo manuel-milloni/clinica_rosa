@@ -1,0 +1,14 @@
+@media (max-width: 576px) {
+    .div-respon {
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .div-check-respon {
+        margin-bottom: 10px !important;
+    }
+
+    .check-respon {
+        margin: 0 auto !important;
+    }
+}

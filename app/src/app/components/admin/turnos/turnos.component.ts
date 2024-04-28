@@ -124,7 +124,7 @@ async getEspecialidades() {
    try {
        for (let i = 0; i < this.listTurno.length; i++) {
            const turno = this.listTurno[i];
-           console.log('id especialidad: ', turno.profesional);
+        
            const especialidad: Especialidad = await firstValueFrom(this._especialidadService.getOne(turno.profesional?.id_especialidad!));
            turno.especialidad = especialidad!;
        }

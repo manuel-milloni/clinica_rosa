@@ -162,15 +162,15 @@ export class EditProfesionalComponent implements OnInit {
     };
 
     if (this.validaObrasSociales() && this.validaHorarios(horario)) {
-      console.log('Obras sociales y horarios sin cambios');
+     
       this.updateProfesional = true;
 
     } else {
       //Validar si hay turnos pendientes
-      console.log('Se detectaron cambios en las obras sociales o en los horarios');
+    
       await this.validaTurnosPendientes();
       if (this.turnosPendientes) {
-        console.log('No tiene turnos pendientes');
+      
         this.updateProfesional = true;
  
 
@@ -200,7 +200,7 @@ export class EditProfesionalComponent implements OnInit {
             obras_sociales: this.form.value.obrasSociales
 
           };
-          console.log('Usuario: ,', profesional);
+       
           await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
           this.router.navigate(['/profesional']);
           this.toastr.success('Usuario modificado exitosamente', 'Usuario');
@@ -345,10 +345,10 @@ export class EditProfesionalComponent implements OnInit {
 
 
       if (data) {
-        console.log("Data de obras sociales:", data);
+     
 
         for (const item of data) {
-          console.log("Item de obra social:", item);
+       
 
           const os: ObraSocial = await firstValueFrom(this._obraSocialService.getOne(item.id_obra_social));
 
@@ -359,7 +359,7 @@ export class EditProfesionalComponent implements OnInit {
           }
         }
 
-        console.log("Obras sociales del pro: ", this.listObraSocialProfesional);
+     
       } else {
         console.error("El servicio no devolvió datos.");
       }
@@ -387,7 +387,7 @@ export class EditProfesionalComponent implements OnInit {
 
     this.form.updateValueAndValidity();
 
-    console.log('Form array después del toggle: ', obrasSocialesArray);
+   
   }
 
 

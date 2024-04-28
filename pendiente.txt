@@ -1,34 +1,28 @@
 --Frontend
 
 -Responsive no aparece en boton desde el deploy
-
-
-
--Responsive de admin informes, achicar y centrar graficos y acomodar botones de busqueda.
 -Responsive de todas las secciones de admin.
 
+Funcionamiento utilidades
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
 -Agregar que se pueda modificar password desde Edit profesional. 
 
-Seguir con:
--Casos de uso 1,2,3,4,5, 7,8,9,10,11,12 ok ver resto.
--Pacientes: eliminar
+-Repasar todos los CU
 
--Admin pacientes:
-    -Eliminar: permitir eliminar si no tiene turnos
-    
--Probar todas las funciones de admin pacientes: Agregar, editar, eliminar, Turno
+
 -CU 6 Repasar como funcionaba el enviador.
--Ver al registrar turno, si cambio de medico hasta no moverme de mes no me actualiza los dias.
+
 -Cargar videos (1 por CU) en Clasroom
--Asegurarse que haya dos medicos por especialidad(sino por momentos no me deja seleccionar medico)
+-Asegurarse que haya dos medicos por especialidad(sino por momentos no me deja seleccionar medico si tengo solo uno)
 -Al agregar personal no valida que las pass coincidan(valida en el componente).
 
 Extras:
-
+***-Se agrea desde pacientes
+-Ver en los bucadores, que cuando ingreso espacio no trae nada, es decir texto espacio y no trae nada.
+-Ver al registrar turno, si cambio de medico hasta no moverme de mes no me actualiza los dias.
 -Modificar createPaciente para el caso que el email o dni duplicado tome desde el error de sequelize como en createProfesional()
--Agregar al Crear Turno, que solo aparezcan para seleccionar en el calendario los dias que trabaja el medico.
+-Agregar al Crear Turno, que solo aparezcan para seleccionar en el calendario los dias que trabaja el medico. Pendiente solo en reprogramar
 -Modificar calendario para que sea en espanol.
 -Crear componente confirm-dialog propio.
--Agregar buscadores en las ventanas Crud de admin
+
 -Validar que un usuario no pueda sacar mas de un turno el mismo dia y horario con profesionales distintos. Ni dos turnos con el mismo profesional el mismo dia.

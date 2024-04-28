@@ -22,14 +22,46 @@
 }
 
 @media(max-width: 576px){
+
+
+    .div-respon{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .boton-respon{
+        margin-top: 0px;
+    }
+
+    .bb{
+        border-radius: 10px !important;
+
+    }
+
+    .input-respon{
+        margin-top: 0; /* Eliminar el margen superior */
+        width: 100%; /* Dejar que el ancho sea automático */
+        max-width: 500px !important;
+        border-radius: 10px !important;
+        text-align: center;
+    }
+
+    .div-respon .input-respon,
+    .div-respon .boton-respon {
+        display: inline-block;
+        margin-top: 10px;
+    }
   
     .grafico {
-        width: 400px;
-        height: 200px;
+        width: 100%;
+        height: auto;
         border: 1px solid grey;
         border-radius: 10px;
         margin-bottom: 20px;
+      
     }
+
+ 
 
    
 }

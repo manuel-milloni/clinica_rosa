@@ -4,20 +4,20 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!modal" class="container">
 
-   <div class="input-group">
-      <button class="btn btn-primary" (click)="abrirModalFD()">Fecha desde</button>
-      <input class="form-control bg-dark text-light text-center" type="text" value="{{fechaDesdeFormateada}}"
+   <div class="input-group div-respon">
+      <button class="btn btn-primary bb" (click)="abrirModalFD()">Fecha desde</button>
+      <input class="form-control bg-dark text-light text-center input-respon" type="text" value="{{fechaDesdeFormateada}}"
          style="max-width: 120px;">
 
-      <button class="btn btn-primary" (click)="abrirModalFH()">Fecha hasta</button>
-      <input class="form-control bg-dark text-light text-center" type="text" value="{{fechaHastaFormateada}}"
+      <button class="btn btn-primary boton-respon bb" (click)="abrirModalFH()">Fecha hasta</button>
+      <input class="form-control bg-dark text-light text-center input-respon" type="text" value="{{fechaHastaFormateada}}"
          style="max-width: 120px;">
 
-      <button class="btn btn-primary" (click)="getTurnosByFecha()">Buscar</button>
-      <button class="btn btn-primary" (click)="getAllTurnos()">Ver todos</button>
-      <button class="btn btn-primary" (click)="getTurnosToday()">Hoy</button>
-      <button class="btn btn-primary" (click)="getTurnosTomorrow()">Mañana</button>
-      <input class="form-control bg-dark text-light" type="text" id="buscador"
+      <button class="btn btn-primary boton-respon bb" (click)="getTurnosByFecha()">Buscar</button>
+      <button class="btn btn-primary boton-respon bb" (click)="getAllTurnos()">Ver todos</button>
+      <button class="btn btn-primary boton-respon bb" (click)="getTurnosToday()">Hoy</button>
+      <button class="btn btn-primary boton-respon bb" (click)="getTurnosTomorrow()">Mañana</button>
+      <input class="form-control bg-dark text-light input-respon" type="text" id="buscador"
          placeholder="Buscar turnos(estado, paciente o profesional)..." [(ngModel)]="searchText">
    </div>
 

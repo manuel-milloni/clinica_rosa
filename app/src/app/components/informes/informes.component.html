@@ -3,17 +3,20 @@
 <br>
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div class="container">
-    <div class="input-group mb-3">
-        <button class="btn btn-primary" (click)="abrirModalFD()">Fecha desde</button>
-        <input class="form-control bg-dark text-light" type="text" value="{{fechaDesdeInput}}"
+
+    <div class="input-group mb-3 div-respon">
+        <button class="btn btn-primary bb" (click)="abrirModalFD()">Fecha desde</button>
+        <input class="form-control bg-dark text-light input-respon" type="text" value="{{fechaDesdeInput}}"
             style="max-width: 120px;">
-        <button class="btn btn-primary" (click)="abrirModalFH()">Fecha hasta</button>
-        <input class="form-control bg-dark text-light" type="text" value="{{fechaHastaInput}}"
+        <button class="btn btn-primary boton-respon bb" (click)="abrirModalFH()">Fecha hasta</button>
+        <input class="form-control bg-dark text-light input-respon" type="text" value="{{fechaHastaInput}}"
             style="max-width: 120px;">
 
-        <button class="btn btn-primary" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
+        <button class="btn btn-primary boton-respon bb" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
 
     </div>
+    
+    
 
 
     <div class="row">

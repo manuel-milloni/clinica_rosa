@@ -2,20 +2,20 @@
 <br>
 <br>
 <div class="container">
-    <div class="input-group mb-3">
+    <div class="input-group mb-3 div-respon">
 
-        <button class="btn btn-primary" (click)="abrirModalFD()">Fecha desde</button>
-
-
-        <input class="form-control bg-dark text-light" type="text" value="{{fechaDesdeInput}}" style="max-width: 120px;">
-
-        <button class="btn btn-primary" (click)="abrirModalFH()">Fecha hasta</button>
+        <button class="btn btn-primary bb" (click)="abrirModalFD()">Fecha desde</button>
 
 
-        <input class="form-control bg-dark text-light" type="text" value="{{fechaHastaInput}}" style="max-width: 120px;">
+        <input class="form-control bg-dark text-light input-respon" type="text" value="{{fechaDesdeInput}}" style="max-width: 120px;">
+
+        <button class="btn btn-primary bb boton-respon" (click)="abrirModalFH()">Fecha hasta</button>
 
 
-        <button class="btn btn-primary" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
+        <input class="form-control bg-dark text-light input-respon" type="text" value="{{fechaHastaInput}}" style="max-width: 120px;">
+
+
+        <button class="btn btn-primary bb boton-respon" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
 
     </div>
 
