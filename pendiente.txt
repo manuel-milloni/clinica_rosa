@@ -6,7 +6,7 @@
 
 
 Funcionamiento utilidades
--Validar emails en los input de ingreso de emails
+***Mostrar cuando el error es por email o dni duplicado.
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
 -Agregar que se pueda modificar password desde Edit profesional. 
 -Repasar todos los CU
