@@ -18,7 +18,7 @@ import { SharedFunctions } from 'src/app/utils/SharedFunctions';
 export class ProMisTurnosComponent implements OnInit {
    id: number | undefined;
    listTurno: Turno[] = [];
-   errorServe: string | null = null;
+
    fechaDesde: string | null = null;
    fechaHasta: string | null = null;
    mostrarCalendarioFD: boolean = false;
@@ -33,6 +33,8 @@ export class ProMisTurnosComponent implements OnInit {
    idTurnoModal : number = 0;
 
    modal = false;
+
+   loading : boolean = false;
 
 
    constructor(private _authService: AuthService,
@@ -52,9 +54,11 @@ export class ProMisTurnosComponent implements OnInit {
    }
 
    async getId() {
+      this.loading = true;
       const token = localStorage.getItem('auth-token');
 
       if (!token) {
+         this.loading = false;
          this.router.navigate(['login']);
          this.toastr.error('Inicie sesion para continuar', 'Acceso denegado');
          return;
@@ -64,8 +68,10 @@ export class ProMisTurnosComponent implements OnInit {
 
          const data: any = await firstValueFrom(this._authService.verifyToken(token));
          this.id = data.id;
+         this.loading = false;
 
       } catch (error: any) {
+         this.loading = false;
          console.error(error.toString());
          this.toastr.error('Inicie sesion para continuar', 'Acceso denegado');
       }
@@ -75,6 +81,7 @@ export class ProMisTurnosComponent implements OnInit {
 
 
    async getAllTurnos() {
+      this.loading = true;
       this.fechaDesdeFormateada = null;
       this.fechaHastaFormateada = null;
       this.fechaDesde = null;
@@ -92,9 +99,11 @@ export class ProMisTurnosComponent implements OnInit {
          this.listTurno = data;
 
          await this.getPaciente();
+         this.loading = false;
 
       } catch (error: any) {
-         this.errorServe = error.error?.error || 'Server error';
+         this.loading = false;
+         console.error(error);
          this.toastr.error('Error al obtener Turnos', 'Error');
       }
 
@@ -102,16 +111,18 @@ export class ProMisTurnosComponent implements OnInit {
 
 
    async getPaciente() {
-
+      this.loading = true;
       try {
          for (let turno of this.listTurno) {
             const paciente = await firstValueFrom(this._turnoService.getPaciente(turno.id!));
          
             turno.paciente = paciente;
          }
+         this.loading = false;
       } catch (error: any) {
-         this.errorServe = error.error?.error || 'Server error';
-         this.toastr.error('Error Server', 'Error');
+         this.loading = false;
+         console.error(error);
+         this.toastr.error('Error al obtener paciente.', 'Error');
       }
 
 
@@ -160,7 +171,7 @@ export class ProMisTurnosComponent implements OnInit {
    }
 
    async getTurnosByFecha() {
-    
+      this.loading = true;
 
       const fechas = {
          fechaDesde: this.sharedFunctions.formatoFechaDB(this.fechaDesdeDate),
@@ -178,13 +189,16 @@ export class ProMisTurnosComponent implements OnInit {
          this.listTurno = turnos;
         if(this.listTurno.length > 0){
          await this.getPaciente();
+         this.loading = false;
         } else {
+         this.loading = false;
            this.toastr.error('No existen turnos en el periodo seleccionado');
         }
         
 
       } catch (error: any) {
-         this.errorServe = error.error?.error || 'Error al obtener turnos';
+         this.loading = false;
+         console.error(error);
          this.toastr.error('Error al otener datos.', 'Error');
       }
    }

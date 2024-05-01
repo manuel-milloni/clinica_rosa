@@ -20,6 +20,7 @@ import { Modal } from 'bootstrap';
     styleUrls: ['./pro-informes.component.css']
 })
 export class ProInformesComponent implements OnInit {
+    loading : boolean = false;
     mostrarCalendarioFD: boolean = false;
     mostrarCalendarioFH: boolean = false;
 
@@ -64,9 +65,11 @@ export class ProInformesComponent implements OnInit {
     }
 
     async getProfesional() {
+        this.loading = true;
         const token = localStorage.getItem('auth-token');
 
         if (!token) {
+            this.loading = false;            
             this.toastr.error('Error al validar Usuario', 'Error');
             this.router.navigate(['/login']);
             return;
@@ -80,8 +83,10 @@ export class ProInformesComponent implements OnInit {
             const profesional: Usuario = await firstValueFrom(this._usuarioService.getOne(payload.id));
 
             this.profesional = profesional;
+            this.loading = false;
 
         } catch (error: any) {
+            this.loading = false;
             this.toastr.error('Error al validar Profesional', 'Error');
             console.error(error);
         }
@@ -108,6 +113,7 @@ export class ProInformesComponent implements OnInit {
 
 
     async getTurnosLast12M() {
+        this.loading = true;
 
         //Genero fecha Desde
         const currentDate: Date = new Date();
@@ -134,11 +140,13 @@ export class ProInformesComponent implements OnInit {
             const turnos: Turno[] = await firstValueFrom(this._turnoService.getTurnosByFechaAndProfesional(body, this.profesional?.id!));
 
             this.listTurnosLast12M = turnos;
+            this.loading = false;
 
-            console.log('Turnos dle pro: ', turnos);
+       
 
 
         } catch (error) {
+            this.loading = false;
             console.error(error);
             this.toastr.error('Error al obtener informe de turnos', 'Error');
         }
@@ -265,6 +273,7 @@ export class ProInformesComponent implements OnInit {
 
     //Obtiene array de turnos del Profesinoal en el periodo indicado.
     async getListTurnosProfesional() {
+        this.loading = true;
         const body: any = {
             fechaDesde: this.fechaDesdeDB,
             fechaHasta: this.fechaHastaDB
@@ -274,9 +283,11 @@ export class ProInformesComponent implements OnInit {
             const turnos: Turno[] = await firstValueFrom(this._turnoService.getTurnosByFechaAndProfesional(body, this.profesional?.id!));
 
             this.listTurnos = turnos;
+            this.loading = false;
 
-            console.log('Turnos: ', this.listTurnos);
+           
         } catch (error) {
+            this.loading = false;
             console.error(error);
             this.toastr.error('Error al obtener informe de turnos', 'Error');
         }
@@ -376,6 +387,7 @@ export class ProInformesComponent implements OnInit {
 
     //Asigno a cada turno su Paciente.
     async getTurnosG3(): Promise<Turno[]> {
+        this.loading = true;
         //Filtro solo los turnos concretados
         const turnos = this.listTurnos.filter((turno) => turno.estado === 'Concretado');
         //Asigno a cada turno la especialidad correspondiente.
@@ -387,7 +399,9 @@ export class ProInformesComponent implements OnInit {
                     turno.paciente = paciente;
                 };
             }));
+            this.loading = false;
         } catch (error) {
+            this.loading = false;
             console.error(error);
             this.toastr.error('Error al generar informes', 'Error');
 

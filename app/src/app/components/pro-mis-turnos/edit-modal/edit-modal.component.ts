@@ -31,6 +31,7 @@ export class EditModalComponent implements OnInit {
 
     payload: any;
     admin: boolean = true;
+    loading : boolean = false;
 
 
  
@@ -83,8 +84,10 @@ export class EditModalComponent implements OnInit {
     }
 
     async verifyToken() {
+        this.loading = true;
         const token = localStorage.getItem('auth-token');
         if (!token) {
+            this.loading = false;
             this.router.navigate(['login']);
             this.toastr.error('Inicie sesion para continuar', 'Error');
             return;
@@ -92,7 +95,9 @@ export class EditModalComponent implements OnInit {
         try {
             const pay = await firstValueFrom(this._authService.verifyToken(token));
             this.payload = pay;
+            this.loading = false;
         } catch (error) {
+            this.loading = false;
             this.router.navigate(['login']);
             console.error(error);
             this.toastr.error('Inicie sesion para continuar', 'Error');
@@ -106,6 +111,7 @@ export class EditModalComponent implements OnInit {
     }
 
     async getTurno() {
+        this.loading = true;
         try {
             const turno: Turno = await firstValueFrom(this._turnoService.getOne(this.idTurno));
 
@@ -128,8 +134,10 @@ export class EditModalComponent implements OnInit {
                 estado: turno.estado,
                 observaciones: turno.observaciones
             });
+            this.loading = false;
 
         } catch (error: any) {
+            this.loading = false;
             this.errrorServer = error.error?.errr || 'Error al obtener turno';
             this.toastr.error(this.errrorServer!, 'Error');
 
@@ -158,6 +166,7 @@ export class EditModalComponent implements OnInit {
     //Validar que para modificar la observacion la fecha-hora actual no exceda las 48hs de la fecha-hora del turno
 
     async update() {
+        this.loading = true;
         const body: any = {
             estado: this.form.value.estado,
             observaciones: this.form.value.observaciones
@@ -165,9 +174,11 @@ export class EditModalComponent implements OnInit {
         try {
             await firstValueFrom(this._turnoService.update(body, this.idTurno));
             this.cerrarModal.emit();
+            this.loading = false;
             this.toastr.success('Turno modificado exitosamente');
 
         } catch (error: any) {
+            this.loading = false;
             this.errrorServer = error.error?.error || 'Error al modificar turno';
             this.cerrarModal.emit();
             this.toastr.error(this.errrorServer!, 'Error');

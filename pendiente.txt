@@ -1,17 +1,16 @@
 --Frontend
+-Responsive de profesional mis turnos.
+-Ver de ejecutar back en 2do plano.
 
--Responsive no aparece en boton desde el deploy
--Responsive de todas las secciones de admin.
+
+
 
 Funcionamiento utilidades
+-Validar emails en los input de ingreso de emails
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
 -Agregar que se pueda modificar password desde Edit profesional. 
-
 -Repasar todos los CU
-
-
 -CU 6 Repasar como funcionaba el enviador.
-
 -Cargar videos (1 por CU) en Clasroom
 -Asegurarse que haya dos medicos por especialidad(sino por momentos no me deja seleccionar medico si tengo solo uno)
 -Al agregar personal no valida que las pass coincidan(valida en el componente).
