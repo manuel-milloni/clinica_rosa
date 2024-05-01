@@ -57,6 +57,21 @@ static osSeleccionadaEnFormulario(listObrasocialProfesional: ObraSocial[], obraS
   const obrasSocialesArray = listObrasocialProfesional.map(os => os.id);
   return obrasSocialesArray.includes(obraSocialId);
 }
+
+//Validar email
+static emailFormat(control: AbstractControl): ValidationErrors | null {
+ 
+  const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (control.value && !emailRegex.test(control.value)) {
+      return { invalidEmail: true };
+  }
+
+  return null;
+}
+
+
+
   
   
   

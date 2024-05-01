@@ -32,7 +32,7 @@ const handleHttp = (res, error, status) => {
                             break;
                         // Agregar más casos según sea necesario para otros campos únicos
                         default:
-                            errorMessage = 'Error de restricción única.';
+                            errorMessage = 'No es posible duplicar registros.';
                     }
                     break;
                 default:

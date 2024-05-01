@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from 'src/app/interfaces/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Validations } from 'src/app/utils/Validations';
+
 
 
 
@@ -15,7 +17,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class LoginComponent implements OnInit {
        loading: boolean = false;
        form: FormGroup;
-       errorServer: string | null = null;
+    
 
 
        constructor(private _usuarioService: UsuarioService,
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
               private router: Router) {
 
               this.form = this.fb.group({
-                     email: ['', [Validators.required]],
+                     email: ['', [Validators.required, Validations.emailFormat]],
                      password: ['', Validators.required]
               })
 
@@ -40,6 +42,8 @@ export class LoginComponent implements OnInit {
                      email: this.form.value.email,
                      password: this.form.value.password
               }
+
+              
               this._usuarioService.login(usuario).subscribe((data: string) => {
                      this.loading = false;
                      const token = data;
@@ -54,7 +58,7 @@ export class LoginComponent implements OnInit {
 
               }, (error) => {
                      this.loading = false;
-                     this.errorServer = error.error?.error || 'Error al iniciar sesion';
+                     console.error(error);
                      this.toastr.error('Usuario o password incorrectos', 'Error');
               })
        }

@@ -27,7 +27,7 @@ export class AddPersonalComponent implements OnInit {
       apellido: ['', [Validators.required, Validators.maxLength(20)]],
       dni: ['', [Validators.required, Validators.maxLength(10)]],
       telefono: ['', Validators.maxLength(15)],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(40)]],
+      email: ['', [Validators.required, Validations.emailFormat, Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.maxLength(16)]],
       password_2: ['', [Validators.required, Validators.maxLength(16)]]
     }, { validator: Validations.matchPasswords('password', 'password_2') });

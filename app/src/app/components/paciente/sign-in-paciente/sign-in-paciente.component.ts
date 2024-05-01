@@ -19,7 +19,7 @@ import { Validations } from 'src/app/utils/Validations';
 })
 export class SignInPacienteComponent implements OnInit {
   loading: boolean = false;
-
+  errorServer : string | null = null;
   form: FormGroup
   listObraSocial: ObraSocial[] = [];
   genero: string = ''; // Variable para almacenar el género seleccionado
@@ -41,7 +41,7 @@ export class SignInPacienteComponent implements OnInit {
       apellido: ['', [Validators.required, Validators.maxLength(20)]],
       dni: ['', [Validators.required, Validators.maxLength(10)]],
       telefono: ['', Validators.maxLength(15)],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(40)]],
+      email: ['', [Validators.required, Validations.emailFormat, Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.maxLength(16)]],
       password_2: ['', [Validators.required, Validators.maxLength(16)]],
       obraSocial: ['', Validators.required],
@@ -86,22 +86,27 @@ export class SignInPacienteComponent implements OnInit {
   }
 
   async verifyToken(){
+    this.loading = true;
     const token  = localStorage.getItem('auth-token');
 
     if(!token){
-    
+      this.loading = false;
       return;
     }
     try{
        const payload = await firstValueFrom(this._authService.verifyToken(token));
+       this.loading = false;
        return payload;
        //this.payload = payload;
     }catch(error){
+      this.loading = false;
+      console.error(error);
       this.toastr.error('Error interno sevidor', 'Error');
     }
   }
 
   async create() {
+
 
     this.loading = true;
     const paciente: Usuario = {
@@ -136,8 +141,9 @@ export class SignInPacienteComponent implements OnInit {
     }catch(error : any){
       this.loading = false;
       console.error(error);
+      this.errorServer = error.error?.error || 'Error al crear Usuario.'; 
       this.router.navigate(['/signIn']);
-      this.toastr.error('Error al crear usuario', 'Error');
+      this.toastr.error(this.errorServer!, 'Error');
     }
 
   }

@@ -10,10 +10,12 @@
                     <div class="form-group">
                         <label class="col-form-label mt-4" for="email">Email</label>
                         <input formControlName="email" type="email" class="form-control"
-                            [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched"
-                            placeholder="Ingrese Email" id="email" maxlength="40">
-                        <div class="invalid-feedback">El campo email es requerido</div>
+                               [class.is-invalid]="form.get('email')?.hasError('required') && form.get('email')?.touched || form.get('email')?.hasError('invalidEmail')"
+                               placeholder="Ingrese Email" id="email" maxlength="40">
+                        <div *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched" class="invalid-feedback">El campo email es requerido</div>
+                        <div *ngIf="form.get('email')?.hasError('invalidEmail')" class="invalid-feedback">El formato del email no es válido</div>
                     </div>
+                    
                     <div class="form-group">
                         <label class="col-form-label mt-4" for="password">Contraseña</label>
                         <input formControlName="password" type="password" class="form-control"
