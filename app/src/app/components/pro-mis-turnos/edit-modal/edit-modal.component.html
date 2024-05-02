@@ -25,12 +25,15 @@
                <div class="box-observaciones">
                    <textarea class="form-control bg-dark text-light" formControlName="observaciones" cols="30" rows="10" [attr.disabled]="!observacionValida"></textarea>
                </div>
+               <div class="card-footer d-flex justify-content-between">
+                <button class="btn btn-danger fs-5" (click)="cerrar()">Cancelar</button>
+                <button class="btn btn-primary fs-5" type="submit">Aceptar</button>
+            </div>
+
+
            </form>
        </div>
        
-       <div class="card-footer d-flex justify-content-between">
-           <button class="btn btn-danger fs-5" (click)="cerrar()">Cancelar</button>
-           <button class="btn btn-primary fs-5">Aceptar</button>
-       </div>
+     
    </div>
 </div>

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('../configs/config');
+const {config} = require('../configs/config');
 const handleHttp = require('./error.handle');
 
 const verifyToken = (req, res, next) =>{

@@ -2,7 +2,7 @@ const Usuario = require('../models/usuario');
 const {validatePass} = require('../utils/bcrypt.pass');
 const jwt = require('jsonwebtoken');
 const handleHttp = require('../utils/error.handle');
-const config  = require('../configs/config');
+const {config}  = require('../configs/config');
 
 
 const login = async (req, res)=>{

@@ -1,12 +1,12 @@
 --Frontend
--Responsive de profesional mis turnos.
+****Videos de los CU
 -Ver de ejecutar back en 2do plano.
 
 
 
 
 Funcionamiento utilidades
-***Mostrar cuando el error es por email o dni duplicado.
+-Cuando el back no responde, mostrar un mensaje de error particular. (ver caso login)
 -Agregar en informes los botones de busqueda mes actual, anio actual, hoy
 -Agregar que se pueda modificar password desde Edit profesional. 
 -Repasar todos los CU

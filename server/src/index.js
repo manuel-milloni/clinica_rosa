@@ -1,9 +1,10 @@
+const {config} = require('./configs/config');
 const express = require('express');
-const config = require('./configs/config');
 const morgan = require('morgan');
 const cors = require('cors'); 
 const db = require('./db/database');
 const handleHttp = require('./utils/error.handle');
+
 
 const cron = require('node-cron');
 const {runSender} = require('./utils/mailSender');
